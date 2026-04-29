@@ -1,0 +1,219 @@
+[
+    {
+        "name": "Crimson Rose",
+        "price": 6,
+        "description": "A deep red hue, like the flutter of a first encounter.",
+        "image": "crimson_rose",
+        "category": "single"
+    },
+    {
+        "name": "Dawn Tulip",
+        "price": 5,
+        "description": "Gentle tones, like the first light of morning.",
+        "image": "dawn_tulip",
+        "category": "single"
+    },
+    {
+        "name": "Golden Sunflower",
+        "price": 7,
+        "description": "Bright as the sun, full of warmth and hope.",
+        "image": "golden_sunflower",
+        "category": "single"
+    },
+    {
+        "name": "Lily",
+        "price": 6,
+        "description": "Pure and elegant, bringing a quiet presence.",
+        "image": "lily",
+        "category": "single"
+    },
+    {
+        "name": "Carnation",
+        "price": 5,
+        "description": "Soft petals holding a gentle warmth within.",
+        "image": "carnation",
+        "category": "single"
+    },
+    {
+        "name": "Lavender Stem",
+        "price": 5,
+        "description": "A faint fragrance that calms the mind.",
+        "image": "lavender_stem",
+        "category": "single"
+    },
+    {
+        "name": "Blue Hydrangea",
+        "price": 7,
+        "description": "Layers of blooms, unfolding like a dream.",
+        "image": "blue_hydrangea",
+        "category": "single"
+    },
+    {
+        "name": "Ivory Rose",
+        "price": 6,
+        "description": "Clean and pure, like unspoken feelings.",
+        "image": "ivory_rose",
+        "category": "single"
+    },
+    {
+        "name": "Azure Rose",
+        "price": 7,
+        "description": "A blue glow, like a wish lingering in a dream.",
+        "image": "azure_rose",
+        "category": "single"
+    },
+    {
+        "name": "Pink Hydrangea",
+        "price": 7,
+        "description": "Soft colors drifting like a spring breeze.",
+        "image": "pink_hydrangea",
+        "category": "single"
+    },
+    {
+        "name": "Bluebell",
+        "price": 5,
+        "description": "Drooping petals whispering of tranquility.",
+        "image": "bluebell",
+        "category": "single"
+    },
+    {
+        "name": "Peony Bloom",
+        "price": 8,
+        "description": "Lush and full, carrying the warmth of summer.",
+        "image": "peony_bloom",
+        "category": "single"
+    },
+    {
+        "name": "Anthurium",
+        "price": 7,
+        "description": "Vivid red, like a bright reflection of passion.",
+        "image": "anthurium",
+        "category": "single"
+    },
+    {
+        "name": "Wisteria Bloom",
+        "price": 7,
+        "description": "Cascading like a dream, a gentle flow of spring.",
+        "image": "wisteria_bloom",
+        "category": "single"
+    },
+    {
+        "name": "Phalaenopsis Orchid",
+        "price": 8,
+        "description": "Graceful form, like a butterfly resting in still time.",
+        "image": "phalaenopsis_orchid",
+        "category": "single"
+    },
+    {
+        "name": "Baby's Breath",
+        "price": 7,
+        "description": "Tiny stars that frame a gentle scene.",
+        "image": "babys_breath",
+        "category": "single"
+    },
+    {
+        "name": "Morning Glow Bouquet",
+        "price": 25,
+        "description": "Warm tones, like the first light of dawn.",
+        "image": "morning_glow_bouquet",
+        "category": "bouquet"
+    },
+    {
+        "name": "Pure White Bouquet",
+        "price": 26,
+        "description": "Calm and pure, perfect for quiet moments.",
+        "image": "pure_white_bouquet",
+        "category": "bouquet"
+    },
+    {
+        "name": "Warm Sun Bouquet",
+        "price": 27,
+        "description": "Bright blooms carrying warmth and cheer.",
+        "image": "warm_sun_bouquet",
+        "category": "bouquet"
+    },
+    {
+        "name": "Violet Dream Bouquet",
+        "price": 29,
+        "description": "Soft violet, like a gentle glow in twilight.",
+        "image": "violet_dream_bouquet",
+        "category": "bouquet"
+    },
+    {
+        "name": "Soft Light Bouquet",
+        "price": 26,
+        "description": "Gentle colors, like a quiet night lamp.",
+        "image": "soft_light_bouquet",
+        "category": "bouquet"
+    },
+    {
+        "name": "Romantic Rose Bouquet",
+        "price": 32,
+        "description": "Roses at heart, expressing deep affection.",
+        "image": "romantic_rose_bouquet",
+        "category": "bouquet"
+    },
+    {
+        "name": "Soft Blossom Basket",
+        "price": 38,
+        "description": "Delicate hues delivering a gentle touch.",
+        "image": "soft_blossom_basket",
+        "category": "basket"
+    },
+    {
+        "name": "Celebration Basket",
+        "price": 40,
+        "description": "Rich colors for joyful celebrations.",
+        "image": "celebration_basket",
+        "category": "basket"
+    },
+    {
+        "name": "Ivory Garden Basket",
+        "price": 41,
+        "description": "Simple and elegant, a quiet blessing.",
+        "image": "ivory_garden_basket",
+        "category": "basket"
+    },
+    {
+        "name": "Romance Garden Basket",
+        "price": 44,
+        "description": "Roses and pink blooms, tender and loving.",
+        "image": "romance_garden_basket",
+        "category": "basket"
+    },
+    {
+        "name": "Spring Garden Basket",
+        "price": 42,
+        "description": "Vibrant and fresh, like a spring garden.",
+        "image": "spring_garden_basket",
+        "category": "basket"
+    },
+    {
+        "name": "Heartfelt Gift Kit",
+        "price": 50,
+        "description": "Flowers and keepsakes, sharing true feelings.",
+        "image": "heartfelt_gift_kit",
+        "category": "gift_box"
+    },
+    {
+        "name": "Memory Gift Kit",
+        "price": 55,
+        "description": "A special choice for memorable moments.",
+        "image": "memory_gift_kit",
+        "category": "gift_box"
+    },
+    {
+        "name": "Sweet Dream Gift Kit",
+        "price": 48,
+        "description": "Soft pairings, like a tender evening.",
+        "image": "sweet_dream_gift_kit",
+        "category": "gift_box"
+    },
+    {
+        "name": "Warm Wishes Gift Kit",
+        "price": 52,
+        "description": "A warm collection of care and blessings.",
+        "image": "warm_wishes_gift_kit",
+        "category": "gift_box"
+    }
+]
