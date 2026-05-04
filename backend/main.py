@@ -5,6 +5,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import connect_db, close_db
+from routes.admin import router as admin_router
+from routes.auth import router as auth_router
 from routes.cart import router as cart_router
 from routes.products import router as products_router
 
@@ -34,6 +36,8 @@ async def shutdown():
 
 # ---- Route Registration ----
 # Mounting modular routers for products and shopping cart functionality
+app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
+app.include_router(admin_router, prefix="/api/admin", tags=["admin"])
 app.include_router(products_router, prefix="/api/products", tags=["products"])
 app.include_router(cart_router, prefix="/api/cart", tags=["cart"])
 
