@@ -2,7 +2,7 @@
 # Purpose: Defines data schemas and validation models using Pydantic
 # Tech: Python, Pydantic
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 
 # ---- Product (Flower) Models ----
@@ -39,3 +39,39 @@ class CartItemResponse(BaseModel):
     description: str
     image: str
     category: str
+
+
+# ---- User / Auth Models ----
+
+
+class UserRegister(BaseModel):
+    """Payload sent by the frontend when a new user signs up."""
+    username: str = Field(..., min_length=2, max_length=30)
+    email: EmailStr
+    password: str = Field(..., min_length=6, max_length=128)
+
+
+class UserLogin(BaseModel):
+    """Payload sent by the frontend when a user logs in."""
+    email: EmailStr
+    password: str
+
+
+class UserUpdate(BaseModel):
+    """Partial update — only the fields the user provides will be changed."""
+    username: Optional[str] = Field(None, min_length=2, max_length=30)
+    password: Optional[str] = Field(None, min_length=6, max_length=128)
+
+
+class UserResponse(BaseModel):
+    """Public user data returned to the frontend (never includes password)."""
+    id: str
+    username: str
+    email: EmailStr
+    role: str
+
+
+class Token(BaseModel):
+    """JWT response returned after successful register/login."""
+    access_token: str
+    token_type: str = "bearer"
