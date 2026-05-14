@@ -2,88 +2,95 @@
 # Description: Handles Shopping Cart CRUD operations
 # Technology: FastAPI, MongoDB
 
-from fastapi import APIRouter, HTTPException
-from database import get_cart_collection, get_products_collection
-from models import CartItemCreate, CartItemUpdate
+from fastapi import APIRouter, Depends, HTTPException
 from bson import ObjectId
 
-# Initialize the API Router
-router = APIRouter()
+from auth_utils import get_current_user
+from database import get_cart_collection, get_products_collection
+from models import CartItemCreate, CartItemUpdate
 
-# ---- CREATE: Add product to shopping cart ----
+router = APIRouter()
 
 
 @router.post("")
-async def add_to_cart(item: CartItemCreate):
+async def add_to_cart(item: CartItemCreate, current_user=Depends(get_current_user)):
     cart_collection = get_cart_collection()
     products_collection = get_products_collection()
 
-    # Database connection validation
     if cart_collection is None or products_collection is None:
         raise HTTPException(status_code=500, detail="Database not connected")
 
     try:
-        # Check if the product exists in the product catalog
         product = await products_collection.find_one({"_id": ObjectId(item.product_id)})
     except Exception:
-        raise HTTPException(
-            status_code=400, detail="Invalid product ID format")
+        raise HTTPException(status_code=400, detail="Invalid product ID format")
 
     if not product:
-        return {"error": "Product not found"}
+        raise HTTPException(status_code=404, detail="Product not found")
 
-    # Check if the item is already in the cart
-    existing = await cart_collection.find_one({"product_id": item.product_id})
+    user_id = str(current_user["_id"])
+
+    existing = await cart_collection.find_one({
+        "user_id": user_id,
+        "product_id": item.product_id
+    })
 
     if existing:
-        # If exists, update the quantity
         new_qty = existing["quantity"] + item.quantity
         await cart_collection.update_one(
             {"_id": existing["_id"]},
             {"$set": {"quantity": new_qty}}
         )
         return {"message": "Quantity updated", "quantity": new_qty}
-    else:
-        # If not, create a new cart entry
-        cart_item = {
-            "product_id": item.product_id,
-            "name": product["name"],
-            "price": product["price"],
-            "image": product.get("image", ""),
-            "quantity": item.quantity
-        }
-        result = await cart_collection.insert_one(cart_item)
-        return {"message": "Added to cart", "id": str(result.inserted_id)}
+
+    cart_item = {
+        "user_id": user_id,
+        "username": current_user.get("username", ""),
+        "user_email": current_user.get("email", ""),
+        "product_id": item.product_id,
+        "name": product["name"],
+        "price": product["price"],
+        "image": product.get("image", ""),
+        "quantity": item.quantity
+    }
+
+    result = await cart_collection.insert_one(cart_item)
+    return {"message": "Added to cart", "id": str(result.inserted_id)}
 
 
-# ---- READ: Retrieve all cart items ----
 @router.get("")
-async def get_cart():
+async def get_cart(current_user=Depends(get_current_user)):
     cart_collection = get_cart_collection()
 
     if cart_collection is None:
         raise HTTPException(status_code=500, detail="Database not connected")
 
+    user_id = str(current_user["_id"])
     items = []
-    # Fetch all items from the cart collection
-    async for item in cart_collection.find():
+
+    async for item in cart_collection.find({"user_id": user_id}):
         items.append({
             "id": str(item["_id"]),
-            "product_id": item["product_id"],
-            "name": item["name"],
-            "price": item["price"],
+            "user_id": item.get("user_id", ""),
+            "username": item.get("username", ""),
+            "user_email": item.get("user_email", ""),
+            "product_id": item.get("product_id", ""),
+            "name": item.get("name", ""),
+            "price": item.get("price", 0),
             "image": item.get("image", ""),
-            "quantity": item["quantity"]
+            "quantity": item.get("quantity", 0)
         })
 
-    # Calculate total price
     total = sum(item["price"] * item["quantity"] for item in items)
     return {"items": items, "total": round(total, 2)}
 
 
-# ---- UPDATE: Modify cart item quantity ----
 @router.put("/{item_id}")
-async def update_cart_item(item_id: str, item: CartItemUpdate):
+async def update_cart_item(
+    item_id: str,
+    item: CartItemUpdate,
+    current_user=Depends(get_current_user)
+):
     cart_collection = get_cart_collection()
 
     if cart_collection is None:
@@ -94,45 +101,56 @@ async def update_cart_item(item_id: str, item: CartItemUpdate):
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid cart item ID")
 
-    # If quantity is less than 1, remove the item
-    if item.quantity < 1:
-        await cart_collection.delete_one({"_id": obj_id})
-        return {"message": "Item removed (quantity < 1)"}
+    user_id = str(current_user["_id"])
 
-    # Perform update operation
-    await cart_collection.update_one(
-        {"_id": obj_id},
+    if item.quantity < 1:
+        await cart_collection.delete_one({"_id": obj_id, "user_id": user_id})
+        return {"message": "Item removed"}
+
+    result = await cart_collection.update_one(
+        {"_id": obj_id, "user_id": user_id},
         {"$set": {"quantity": item.quantity}}
     )
+
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Cart item not found")
+
     return {"message": "Quantity updated", "quantity": item.quantity}
 
 
-# ---- DELETE: Remove a specific item from cart ----
 @router.delete("/{item_id}")
-async def remove_from_cart(item_id: str):
+async def remove_from_cart(item_id: str, current_user=Depends(get_current_user)):
     cart_collection = get_cart_collection()
 
     if cart_collection is None:
         raise HTTPException(status_code=500, detail="Database not connected")
 
     try:
-        result = await cart_collection.delete_one({"_id": ObjectId(item_id)})
+        obj_id = ObjectId(item_id)
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid ID format")
 
+    user_id = str(current_user["_id"])
+
+    result = await cart_collection.delete_one({
+        "_id": obj_id,
+        "user_id": user_id
+    })
+
     if result.deleted_count == 1:
         return {"message": "Item removed from cart"}
-    return {"error": "Item not found"}
+
+    raise HTTPException(status_code=404, detail="Item not found")
 
 
-# ---- DELETE: Clear the entire cart ----
 @router.delete("")
-async def clear_cart():
+async def clear_cart(current_user=Depends(get_current_user)):
     cart_collection = get_cart_collection()
 
     if cart_collection is None:
         raise HTTPException(status_code=500, detail="Database not connected")
 
-    # Remove all documents from the collection
-    result = await cart_collection.delete_many({})
+    user_id = str(current_user["_id"])
+
+    result = await cart_collection.delete_many({"user_id": user_id})
     return {"message": f"Removed {result.deleted_count} items from cart"}

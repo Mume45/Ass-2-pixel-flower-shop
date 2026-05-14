@@ -145,11 +145,11 @@ function AuthModal({ onClose, onLoginSuccess }) {
 
                     {/* 邮箱输入框 */}
                     <div className="auth-field">
-                        <label className="auth-label">Email</label>
+                        <label className="auth-label">Email or Username</label>
                         <input
                             className={`auth-input ${errors.email ? 'auth-input-error' : ''}`}
-                            type="email"
-                            placeholder="Enter your email"
+                            type="text"
+                            placeholder="Enter your email or username"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                         />

@@ -53,7 +53,7 @@ class UserRegister(BaseModel):
 
 class UserLogin(BaseModel):
     """Payload sent by the frontend when a user logs in."""
-    email: EmailStr
+    email: str
     password: str
 
 
@@ -75,3 +75,32 @@ class Token(BaseModel):
     """JWT response returned after successful register/login."""
     access_token: str
     token_type: str = "bearer"
+
+class ProductCreate(BaseModel):
+    name: str
+    price: float
+    description: str
+    image: str
+    category: str
+
+
+class ProductUpdate(BaseModel):
+    name: Optional[str] = None
+    price: Optional[float] = None
+    description: Optional[str] = None
+    image: Optional[str] = None
+    category: Optional[str] = None
+
+
+class AdminUserCreate(BaseModel):
+    username: str
+    email: str
+    password: str = "password123"
+    role: str = "user"
+
+
+class AdminUserUpdate(BaseModel):
+    username: Optional[str] = None
+    email: Optional[str] = None
+    role: Optional[str] = None
+    password: Optional[str] = None

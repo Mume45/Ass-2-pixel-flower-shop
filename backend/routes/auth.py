@@ -56,7 +56,12 @@ async def login(payload: UserLogin):
     if users is None:
         raise HTTPException(status_code=500, detail="Database not connected")
 
-    user = await users.find_one({"email": payload.email})
+    user = await users.find_one({
+    "$or": [
+        {"email": payload.email},
+        {"username": payload.email}
+    ]
+})
     if not user or not verify_password(payload.password, user["password_hash"]):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
