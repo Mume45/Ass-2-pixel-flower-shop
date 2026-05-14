@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import connect_db, close_db
 from routes.cart import router as cart_router
 from routes.products import router as products_router
+from routes.admin import router as admin_router
 
 # Initialize FastAPI application instance
 app = FastAPI(title="Pixel Flower Shop API")
@@ -36,6 +37,7 @@ async def shutdown():
 # Mounting modular routers for products and shopping cart functionality
 app.include_router(products_router, prefix="/api/products", tags=["products"])
 app.include_router(cart_router, prefix="/api/cart", tags=["cart"])
+app.include_router(admin_router, prefix="/api/admin", tags=["admin"])
 
 # ---- System Health Check ----
 # Simple endpoint to verify if the server is running correctly
