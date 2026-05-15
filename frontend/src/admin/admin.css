@@ -1,0 +1,624 @@
+/* ================================================================
+   Admin Page - Vivian's Flowers Pixel Style
+   ================================================================ */
+
+/* 整个 Admin 页面 */
+.admin-page {
+  min-height: 100vh;
+  max-width: 1280px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--cream-bg);
+  font-family: 'Pixelify Sans', sans-serif;
+}
+
+/* 强制 Admin 内部元素使用像素字体 */
+.admin-page,
+.admin-page button,
+.admin-page input,
+.admin-page select,
+.admin-page textarea,
+.admin-page h1,
+.admin-page h2,
+.admin-page p,
+.admin-page th,
+.admin-page td,
+.admin-page label {
+  font-family: 'Pixelify Sans', sans-serif;
+}
+
+
+/* ================================================================
+   1. Admin Header
+   ================================================================ */
+
+.admin-top-header {
+  width: 100%;
+  min-height: 120px;
+  margin: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 14px 56px;
+
+  background-color: var(--blue-main);
+  border-top: 5px solid var(--pink-border);
+  border-bottom: 5px solid var(--pink-border);
+}
+
+.admin-top-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.admin-top-header .shop-logo {
+  width: 150px;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.admin-top-header .shop-title {
+  color: #ffffff;
+  text-shadow: 4px 4px 0 #123d7f;
+}
+
+.admin-top-header .shop-subtitle {
+  color: #ffffff;
+}
+
+
+/* ================================================================
+   2. Layout: Sidebar + Main Content
+   ================================================================ */
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  width: 100%;
+
+  min-height: calc(100vh - 184px);
+
+  background-color: var(--cream-bg);
+  border-left: 4px solid var(--pink-border);
+  border-right: 4px solid var(--pink-border);
+}
+
+/* 左侧 Sidebar */
+.admin-sidebar {
+  min-height: 100%;
+  padding: 38px 28px;
+
+  background-color: var(--card-bg);
+  color: var(--text-blue);
+
+  border-right: 4px solid var(--pink-border);
+}
+
+.admin-sidebar h2 {
+  margin: 0 0 42px;
+
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-pink);
+  text-align: center;
+}
+
+/* 如果 JSX 里还有 Logged in as，就隐藏掉 */
+.admin-user {
+  display: none;
+}
+
+/* Sidebar 按钮 */
+.admin-sidebar button {
+  width: 100%;
+  height: 72px;
+
+  margin-bottom: 36px;
+
+  font-size: 32px;
+  font-weight: 700;
+
+  color: var(--text-blue);
+  background-color: transparent;
+
+  border: none;
+  border-radius: 4px;
+
+  text-align: center;
+  cursor: pointer;
+}
+
+.admin-sidebar button.active,
+.admin-sidebar button:hover {
+  color: white;
+  background-color: var(--pink-main);
+}
+
+/* 右侧主内容 */
+.admin-main {
+  width: 100%;
+  padding: 14px 12px 0;
+  overflow-x: auto;
+
+  background-color: var(--cream-bg);
+}
+
+
+/* ================================================================
+   3. Common Admin Card
+   ================================================================ */
+
+.admin-card {
+  background-color: var(--card-bg);
+  border: 5px solid var(--pink-border);
+  border-radius: 4px;
+
+  box-shadow: 8px 8px 0 rgba(255, 111, 156, 0.18);
+
+  padding: 30px 34px;
+  margin-bottom: 28px;
+}
+
+.admin-card h2 {
+  margin: 0 0 24px;
+
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-blue);
+
+  padding-bottom: 12px;
+  border-bottom: 3px dashed var(--pink-border);
+}
+
+.section-top {
+  display: flex;
+  align-items: center;
+}
+
+
+/* ================================================================
+   4. Products Page
+   ================================================================ */
+
+.admin-products-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Add New Products 布局 */
+.product-add-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 34px;
+  align-items: start;
+}
+
+/* 图片区域 */
+.image-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 上传图片占位框 */
+.upload-placeholder,
+.edit-image-frame {
+  height: 220px;
+
+  background-color: #fff8ef;
+  border: 4px dashed var(--pink-border);
+  border-radius: 4px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--text-pink);
+  font-weight: 700;
+
+  overflow: hidden;
+  text-align: center;
+}
+
+.upload-placeholder span {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.upload-placeholder p {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+/* 商品预览图片 */
+.product-preview-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+/* 图片文件名输入框 */
+.image-box input {
+  height: 52px;
+  padding: 0 16px;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  color: var(--text-pink);
+  background-color: #fff8ef;
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+
+  outline: none;
+}
+
+/* 表单区域 */
+.product-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 24px;
+}
+
+.product-form-grid label,
+.edit-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-blue);
+}
+
+.product-form-grid input,
+.product-form-grid select,
+.product-form-grid textarea,
+.edit-form input,
+.edit-form select,
+.edit-form textarea {
+  width: 100%;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: #6f625d;
+  background-color: #fff8ef;
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+
+  outline: none;
+}
+
+.product-form-grid input,
+.product-form-grid select,
+.edit-form input,
+.edit-form select {
+  height: 56px;
+  padding: 0 16px;
+}
+
+.product-form-grid textarea,
+.edit-form textarea {
+  min-height: 120px;
+  padding: 14px 16px;
+  resize: vertical;
+}
+
+/* Description 占满两列 */
+.full-width {
+  grid-column: span 2;
+}
+
+/* Add Product 按钮 */
+.add-product-btn,
+.small-add-btn {
+  width: 200px;
+  height: 54px;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  color: white;
+  background-color: var(--pink-main);
+
+  border: 4px solid var(--pink-border);
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+.add-product-btn:hover,
+.small-add-btn:hover {
+  background-color: #ff5f8f;
+  transform: translateY(-2px);
+}
+
+/* 搜索区域 */
+.product-search-form {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.product-search-form input,
+.product-search-form select,
+.admin-form input,
+.admin-form select {
+  height: 52px;
+  padding: 0 16px;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  color: var(--text-pink);
+  background-color: #fff8ef;
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+
+  outline: none;
+}
+
+.product-search-form input::placeholder,
+.admin-form input::placeholder,
+.product-form-grid input::placeholder,
+.product-form-grid textarea::placeholder {
+  color: #9b8b83;
+}
+
+
+/* ================================================================
+   5. Admin Tables
+   ================================================================ */
+
+.admin-card table {
+  width: 100%;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  background-color: #fff8ef;
+  border: 4px solid var(--pink-border);
+}
+
+.admin-card th {
+  background-color: var(--blue-main);
+  color: white;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  padding: 16px 14px;
+  text-align: left;
+
+  border-bottom: 4px solid var(--pink-border);
+}
+
+.admin-card td {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-blue);
+
+  padding: 16px 14px;
+
+  border-bottom: 2px dashed var(--pink-light);
+}
+
+.admin-card tr:hover {
+  background-color: #fff0f4;
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-pink);
+  padding: 30px;
+}
+
+/* Status 标签 */
+.status-active {
+  display: inline-block;
+
+  padding: 7px 14px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  color: white;
+  background-color: var(--blue-main);
+
+  border-radius: 4px;
+}
+
+/* 表格按钮 */
+.admin-card td button {
+  padding: 8px 14px;
+  margin-right: 8px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  color: white;
+  background-color: var(--blue-main);
+
+  border: 3px solid var(--blue-dark);
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+.admin-card td button:hover {
+  transform: translateY(-2px);
+}
+
+/* Delete 按钮 */
+.admin-card td button.danger,
+.danger {
+  background-color: var(--pink-main) !important;
+  border-color: var(--pink-shadow) !important;
+}
+
+
+/* ================================================================
+   6. Users Page
+   ================================================================ */
+
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.tag {
+  display: inline-block;
+
+  padding: 7px 14px;
+
+  color: white;
+  background-color: var(--blue-main);
+
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.selected-user-text {
+  margin: 0 0 18px;
+  color: var(--text-blue);
+  font-size: 18px;
+}
+
+.cart-total {
+  margin-top: 18px;
+
+  text-align: right;
+
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-pink);
+}
+
+
+/* ================================================================
+   7. Edit Product Modal
+   ================================================================ */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(15, 23, 42, 0.45);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
+
+.edit-product-modal {
+  width: 760px;
+
+  background-color: #fff8ef;
+
+  border: 5px solid var(--pink-border);
+  border-radius: 4px;
+
+  padding: 28px;
+
+  position: relative;
+}
+
+.edit-product-modal h2 {
+  margin: 0 0 22px;
+
+  color: var(--text-pink);
+  font-size: 34px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  width: 36px;
+  height: 36px;
+
+  color: white;
+  background-color: var(--pink-main);
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+
+  font-size: 24px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.edit-product-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+}
+
+.edit-image-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  height: 54px;
+  padding: 0 22px;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  color: var(--text-pink);
+  background-color: #fff8ef;
+
+  border: 4px solid var(--pink-border);
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+
+/* ================================================================
+   8. Footer
+   ================================================================ */
+
+.admin-footer {
+  width: 100%;
+  height: 64px;
+
+  background-color: var(--blue-main);
+
+  border-top: 5px solid var(--pink-border);
+  border-bottom: 5px solid var(--pink-border);
+}

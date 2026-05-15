@@ -33,12 +33,12 @@ DEFAULT_USERS = [
         "password": "password123",
         "role": "user",
     },
-    {
-        "username": "admin",
-        "email": "admin@test.com",
-        "password": "admin123",
-        "role": "admin",
-    },
+{
+    "username": "admin",
+    "email": "admin@test.com",
+    "password": "admin",
+    "role": "admin",
+},
 ]
 
 

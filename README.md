@@ -123,7 +123,7 @@ without manual signup. Re-running is safe — existing users are skipped.
 
 ```bash
 cd backend
-python3 -m uvicorn main:app --reload
+python -m uvicorn main:app --reload
 ```
 
 API runs at `http://localhost:8000` — open `http://localhost:8000/docs` for Swagger UI to test auth endpoints.
