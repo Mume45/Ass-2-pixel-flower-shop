@@ -27,7 +27,6 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
                 className="add-to-cart-btn"
                 onClick={() => onAddToCart(product.id)}
             >
-                <span className="cart-btn-icon">🛒</span>
                 <span>Add to Cart</span>
             </button>
         </div>
