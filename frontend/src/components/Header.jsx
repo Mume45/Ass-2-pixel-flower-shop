@@ -28,12 +28,14 @@ function Header({ cartCount, onCartClick, onAuthClick, currentUser, onLogout, on
       <div className="header-right">
         {currentUser ? (
           <>
-            {/* 登录后显示购物车按钮，admin 和普通用户都显示 */}
-            <button className="cart-button" onClick={onCartClick}>
-              <span className="cart-icon">🛒</span>
-              <span>Cart</span>
-              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-            </button>
+            {/* 只有普通用户显示购物车按钮，admin 隐藏 */}
+            {currentUser.role !== 'admin' && (
+              <button className="cart-button" onClick={onCartClick}>
+                <span className="cart-icon">🛒</span>
+                <span>Cart</span>
+                {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+              </button>
+            )}
 
             {/* 登录后显示用户头像 */}
             <div className="user-avatar-wrapper">

@@ -86,6 +86,10 @@ function App() {
 
   }, [fetchProducts]);
 
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
+
   const restoreSession = async () => {
     try {
       const response = await fetch('http://localhost:8000/api/auth/me', {
@@ -114,7 +118,6 @@ function App() {
     }
 
     if (currentUser.role === 'admin') {
-      setShowAdmin(true);
       return;
     }
 

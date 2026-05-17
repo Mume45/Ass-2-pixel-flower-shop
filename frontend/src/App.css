@@ -1158,6 +1158,16 @@ body {
   cursor: pointer;
 }
 
+/* 隐藏浏览器默认的密码显示按钮 */
+.password-input::-ms-reveal {
+  display: none;
+}
+
+.password-input::-webkit-contacts-auto-fill-button,
+.password-input::-webkit-credentials-auto-fill-button {
+  display: none;
+}
+
 /* 
    错误提示文字
    例如：
