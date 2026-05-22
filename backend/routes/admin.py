@@ -50,6 +50,7 @@ def cart_to_dict(item):
         "user_email": item.get("user_email", ""),
         "product_id": item.get("product_id", ""),
         "name": item.get("name", ""),
+        "category": item.get("category", ""),
         "price": item.get("price", 0),
         "quantity": item.get("quantity", 0),
         "subtotal": round(item.get("price", 0) * item.get("quantity", 0), 2)

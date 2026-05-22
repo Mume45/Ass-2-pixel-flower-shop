@@ -13,7 +13,11 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
             >
                 <img
                     className="product-img"
-                    src={`/images/${product.image}.png`}
+                    src={
+                        product.image?.startsWith("data:image")
+                        ? product.image
+                        : `/images/${product.image}.png`
+                    }
                     alt={product.name}
                 />
             </div>

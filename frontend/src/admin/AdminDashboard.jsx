@@ -35,7 +35,22 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
     Authorization: `Bearer ${localStorage.getItem("token")}`,
     "Content-Type": "application/json",
   });
+  const getImageSrc = (image) => {
+  if (!image) return "";
+  if (image.startsWith("data:image")) return image;
+  return `/images/${image}.png`;
+};
 
+  const handleAddProductImage = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    setProductForm({ ...productForm, image: reader.result });
+  };
+  reader.readAsDataURL(file);
+};
   useEffect(() => {
     loadAll();
   }, []);
@@ -196,7 +211,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
           <div className="image-box">
             {productForm.image ? (
               <img
-                src={`/images/${productForm.image}.png`}
+                src={getImageSrc(productForm.image)}
                 alt="preview"
                 className="product-preview-img"
               />
@@ -207,13 +222,15 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
               </div>
             )}
 
-            <input
-              placeholder="Image file name"
-              value={productForm.image}
-              onChange={(e) =>
-                setProductForm({ ...productForm, image: e.target.value })
-              }
+            <label className="upload-btn">
+              Upload Image
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleAddProductImage}
+                hidden
             />
+            </label>
             <button className="small-add-btn add-product-btn" onClick={addProduct}>
               Add Product
             </button>
@@ -280,6 +297,16 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
       </section>
     );
   };
+    const handleEditProductImage = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    setEditingProduct({ ...editingProduct, image: reader.result });
+  };
+  reader.readAsDataURL(file);
+};
 
   const renderProductTable = () => {
     return (
@@ -612,7 +639,13 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                         selectedUserCartItems.map((item) => (
                           <tr key={item.id}>
                             <td>{item.name}</td>
-                            <td>{item.category || "-"}</td>
+                            <td>
+                              {
+                                item.category ||
+                                products.find((p) => p.id === item.product_id || p.name === item.name)?.category ||
+                                "-"
+                                }
+</td>
                             <td>${item.price}</td>
                             <td>{item.quantity}</td>
                             <td>${item.subtotal}</td>
@@ -644,22 +677,21 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                 <div className="edit-image-area">
                   <div className="edit-image-frame">
                     <img
-                      src={`/images/${editingProduct.image}.png`}
+                      src={getImageSrc(editingProduct.image)}
                       alt={editingProduct.name}
                       className="product-preview-img"
                     />
                   </div>
 
-                  <input
-                    placeholder="Change image file name"
-                    value={editingProduct.image}
-                    onChange={(e) =>
-                      setEditingProduct({
-                        ...editingProduct,
-                        image: e.target.value,
-                      })
-                    }
-                  />
+                  <label className="upload-btn">
+                    Upload Image
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleEditProductImage}
+                      hidden
+                    />
+                  </label>
                 </div>
 
                 <div className="edit-form">

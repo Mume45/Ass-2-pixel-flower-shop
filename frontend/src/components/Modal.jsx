@@ -16,7 +16,11 @@ function Modal({ product, onClose, onAddToCart }) {
                 <div className="detail-left">
                     <div className="detail-frame">
                         <img
-                            src={`/images/${product.image}.png`}
+                            src={
+                                product.image?.startsWith("data:image")
+                                ? product.image
+                                : `/images/${product.image}.png`
+                            }
                             alt={product.name}
                             className="detail-product-img"
                         />

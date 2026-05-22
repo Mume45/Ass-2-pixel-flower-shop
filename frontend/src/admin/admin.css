@@ -215,6 +215,23 @@
   border-radius: 4px;
 }
 
+.upload-btn {
+  width: 145px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  background-color: var(--pink-main);
+  border: 4px solid var(--pink-border);
+  border-radius: 4px;
+
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 /* 右边表单压缩 */
 .product-form-grid {
   display: grid;

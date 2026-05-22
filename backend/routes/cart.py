@@ -44,15 +44,16 @@ async def add_to_cart(item: CartItemCreate, current_user=Depends(get_current_use
         return {"message": "Quantity updated", "quantity": new_qty}
 
     cart_item = {
-        "user_id": user_id,
-        "username": current_user.get("username", ""),
-        "user_email": current_user.get("email", ""),
-        "product_id": item.product_id,
-        "name": product["name"],
-        "price": product["price"],
-        "image": product.get("image", ""),
-        "quantity": item.quantity
-    }
+    "user_id": user_id,
+    "username": current_user.get("username", ""),
+    "user_email": current_user.get("email", ""),
+    "product_id": item.product_id,
+    "name": product["name"],
+    "price": product["price"],
+    "image": product.get("image", ""),
+    "category": product.get("category", ""),
+    "quantity": item.quantity
+}
 
     result = await cart_collection.insert_one(cart_item)
     return {"message": "Added to cart", "id": str(result.inserted_id)}
