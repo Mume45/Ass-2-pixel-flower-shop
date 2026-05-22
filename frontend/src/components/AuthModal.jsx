@@ -217,7 +217,11 @@ function AuthModal({ onClose, onLoginSuccess }) {
                                         className="password-eye-btn"
                                         onClick={() => setShowPassword(!showPassword)}
                                     >
-                                        👁
+                                        <img
+                                            src="/images/eye_icon.png"
+                                            alt="eye"
+                                            className="eye-icon"
+                                        />
                                     </button>
                                 </div>
 
@@ -308,7 +312,11 @@ function AuthModal({ onClose, onLoginSuccess }) {
                                         className="password-eye-btn"
                                         onClick={() => setShowPassword(!showPassword)}
                                     >
-                                        👁
+                                        <img
+                                            src="/images/eye_icon.png"
+                                            alt="eye"
+                                            className="eye-icon"
+                                        />
                                     </button>
                                 </div>
 
@@ -353,8 +361,11 @@ function AuthModal({ onClose, onLoginSuccess }) {
                         </h2>
 
                         <div className="success-icon-box">
-                            <div className="success-check-circle">✓</div>
-                            <div className="success-flower-line">🌸 🎀 🌸</div>
+                            <img
+                                src="/images/register_success.png"
+                                alt="Registration Successful"
+                                className="register-success-img"
+                            />
                         </div>
 
                         <p className="success-welcome">

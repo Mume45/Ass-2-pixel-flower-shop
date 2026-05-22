@@ -7,6 +7,7 @@
   min-height: 100vh;
   max-width: 1280px;
   margin: 0 auto;
+  padding: 0 8px 0;
 
   display: flex;
   flex-direction: column;
@@ -36,42 +37,8 @@
    ================================================================ */
 
 .admin-top-header {
-  width: 100%;
-  min-height: 120px;
-  margin: 0;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 14px 56px;
-
-  background-color: var(--blue-main);
-  border-top: 5px solid var(--pink-border);
-  border-bottom: 5px solid var(--pink-border);
+  margin-bottom: 0;
 }
-
-.admin-top-header .header-left {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
-
-.admin-top-header .shop-logo {
-  width: 150px;
-  height: auto;
-  image-rendering: pixelated;
-}
-
-.admin-top-header .shop-title {
-  color: #ffffff;
-  text-shadow: 4px 4px 0 #123d7f;
-}
-
-.admin-top-header .shop-subtitle {
-  color: #ffffff;
-}
-
 
 /* ================================================================
    2. Layout: Sidebar + Main Content
@@ -85,8 +52,8 @@
   min-height: calc(100vh - 184px);
 
   background-color: var(--cream-bg);
-  border-left: 4px solid var(--pink-border);
-  border-right: 4px solid var(--pink-border);
+  border-left: 3px solid var(--pink-border);
+  border-right: 3px solid var(--pink-border);
 }
 
 /* 左侧 Sidebar */
@@ -97,7 +64,7 @@
   background-color: var(--card-bg);
   color: var(--text-blue);
 
-  border-right: 4px solid var(--pink-border);
+  border-right: 3px solid var(--pink-border);
 }
 
 .admin-sidebar h2 {
@@ -156,64 +123,45 @@
 
 .admin-card {
   background-color: var(--card-bg);
-  border: 5px solid var(--pink-border);
+  border: 3px solid var(--pink-border);
   border-radius: 4px;
 
-  box-shadow: 8px 8px 0 rgba(255, 111, 156, 0.18);
-
-  padding: 30px 34px;
-  margin-bottom: 28px;
+  padding: 14px 20px;
+  margin-bottom: 16px;
 }
 
 .admin-card h2 {
-  margin: 0 0 24px;
-
-  font-size: 34px;
+  margin: 0 0 10px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--text-blue);
 
-  padding-bottom: 12px;
+  padding-bottom: 8px;
   border-bottom: 3px dashed var(--pink-border);
 }
 
-.section-top {
-  display: flex;
-  align-items: center;
-}
-
-
-/* ================================================================
-   4. Products Page
-   ================================================================ */
-
-.admin-products-page {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* Add New Products 布局 */
 .product-add-layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 190px 1fr;
   gap: 34px;
   align-items: start;
 }
 
-/* 图片区域 */
 .image-box {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 12px;
 }
 
-/* 上传图片占位框 */
+/* 图片框缩小 */
 .upload-placeholder,
 .edit-image-frame {
-  height: 220px;
+  width: 170px;
+  height: 145px;
 
   background-color: #fff8ef;
-  border: 4px dashed var(--pink-border);
+  border: 3px dashed var(--pink-border);
   border-radius: 4px;
 
   display: flex;
@@ -223,35 +171,27 @@
 
   color: var(--text-pink);
   font-weight: 700;
-
-  overflow: hidden;
   text-align: center;
+  overflow: hidden;
 }
 
 .upload-placeholder span {
-  font-size: 44px;
+  font-size: 30px;
   line-height: 1;
 }
 
 .upload-placeholder p {
-  font-size: 20px;
-  margin-top: 10px;
+  font-size: 13px;
+  margin-top: 6px;
 }
 
-/* 商品预览图片 */
-.product-preview-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  image-rendering: pixelated;
-}
-
-/* 图片文件名输入框 */
+/* 如果你还想保留 Image file name 输入框，就缩小 */
 .image-box input {
-  height: 52px;
-  padding: 0 16px;
+  width: 170px;
+  height: 38px;
+  padding: 0 12px;
 
-  font-size: 17px;
+  font-size: 13px;
   font-weight: 700;
 
   color: var(--text-pink);
@@ -259,24 +199,36 @@
 
   border: 3px solid var(--pink-border);
   border-radius: 4px;
-
   outline: none;
 }
 
-/* 表单区域 */
+/* Add Product 按钮放图片下面 */
+.image-box .add-product-btn {
+  width: 145px;
+  height: 38px;
+  font-size: 14px;
+  align-self: center;
+
+  color: white;
+  background-color: var(--pink-main);
+  border: 4px solid var(--pink-border);
+  border-radius: 4px;
+}
+
+/* 右边表单压缩 */
 .product-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 22px 24px;
+  gap: 12px 24px;
 }
 
 .product-form-grid label,
 .edit-form label {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 
-  font-size: 20px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-blue);
 }
@@ -289,15 +241,14 @@
 .edit-form textarea {
   width: 100%;
 
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 700;
 
   color: #6f625d;
   background-color: #fff8ef;
 
-  border: 3px solid var(--pink-border);
+  border: 2px solid var(--pink-border);
   border-radius: 4px;
-
   outline: none;
 }
 
@@ -305,78 +256,19 @@
 .product-form-grid select,
 .edit-form input,
 .edit-form select {
-  height: 56px;
-  padding: 0 16px;
+  height: 38px;
+  padding: 0 12px;
 }
 
 .product-form-grid textarea,
 .edit-form textarea {
-  min-height: 120px;
-  padding: 14px 16px;
-  resize: vertical;
+  min-height: 70px;
+  padding: 9px 12px;
+  resize: none;
 }
 
-/* Description 占满两列 */
 .full-width {
   grid-column: span 2;
-}
-
-/* Add Product 按钮 */
-.add-product-btn,
-.small-add-btn {
-  width: 200px;
-  height: 54px;
-
-  font-size: 20px;
-  font-weight: 700;
-
-  color: white;
-  background-color: var(--pink-main);
-
-  border: 4px solid var(--pink-border);
-  border-radius: 4px;
-
-  cursor: pointer;
-}
-
-.add-product-btn:hover,
-.small-add-btn:hover {
-  background-color: #ff5f8f;
-  transform: translateY(-2px);
-}
-
-/* 搜索区域 */
-.product-search-form {
-  display: grid;
-  grid-template-columns: 1fr 220px;
-  gap: 18px;
-  margin-bottom: 24px;
-}
-
-.product-search-form input,
-.product-search-form select,
-.admin-form input,
-.admin-form select {
-  height: 52px;
-  padding: 0 16px;
-
-  font-size: 17px;
-  font-weight: 700;
-
-  color: var(--text-pink);
-  background-color: #fff8ef;
-
-  border: 3px solid var(--pink-border);
-  border-radius: 4px;
-
-  outline: none;
-}
-
-.product-search-form input::placeholder,
-.admin-form input::placeholder,
-.product-form-grid input::placeholder,
-.product-form-grid textarea::placeholder {
-  color: #9b8b83;
 }
 
 
@@ -386,90 +278,176 @@
 
 .admin-card table {
   width: 100%;
-
-  border-collapse: separate;
-  border-spacing: 0;
-
+  table-layout: fixed;
+  border-collapse: collapse;
   background-color: #fff8ef;
-  border: 4px solid var(--pink-border);
+  border: 2px solid var(--pink-border);
 }
 
 .admin-card th {
-  background-color: var(--blue-main);
-  color: white;
+  background-color: #ffe4e8;
+  color: var(--pink-main);
 
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
 
-  padding: 16px 14px;
-  text-align: left;
+  padding: 12px 10px;
+  text-align: center;
 
-  border-bottom: 4px solid var(--pink-border);
+  border: 1px solid var(--pink-border);
 }
 
 .admin-card td {
-  font-size: 17px;
+  height: 58px;
+  max-height: 58px;
+  vertical-align: middle;
+
+  font-size: 15px;
   font-weight: 700;
   color: var(--text-blue);
 
-  padding: 16px 14px;
+  padding: 8px 10px;
+  text-align: center;
 
-  border-bottom: 2px dashed var(--pink-light);
+  border: 1px solid var(--pink-border);
+}
+
+.table-text-limit {
+  line-height: 1.25;
+  max-height: 38px;
+  overflow: hidden;
+}
+
+.description-limit {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .admin-card tr:hover {
   background-color: #fff0f4;
 }
 
+/* search bar 样式 */
+.product-search-form {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 14px;
+  margin: 12px 0 24px;
+}
+
+.product-search-form input,
+.product-search-form select {
+  height: 40px;
+  padding: 0 14px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+
+  color: var(--text-pink);
+  background-color: #fff8ef;
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+  outline: none;
+}
+
+.product-search-form input::placeholder {
+  color: #d99aaa;
+}
+
+/* 空数据提示 */
 .empty {
   text-align: center;
   color: var(--text-pink);
-  padding: 30px;
+  padding: 22px;
 }
 
-/* Status 标签 */
+/* Active 状态标签 */
 .status-active {
   display: inline-block;
 
-  padding: 7px 14px;
+  padding: 4px 8px;
 
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
 
-  color: white;
-  background-color: var(--blue-main);
+  color: #1c7a3c;
+  background-color: #b9f2c9;
 
   border-radius: 4px;
 }
 
-/* 表格按钮 */
-.admin-card td button {
-  padding: 8px 14px;
-  margin-right: 8px;
+/* 表格里的 Edit / Delete 按钮 */
+.admin-card td:last-child {
+  white-space: nowrap;
+}
 
-  font-size: 15px;
+.admin-card td button {
+  display: inline-block;
+  padding: 4px 8px;
+  margin-right: 5px;
+
+  font-size: 14px;
   font-weight: 700;
 
-  color: white;
-  background-color: var(--blue-main);
-
-  border: 3px solid var(--blue-dark);
+  border: none;
   border-radius: 4px;
-
   cursor: pointer;
 }
 
-.admin-card td button:hover {
-  transform: translateY(-2px);
+.admin-card td button:last-child {
+  margin-right: 0;
+}
+
+/* Edit 按钮 */
+.admin-card td button:not(.danger) {
+  color: #0d4f8f;
+  background-color: #bfeeff;
 }
 
 /* Delete 按钮 */
 .admin-card td button.danger,
 .danger {
-  background-color: var(--pink-main) !important;
-  border-color: var(--pink-shadow) !important;
+  color: #a10024 !important;
+  background-color: #ffc3c9 !important;
 }
 
+/* hover 轻微上移 */
+.admin-card td button:hover {
+  transform: translateY(-2px);
+}
+
+/* 分页符 */
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.admin-pagination button {
+  min-width: 34px;
+  height: 34px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+
+  color: var(--text-blue);
+  background-color: #fff8ef;
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+.admin-pagination button.active {
+  color: white;
+  background-color: var(--pink-main);
+}
 
 /* ================================================================
    6. Users Page

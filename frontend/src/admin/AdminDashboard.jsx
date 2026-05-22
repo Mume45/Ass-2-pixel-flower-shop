@@ -28,6 +28,8 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
   const [productSearch, setProductSearch] = useState("");
   const [productCategoryFilter, setProductCategoryFilter] = useState("all");
   const [editingProduct, setEditingProduct] = useState(null);
+  const [productPage, setProductPage] = useState(1);
+  const productsPerPage = 6;
 
   const authHeader = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -75,6 +77,14 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
 
     return nameMatch && categoryMatch;
   });
+  const totalProductPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const productStartIndex = (productPage - 1) * productsPerPage;
+
+  const currentProducts = filteredProducts.slice(
+    productStartIndex,
+    productStartIndex + productsPerPage
+  );
 
   const filteredUsers = users.filter((user) => {
     const usernameMatch = user.username
@@ -204,6 +214,9 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                 setProductForm({ ...productForm, image: e.target.value })
               }
             />
+            <button className="small-add-btn add-product-btn" onClick={addProduct}>
+              Add Product
+            </button>
           </div>
 
           <div className="product-form-grid">
@@ -261,9 +274,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
               />
             </label>
 
-            <button className="small-add-btn add-product-btn" onClick={addProduct}>
-              Add Product
-            </button>
+
           </div>
         </div>
       </section>
@@ -281,12 +292,18 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
           <input
             placeholder="Search product name..."
             value={productSearch}
-            onChange={(e) => setProductSearch(e.target.value)}
+            onChange={(e) => {
+              setProductSearch(e.target.value);
+              setProductPage(1);
+            }}
           />
 
           <select
             value={productCategoryFilter}
-            onChange={(e) => setProductCategoryFilter(e.target.value)}
+            onChange={(e) => {
+              setProductCategoryFilter(e.target.value);
+              setProductPage(1);
+            }}
           >
             <option value="all">all</option>
             <option value="single">single</option>
@@ -297,6 +314,14 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
         </div>
 
         <table>
+          <colgroup>
+            <col style={{ width: "20%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "30%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "16%" }} />
+          </colgroup>
           <thead>
             <tr>
               <th>Products</th>
@@ -309,12 +334,20 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
           </thead>
 
           <tbody>
-            {filteredProducts.map((product) => (
+            {currentProducts.map((product) => (
               <tr key={product.id}>
-                <td>{product.name}</td>
+                <td>
+                  <div className="table-text-limit">
+                    {product.name}
+                  </div>
+                </td>
                 <td>{product.category}</td>
                 <td>${product.price}</td>
-                <td>{product.description}</td>
+                <td>
+                  <div className="table-text-limit description-limit">
+                    {product.description}
+                  </div>
+                </td>
                 <td>
                   <span className="status-active">Active</span>
                 </td>
@@ -341,6 +374,35 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
             )}
           </tbody>
         </table>
+        {totalProductPages > 1 && (
+          <div className="pagination admin-product-pagination">
+            <button
+              className="page-nav-btn"
+              disabled={productPage === 1}
+              onClick={() => setProductPage(productPage - 1)}
+            >
+              ← Previous
+            </button>
+
+            {Array.from({ length: totalProductPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`page-btn ${productPage === page ? "active" : ""}`}
+                onClick={() => setProductPage(page)}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              className="page-nav-btn"
+              disabled={productPage === totalProductPages}
+              onClick={() => setProductPage(productPage + 1)}
+            >
+              Next →
+            </button>
+          </div>
+        )}
       </section>
     );
   };

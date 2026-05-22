@@ -20,7 +20,7 @@ function Header({ cartCount, onCartClick, onAuthClick, currentUser, onLogout, on
 
         <div className="shop-title-group">
           <h1 className="shop-title">Vivian's Flowers</h1>
-          <p className="shop-subtitle">- Bringing a little beauty into your day -</p>
+          <p className="shop-subtitle">- Bring a little beauty into your day -</p>
         </div>
       </div>
 

@@ -258,7 +258,11 @@ function App() {
                 setCurrentPage(1);
               }}
             />
-            <span className="search-icon">🔍</span>
+            <img
+              src="/images/search_icon.png"
+              alt="search"
+              className="search-icon"
+            />
           </div>
         </div>
 
