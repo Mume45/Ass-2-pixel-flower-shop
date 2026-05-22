@@ -1,23 +1,45 @@
-/* App.css — Vivian's Flowers: Fresh Wood Pixel Art Style */
+/* App.css — Vivian's Flowers: 像素风花店样式 */
 
-/* ---- 1. FONT IMPORTS ---- */
-/* Importing Google Fonts: Pixelify Sans for headers and IBM Plex Mono for clean pricing digits */
+
+/* ================================================================
+   1. 字体导入
+   ================================================================ */
+/* Pixelify Sans 用于标题和正文，IBM Plex Mono 用于价格等数字显示 */
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=IBM+Plex+Mono:wght@500;700&display=swap');
 
-/* ---- 2. COLOR & THEME VARIABLES ---- */
+
+/* ================================================================
+   2. 全局颜色变量
+   ================================================================ */
 :root {
-  --wood-dark: #5D4037;
-  --wood-medium: #795548;
-  --wood-light: #A1887F;
-  --leaf-green: #4CAF50;
-  --leaf-hover: #66BB6A;
-  --paper-beige: #F5F5DC;
-  --bg-green: #E8F5E9;
-  --accent-yellow: #FFD54F;
+  /* 蓝色系 — 导航栏、按钮主色 */
+  --blue-dark: #174A94;
+  --blue-main: #1F63B7;
+  --blue-light: #2F83E8;
+
+  /* 粉色系 — 强调色、边框、阴影 */
+  --pink-main: #FF6F9C;
+  --pink-border: #FF9BB8;
+  --pink-light: #FFD6DF;
+  --pink-shadow: #D95F82;
+
+  /* 背景色系 */
+  --cream-bg: #FFF7E8;
+  --card-bg: #FFFAF0;
+  --frame-gold: #F4C18A;
+
+  /* 文字颜色 */
+  --text-blue: #1F5FA8;
+  --text-pink: #FF5F91;
+
+  /* 通用边框粗细 */
   --border-size: 4px;
 }
 
-/* ---- 3. GLOBAL BASE STYLES ---- */
+
+/* ================================================================
+   3. 全局基础样式
+   ================================================================ */
 * {
   margin: 0;
   padding: 0;
@@ -26,12 +48,12 @@
 
 body {
   font-family: 'Pixelify Sans', sans-serif;
-  background-color: var(--bg-green);
-  color: var(--wood-dark);
+  background-color: var(--cream-bg);
+  color: var(--text-blue);
   line-height: 1.4;
 }
 
-/* Specific font override for numerical data to ensure high legibility */
+/* 价格、数量等数字类元素统一使用等宽字体，提升可读性 */
 .product-price,
 .modal-price,
 .qty-number,
@@ -43,240 +65,646 @@ body {
   letter-spacing: -0.5px;
 }
 
+/* 整体页面最大宽度限制 */
 .app {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 15px;
+  padding: 0 8px 0;
 }
 
-/* ---- 4. HEADER NAVIGATION ---- */
+
+/* ================================================================
+   4. 顶部导航栏 Header
+   ================================================================ */
+
 .header {
+  width: 100%;
+  min-height: 120px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 30px;
-  background-color: var(--wood-dark);
-  border: var(--border-size) solid #3E2723;
-  margin-bottom: 30px;
-  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+
+  padding: 14px 56px;
+  margin-bottom: 28px;
+
+  background-color: var(--blue-main);
+
+  border-top: 5px solid var(--pink-border);
+  border-bottom: 5px solid var(--pink-border);
+
+  position: relative;
+  z-index: 100;
 }
 
+/* 左侧 Logo + 标题整体 */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* 店铺 Logo 图片 */
+.shop-logo {
+  width: 150px;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+/* 标题和副标题容器 */
+.shop-title-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 店铺标题 */
 .shop-title {
-  font-size: 32px;
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 52px;
   font-weight: 700;
-  color: var(--paper-beige);
-  text-shadow: 3px 3px 0px #3E2723;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: 2px;
+  text-shadow: 4px 4px 0 #123d7f;
 }
 
+/* 副标题 */
 .shop-subtitle {
   font-family: 'Pixelify Sans', sans-serif;
-  font-size: 14px;
-  color: #F5F5DC;
-  opacity: 0.8;
-  margin-top: 4px;
+  font-size: 15px;
+  color: #ffffff;
+  margin-top: 6px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-/* Header 右侧按钮组 */
+/* 右侧按钮区域 */
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 18px;
+  position: relative;
 }
 
-/* Header 登录/注册按钮 */
+/* 未登录状态：Login / Register 按钮 */
 .auth-header-btn {
   font-family: 'Pixelify Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 10px 20px;
-  background: var(--paper-beige);
-  color: var(--wood-dark);
-  border: 3px solid var(--wood-medium);
+  font-size: 18px;
+  font-weight: 700;
+
+  padding: 18px 34px;
+
+  color: var(--text-pink);
+  background-color: #fff2ed;
+
+  border: 4px solid #ffffff;
+  border-radius: 4px;
+
   cursor: pointer;
 }
 
 .auth-header-btn:hover {
-  background: var(--wood-light);
-  color: white;
+  background-color: var(--pink-light);
+  transform: translateY(-2px);
 }
 
+/* 登录后：购物车按钮 */
 .cart-button {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
   font-family: 'Pixelify Sans', sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 10px 20px;
-  background: #7FB069;
-  color: white;
-  border: 3px solid #4F7A4F;
+  font-size: 20px;
+  font-weight: 700;
+
+  padding: 14px 24px;
+
+  color: var(--text-pink);
+  background-color: #fff2ed;
+
+  border: 4px solid #ffffff;
+  border-radius: 4px;
+
   cursor: pointer;
+}
+
+.cart-button:hover {
+  background-color: var(--pink-light);
+  transform: translateY(-2px);
+}
+
+.cart-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+/* 购物车数量角标 */
+.cart-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+
+  min-width: 24px;
+  height: 24px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 13px;
+  color: white;
+  background-color: var(--pink-main);
+
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+}
+
+
+/* ================================================================
+   5. 用户头像与下拉菜单
+   ================================================================ */
+
+/* 头像外层，用于定位下拉菜单 */
+.user-avatar-wrapper {
   position: relative;
 }
 
-.cart-badge {
+/* 头像按钮 */
+.user-avatar {
+  width: 68px;
+  height: 68px;
+
+  padding: 0;
+
+  background-color: #fff2ed;
+  border: 4px solid #ffffff;
+  border-radius: 4px;
+
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.user-avatar:hover {
+  background-color: var(--pink-light);
+  transform: translateY(-2px);
+}
+
+/* 头像图片 */
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+/* 下拉菜单 */
+.dropdown-menu {
   position: absolute;
-  top: -12px;
-  right: -12px;
-  background-color: var(--accent-yellow);
-  color: var(--wood-dark);
-  font-size: 14px;
-  padding: 2px 6px;
-  border: 3px solid var(--wood-dark);
-}
+  top: 76px;
+  right: -10px;
 
-/* ---- 5. CATEGORY TABS (FILTER) ---- */
-.category-tabs {
+  width: 110px;
+
+  background-color: #fff2ed;
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+
+  z-index: 9999;
+
   display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
 }
 
-/* 分类Tab和搜索框的容器 */
+/* 用户名 */
+.dropdown-username {
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+
+  color: var(--text-pink);
+  text-align: center;
+
+  padding: 10px 6px;
+  margin: 0;
+}
+
+/* 分割线 */
+.dropdown-divider {
+  width: 100%;
+  border-top: 2px dashed var(--pink-border);
+}
+
+/* 下拉按钮 */
+.dropdown-item {
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+
+  color: var(--text-pink);
+  background: none;
+  border: none;
+
+  padding: 10px 6px;
+  text-align: center;
+
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: var(--pink-light);
+}
+
+/* ================================================================
+   6. 分类筛选栏与搜索框
+   ================================================================ */
+
+.main-content {
+  max-width: 1210px;
+  margin: 0 auto;
+}
+
+/* 分类栏整体：左边分类按钮，右边搜索框 */
 .category-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 35px;
+
+  margin: 22px auto 34px;
+  gap: 24px;
 }
 
+/* 分类按钮组 */
+.category-tabs {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* 单个分类按钮 */
 .tab {
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 18px;
-  padding: 10px 25px;
-  background-color: var(--wood-light);
-  color: #fff;
-  border: var(--border-size) solid var(--wood-dark);
+  font-weight: 700;
+
+  min-width: 155px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  background-color: var(--blue-main);
+
+  border: none;
+  border-radius: 5px;
+
   cursor: pointer;
 }
 
+/* 当前选中的分类 */
 .tab.active {
-  background-color: var(--leaf-green);
-  border-color: #2E7D32;
+  background-color: var(--pink-main);
+  color: white;
 }
 
-/* ---- 6. PRODUCT GRID & CARDS ---- */
+.tab:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+/* 搜索框外层 */
+.search-bar {
+  width: 310px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+
+  background-color: #fff7f2;
+  border: 4px solid var(--pink-border);
+  border-radius: 4px;
+
+  padding: 0 12px;
+}
+
+/* 搜索输入框 */
+.search-input {
+  flex: 1;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+
+  color: var(--text-pink);
+  background: transparent;
+
+  border: none;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #f3a2b6;
+}
+
+/* 搜索图标 */
+.search-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* ================================================================
+   7. 商品网格与商品卡片
+   ================================================================ */
+
+/* 商品网格：一行四个商品 */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 34px 44px;
+
+  max-width: 1170px;
+  margin: 0 auto 38px;
 }
 
+/* 单张商品卡片 */
 .product-card {
-  background-color: #f6f5e4;
-  border: var(--border-size) solid var(--wood-dark);
-  padding: 20px;
-  text-align: center;
+  width: 260px;
+  height: 300px;
+  /* 固定卡片高度 */
+  min-height: unset;
+
+  background-color: transparent;
+
+  border: 2px solid #ff5f80;
+  border-radius: 7px;
+
+  padding: 16px 32px 20px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+
   cursor: pointer;
 }
 
+/* 鼠标悬停效果 */
 .product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 0 rgba(0, 0, 0, 0.1);
-  border-color: var(--wood-medium);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 0 rgba(255, 111, 156, 0.22);
 }
 
-.product-image-container {
-  width: 180px;
-  height: 180px;
-  background-color: #fff;
-  border: 2px solid var(--wood-medium);
-  margin-bottom: 15px;
+/* 商品图片区域 */
+.product-image {
+  width: 160px;
+  height: 132px;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+
+  margin-bottom: 4px;
+
+  background-color: transparent;
 }
 
+/* 商品图片 */
 .product-img {
   width: 100%;
   height: 100%;
+
   object-fit: contain;
   image-rendering: pixelated;
-  /* Forces pixel-perfect rendering for icons */
 }
 
+/* 商品信息区域 */
+.product-info {
+  width: 100%;
+  text-align: center;
+}
+
+/* 商品名称 */
 .product-name {
+  font-family: 'Pixelify Sans', sans-serif;
   font-size: 18px;
   font-weight: 700;
-  height: 48px;
+
+  color: #0d45a2;
+  line-height: 1.1;
+
+  height: 42px;
+  /* 固定标题区域高度 */
+  margin: 0 auto 6px;
+  padding-bottom: 4px;
+
+  display: flex;
+  align-items: center;
+  /* 一行标题垂直居中 */
+  justify-content: center;
+  text-align: center;
+
+  border-bottom: 2px dashed var(--pink-border);
+}
+
+/* 商品价格 */
+.product-price {
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #ff3f6f;
+
+  margin-bottom: 12px;
+}
+
+/* 加入购物车按钮 */
+.add-to-cart-btn {
+  width: 178px;
+  height: 34px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  margin-bottom: 5px;
-  line-height: 1.2;
-}
+  gap: 10px;
 
-.product-price {
-  font-size: 18px;
-  color: #2E7D32;
-  margin-bottom: 15px;
-}
-
-.add-to-cart-btn {
   font-family: 'Pixelify Sans', sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
-  width: 100%;
-  padding: 10px;
-  background-color: var(--leaf-green);
+
   color: white;
-  border: 3px solid var(--wood-dark);
-  border-bottom: 6px solid #2E7D32;
+  background-color: var(--pink-main);
+
+  border: 1px solid #f04f7c;
+  border-radius: 4px;
+
   cursor: pointer;
-  transition: all 0.05s;
+}
+
+/* 购物车小图标 */
+.cart-btn-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #ff5f8f;
 }
 
 .add-to-cart-btn:active {
   transform: translateY(2px);
-  border-bottom-width: 3px;
 }
 
-/* ---- 7. CART SIDEBAR (RIGHT-ALIGNED) ---- */
+/* 没有商品时的提示 */
+.empty-message {
+  text-align: center;
+  font-size: 20px;
+  color: var(--text-pink);
+  margin-top: 60px;
+}
+
+/* ================================================================
+   Pagination 分页栏
+   ================================================================ */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+
+  margin: 34px auto 68px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+}
+
+.page-btn {
+  min-width: 32px;
+  height: 32px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+
+  color: #222;
+  background: transparent;
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.page-btn.active {
+  color: white;
+  background-color: var(--blue-main);
+}
+
+.page-btn:hover {
+  background-color: #ffe1e8;
+}
+
+.page-btn.active:hover {
+  background-color: var(--blue-main);
+}
+
+.page-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+
+  color: #333;
+  background: transparent;
+
+  border: none;
+  cursor: pointer;
+}
+
+.page-nav-btn:disabled {
+  color: #b9b2aa;
+  cursor: not-allowed;
+}
+
+.page-ellipsis {
+  font-size: 18px;
+  color: #222;
+}
+
+/* ================================================================
+   Footer 底部横条
+   ================================================================ */
+
+.footer {
+  width: 100%;
+  height: 64px;
+
+  background-color: var(--blue-main);
+
+  border-top: 5px solid var(--pink-border);
+  border-bottom: 5px solid var(--pink-border);
+
+  margin-top: 28px;
+}
+
+
+/* ================================================================
+   8. 购物车侧边栏
+   ================================================================ */
+
+/* 半透明遮罩，点击关闭购物车 */
 .cart-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(62, 39, 35, 0.7);
+  background-color: rgba(62, 39, 35, 0.55);
   display: flex;
   justify-content: flex-end;
   z-index: 5000;
 }
 
+/* 购物车面板主体，从右侧滑出 */
 .cart-panel {
   width: 400px;
   height: 100vh;
-  background-color: var(--paper-beige);
-  border-left: 8px solid var(--wood-dark);
+  background-color: #fff8ef;
+  border-left: 8px solid #ffd4ce;
   padding: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
-  box-shadow: -10px 0 0 rgba(0, 0, 0, 0.1);
 }
 
+/* 购物车顶部：标题 + 关闭按钮 */
 .cart-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 4px solid var(--wood-dark);
+  border-bottom: 4px solid #ffc9c9;
 }
 
+/* 购物车关闭按钮 */
 .cart-panel .close-btn {
   width: 35px;
   height: 35px;
-  background-color: #EF5350;
-  border: 3px solid #C62828;
+  background-color: #f76f94;
+  border: 3px solid #ffb4c5;
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -285,63 +713,69 @@ body {
   justify-content: center;
 }
 
+/* 购物车商品列表滚动容器 */
 .cart-items-container {
   flex: 1;
   overflow-y: auto;
   padding-right: 5px;
 }
 
-/* Custom Scrollbar Styling */
+/* 自定义滚动条样式 */
 .cart-items-container::-webkit-scrollbar {
   width: 8px;
 }
 
 .cart-items-container::-webkit-scrollbar-thumb {
-  background: var(--wood-medium);
-  border: 2px solid var(--wood-dark);
+  background: #ffb4c5;
+  border: none;
 }
 
-/* ---- CART ITEM ROW ---- */
+/* 单条购物车商品行 */
 .cart-item {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 15px;
-  background-color: #ffffff !important;
-  border: 3px solid var(--wood-light) !important;
+  background-color: #ffffffbe !important;
+  border: 2px solid #ffd4ce !important;
   margin-bottom: 10px;
 }
 
+/* 商品名称 */
 .cart-item-name {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
-  color: var(--wood-dark);
+  color: var(--text-blue);
   text-align: left;
 }
 
+/* 商品行底部：数量控制 + 小计 + 删除按钮 */
 .cart-item-row-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* 数量控制组 + 小计价格的左侧容器 */
 .cart-item-left-group {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
+/* 数量加减控制器 */
 .quantity-controls {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
+/* 加减按钮 */
 .qty-btn {
   width: 26px;
   height: 26px;
-  background: var(--wood-medium);
-  border: 2px solid var(--wood-dark);
+  background: #f76f94;
+  border: 2px solid #ff7aa8;
   color: white;
   cursor: pointer;
   display: flex;
@@ -351,6 +785,7 @@ body {
   line-height: 1;
 }
 
+/* 单项小计金额 */
 .cart-item-subtotal {
   font-family: 'IBM Plex Mono', monospace !important;
   color: #2E7D32;
@@ -358,426 +793,736 @@ body {
   font-size: 16px;
 }
 
+/* 删除单项按钮 */
 .remove-btn {
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 11px;
   padding: 4px 8px;
-  background-color: #EF5350;
-  border: 2px solid #C62828;
+  background-color: #f76f94;
+  border: 2px solid #ed5f83;
   color: white;
   cursor: pointer;
 }
 
-/* Cart Footer & Clear Cart Action */
+/* 购物车底部：总价 + 清空按钮 */
 .cart-footer {
   margin-top: 20px;
   padding-top: 15px;
-  border-top: 4px solid var(--wood-dark);
+  border-top: 4px solid #ffc9c9;
 }
 
+/* 总价显示 */
 .cart-total {
   display: flex;
   justify-content: space-between;
   font-size: 20px;
   margin-bottom: 15px;
+
 }
 
+/* 清空购物车按钮 */
 .clear-btn {
   width: 100%;
   padding: 12px;
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 16px;
   font-weight: 700;
-  background-color: var(--wood-medium);
+  background-color: var(--blue-main);
   color: white;
-  border: 4px solid var(--wood-dark);
+  border: 4px solid var(--blue-dark);
   cursor: pointer;
 }
 
 .clear-btn:hover {
-  background-color: var(--wood-dark);
+  background-color: var(--blue-dark);
 }
 
-/* ---- 8. DETAIL MODAL ---- */
+
+/* ================================================================
+   9. 商品详情弹窗 Detail Modal
+   ================================================================ */
+
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  inset: 0;
+  background-color: rgba(70, 60, 55, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 6000;
 }
 
-.modal-content {
+.detail-modal {
   position: relative;
-  background-color: var(--paper-beige);
-  border: 8px solid var(--wood-dark);
-  padding: 40px;
-  max-width: 500px;
-  width: 90%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+  width: 930px;
+  min-height: 590px;
+
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 46px;
+
+  padding: 58px 72px 54px 46px;
+
+  background-color: #fff8ef;
+  border: 7px solid #ffd4ce;
 }
 
-.modal-content .close-btn {
+.detail-close-btn {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 32px;
-  height: 32px;
-  background-color: #EF5350;
-  border: 3px solid #C62828;
+  top: 18px;
+  right: 24px;
+
+  width: 42px;
+  height: 42px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: #f77b95;
+
+  border: 4px solid #ffb4c5;
+  border-radius: 4px;
+
   cursor: pointer;
 }
 
-.modal-image-container {
-  width: 240px;
-  height: 240px;
-  background-color: #fff;
-  border: 4px solid var(--wood-medium);
-  margin-bottom: 20px;
-  overflow: hidden;
+.detail-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 34px;
 }
 
-.modal-product-image {
+.detail-frame {
+  width: 390px;
+  height: 290px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.detail-product-img {
+  max-width: 460px;
+  max-height: 300px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+
+.detail-decoration-img {
+  width: 320px;
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin-top: 10px;
+}
+
+.detail-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.detail-title {
+  margin: 0 0 12px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 46px;
+  line-height: 1;
+
+  color: #123d8c;
+}
+
+.detail-category {
+  min-width: 150px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 10px;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  color: white;
+  background-color: var(--blue-main);
+
+  border-radius: 4px;
+}
+
+.detail-divider {
   width: 100%;
-  height: 100%;
+  border-top: 4px dashed #ffc6c9;
+  margin: 10px 0;
+}
+
+.detail-price {
+  margin: 0;
+
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-size: 44px;
+  font-weight: 700;
+
+  color: #f45f85;
+}
+
+.detail-description {
+  margin: 0;
+
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.35;
+
+  color: #173e87;
+}
+
+.detail-quantity-label {
+  margin: 4px 0 12px;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  color: #173e87;
+}
+
+.detail-quantity-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 20px;
+}
+
+.detail-qty-btn {
+  width: 56px;
+  height: 56px;
+
+  font-size: 38px;
+  font-weight: 700;
+
+  color: white;
+  background-color: #f76f94;
+
+  border: 4px solid #ff9bb8;
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+.detail-qty-number {
+  width: 110px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-size: 28px;
+  font-weight: 700;
+
+  color: #173e87;
+  background-color: #fff1e7;
+
+  border: 3px solid #e9b38f;
+  border-radius: 4px;
+}
+
+.detail-add-btn {
+  width: 350px;
+  height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+
+  color: white;
+  background-color: #f76f94;
+
+  border: 4px solid #ff9bb8;
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+.detail-cart-icon {
+  font-size: 34px;
+}
+
+
+/* ================================================================
+   10. 登录 / 注册 / 注册成功弹窗 Auth Modal
+   ================================================================ */
+
+/* 
+   半透明遮罩层
+   作用：
+   1. 覆盖整个页面，让背景变暗
+   2. 把弹窗固定显示在页面中央
+   3. z-index 设置较高，确保弹窗显示在商品卡片、Header、Footer 上方
+*/
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(70, 60, 55, 0.35);
+
+  z-index: 9999;
+}
+
+/* 
+   登录 / 注册弹窗主体
+   作用：
+   1. 控制弹窗宽度、高度、背景色和边框
+   2. 这里使用浅奶油色背景，和主页面保持统一
+   3. 粉色粗边框对应 Figma 里的像素风弹窗边框
+*/
+.auth-modal {
+  position: relative;
+
+  width: 660px;
+  min-height: 700px;
+
+  background-color: #fff8ef;
+  border: 10px solid #ffd4ce;
+
+  padding: 72px 80px 54px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+}
+
+/* 
+   注册弹窗比登录弹窗多一个 Username 输入框
+   所以单独给注册模式增加高度，避免内容太挤
+*/
+.auth-modal-register {
+  min-height: 800px;
+}
+
+/* 
+   关闭按钮
+   作用：
+   1. 固定在弹窗右上角
+   2. 点击后关闭整个 AuthModal
+*/
+.auth-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+
+  width: 54px;
+  height: 54px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+
+  color: white;
+  background-color: #f47f95;
+
+  border: 4px solid #ffb6c1;
+  border-radius: 4px;
+
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* 关闭按钮 hover 效果 */
+.auth-close-btn:hover {
+  background-color: #ff7890;
+}
+
+/* 
+   弹窗标题
+   例如：
+   ✦ Log In ✦
+   ✦ Create Account ✦
+*/
+.auth-title {
+  margin: 0 0 42px;
+
+  text-align: center;
+
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.1;
+
+  color: #d94d6d;
+}
+
+/* 
+   表单整体区域
+   作用：
+   让所有输入字段从上到下排列
+*/
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 
+   单个输入区域
+   包含：
+   label + input + error message
+*/
+.auth-field {
+  margin-bottom: 24px;
+}
+
+/* 
+   输入框上方的标签文字
+   例如 Email / Password / Username
+*/
+.auth-label {
+  display: block;
+
+  margin: 0 0 10px 4px;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  color: #17438c;
+}
+
+/* 
+   普通输入框
+   作用：
+   控制输入框大小、字体、边框、背景色
+*/
+.auth-input {
+  width: 100%;
+  height: 76px;
+
+  padding: 0 32px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 23px;
+  font-weight: 700;
+
+  color: #6f625d;
+  background-color: #fff8ef;
+
+  border: 3px solid #ff8aa1;
+  border-radius: 4px;
+
+  outline: none;
+}
+
+/* 输入框 placeholder 文字颜色 */
+.auth-input::placeholder {
+  color: #9b8b83;
+}
+
+/* 输入框被点击或正在输入时的效果 */
+.auth-input:focus {
+  border-color: #f36f8c;
+  box-shadow: 0 0 0 4px rgba(255, 139, 161, 0.18);
+}
+
+/* 
+   输入框出错时的样式
+   例如：
+   邮箱格式不正确、密码错误、邮箱已注册
+*/
+.auth-input-error {
+  border-color: #e7435c;
+  background-color: #fff0f2;
+}
+
+/* 
+   密码输入框外层
+   作用：
+   让右侧的 eye 按钮可以定位在输入框里面
+*/
+.password-field {
+  position: relative;
+}
+
+/* 
+   密码输入框
+   右侧留出空间，避免文字和 eye 按钮重叠
+*/
+.password-input {
+  padding-right: 78px;
+}
+
+/* 
+   显示 / 隐藏密码按钮
+   作用：
+   点击后切换 password 和 text
+*/
+.password-eye-btn {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 32px;
+  height: 32px;
+
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+}
+
+.eye-icon {
+  width: 22px;
+  height: 22px;
   object-fit: contain;
 }
 
-.modal-title {
-  font-size: 24px;
-  margin-bottom: 8px;
-}
-
-.modal-description {
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.modal-price {
-  font-size: 22px;
-  margin-bottom: 20px;
-  color: #2E7D32;
-}
-
-.modal-add-btn {
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  padding: 12px 30px;
-  background-color: var(--leaf-green);
-  color: white;
-  border: 3px solid var(--wood-dark);
-  border-bottom: 6px solid #2E7D32;
-  cursor: pointer;
-  transition: all 0.05s;
-}
-
-.modal-add-btn:active {
-  transform: translateY(2px);
-  border-bottom-width: 3px;
-}
-
-/* Hidden by default */
-.modal-category {
+/* 隐藏浏览器默认的密码显示按钮 */
+.password-input::-ms-reveal {
   display: none;
 }
 
-
-/* ---- 注册/登录弹窗样式 ---- */
-
-/* 遮罩层：覆盖整个页面的半透明背景 */
-.auth-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(62, 39, 35, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 7000;
+.password-input::-webkit-contacts-auto-fill-button,
+.password-input::-webkit-credentials-auto-fill-button {
+  display: none;
 }
 
-/* 弹窗主体 */
-.auth-modal {
-  position: relative;
-  background-color: #fdf5ea;
-  border: 8px solid var(--wood-dark);
-  padding: 40px;
-  width: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-/* 关闭按钮 */
-.auth-close-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 32px;
-  height: 32px;
-  background-color: #EF5350;
-  border: 3px solid #C62828;
-  color: white;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 弹窗标题 */
-.auth-title {
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 24px;
-  color: #c64c64;
-  text-align: center;
-  margin-bottom: 8px;
-}
-
-/* 表单整体区域 */
-.auth-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* 单个输入字段区域（label + input + 错误提示） */
-.auth-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-/* 输入框标签 */
-.auth-label {
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #3d5792;
-}
-
-/* 输入框 */
-.auth-input {
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 15px;
-  padding: 10px 14px;
-  border: 3px solid #f9b0b4;
-  background-color: #fff;
-  color: var(--wood-dark);
-  outline: none;
-  width: 100%;
-}
-
-/* 输入框获得焦点时 */
-.auth-input:focus {
-  border-color: #d48a9a;
-}
-
-/* 输入框出错时 */
-.auth-input-error {
-  border-color: #EF5350;
-}
-
-/* 错误提示文字 */
+/* 
+   错误提示文字
+   例如：
+   Incorrect email or password.
+   Email already registered.
+*/
 .auth-error {
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 13px;
-  color: #EF5350;
-  margin: 0;
-}
+  margin: 8px 0 0 4px;
 
-/* 提交按钮 */
-.auth-submit-btn {
   font-family: 'Pixelify Sans', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
-  width: 100%;
-  padding: 12px;
-  background-color: #f78b98;
-  color: white;
-  border: 3px solid #fac1c4;
-  border-bottom: 6px solid #c64c64;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: all 0.05s;
+
+  color: #e7435c;
 }
 
+/* 
+   通用错误提示
+   例如后端没有启动、无法连接服务器
+*/
+.auth-general-error {
+  text-align: center;
+}
+
+/* 
+   登录 / 注册主按钮
+   例如：
+   ✦ Log In ✦
+   ✦ Sign Up ✦
+*/
+.auth-submit-btn {
+  width: 440px;
+  height: 82px;
+
+  display: block;
+
+  margin: 36px auto 20px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+
+  color: white;
+  background-color: #f38396;
+
+  border: 5px solid #ffc0ca;
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+/* 主按钮 hover 效果 */
+.auth-submit-btn:hover {
+  background-color: #ff7890;
+}
+
+/* 主按钮点击时的按压效果 */
 .auth-submit-btn:active {
   transform: translateY(2px);
-  border-bottom-width: 3px;
 }
 
-/* 切换模式提示文字 */
+/* 
+   登录 / 注册切换提示文字
+   例如：
+   Don't have an account ? Sign up
+   Already have an account ? Log in
+*/
 .auth-switch {
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 14px;
-  color: var(--wood-light);
   margin: 0;
-}
 
-/* 切换模式链接 */
-.auth-switch-link {
-  color: #d48a9a;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.auth-switch-link:hover {
-  color: #b56b7a;
-}
-
-/* ---- 搜索框样式 ---- */
-/* 搜索框容器 */
-.search-bar {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border: 3px solid var(--wood-light);
-  padding: 0 10px;
-  gap: 6px;
-}
-
-/* 搜索输入框 */
-.search-input {
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 15px;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--wood-dark);
-  width: 180px;
-  padding: 8px 0;
-}
-
-/* 搜索图标 */
-.search-icon {
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* ---- 注册成功小弹窗样式 ---- */
-/* 注册成功小弹窗 */
-.success-modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: var(--paper-beige);
-  border: 4px solid var(--wood-dark);
-  padding: 30px;
-  width: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  z-index: 10;
-}
-
-/* 成功提示文字 */
-.success-message {
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 16px;
-  color: var(--wood-dark);
   text-align: center;
-  line-height: 1.6;
-}
 
-/* 关闭按钮 */
-.success-close-btn {
   font-family: 'Pixelify Sans', sans-serif;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
-  padding: 8px 24px;
-  background-color: #d48a9a;
-  color: white;
-  border: 3px solid #b56b7a;
+
+  color: #173e87;
+}
+
+/* 
+   可点击的切换链接
+   例如 Sign up / Log in
+*/
+.auth-switch-link {
+  color: #ec6680;
+  text-decoration: underline;
   cursor: pointer;
 }
 
-
-/* 头像容器 */
-.user-avatar-wrapper {
-  position: relative;
+/* 切换链接 hover 效果 */
+.auth-switch-link:hover {
+  color: #d94d6d;
 }
 
-/* 头像按钮 */
-.user-avatar {
-  width: 44px;
-  height: 44px;
-  border: 3px solid var(--wood-light);
-  cursor: pointer;
-  overflow: hidden;
-}
 
-/* 头像图片 */
-.avatar-img {
-  width: 100%;
-  height: 100%;
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-}
+/* ================================================================
+   11. 注册成功界面 Registration Successful
+   ================================================================ */
 
-/* 下拉菜单 */
-.dropdown-menu {
-  position: absolute;
-  top: 52px;
-  right: 0;
-  background-color: var(--paper-beige);
-  border: 3px solid var(--wood-dark);
-  width: 160px;
+/* 
+   注册成功内容区域
+   作用：
+   让成功标题、图标、欢迎文字垂直居中排列
+*/
+.register-success-content {
+  min-height: 610px;
+
   display: flex;
   flex-direction: column;
-  z-index: 999;
+  align-items: center;
+  justify-content: center;
 }
 
-/* 下拉菜单用户名 */
-.dropdown-username {
+/* 
+   注册成功标题
+   对应 UI 中的：
+   Registration
+   Successful !
+*/
+.success-title {
+  margin: 0 0 38px;
+
+  text-align: center;
+
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1.25;
+
+  color: #173e87;
+}
+
+/* 
+   成功图标区域
+   包含：
+   勾选圆圈 + 花朵装饰
+*/
+.success-icon-box {
+  margin-bottom: 46px;
+
+  text-align: center;
+}
+
+.success-icon-box {
+  margin-bottom: 46px;
+  text-align: center;
+}
+
+.register-success-img {
+  display: block;
+  width: 320px;
+  max-width: 100%;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* 
+   欢迎用户名文字
+   例如：
+   Hi! username!
+*/
+.success-welcome {
+  margin: 0 0 12px;
+
   font-family: 'Pixelify Sans', sans-serif;
-  font-size: 14px;
-  color: var(--wood-dark);
-  padding: 10px 14px;
-  margin: 0;
+  font-size: 27px;
+  font-weight: 700;
+
+  color: #173e87;
 }
 
-/* 分隔线 */
-.dropdown-divider {
-  border: none;
-  border-top: 2px solid var(--wood-light);
-  margin: 0;
-}
+/* 
+   欢迎语
+   例如：
+   Welcome to Vivian's Flowers!
+*/
+.success-text {
+  margin: 0 0 28px;
 
-/* 下拉菜单选项 */
-.dropdown-item {
   font-family: 'Pixelify Sans', sans-serif;
-  font-size: 14px;
-  color: var(--wood-dark);
-  background: none;
-  border: none;
-  padding: 10px 14px;
-  text-align: left;
-  cursor: pointer;
-  width: 100%;
+  font-size: 25px;
+  font-weight: 700;
+
+  color: #173e87;
 }
 
-.dropdown-item:hover {
-  background-color: var(--wood-light);
+/* 
+   注册成功后返回登录按钮
+   如果你不想显示这个按钮，也可以在 JSX 里删掉
+*/
+.success-login-btn {
+  padding: 14px 32px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+
   color: white;
+  background-color: #f38396;
+
+  border: 4px solid #ffc0ca;
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+/* 注册成功按钮 hover 效果 */
+.success-login-btn:hover {
+  background-color: #ff7890;
+}
+
+/* 注册成功按钮点击效果 */
+.success-login-btn:active {
+  transform: translateY(2px);
 }

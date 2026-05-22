@@ -17,61 +17,6 @@ from typing import List
 from bson import ObjectId
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from auth_utils import get_current_admin
-from database import get_users_collection
-from models import UserResponse
-
-router = APIRouter()
-
-
-@router.get("/users", response_model=List[UserResponse])
-async def list_users(_admin=Depends(get_current_admin)):
-    """Return every user in the database (without password hashes)."""
-    users = get_users_collection()
-    if users is None:
-        raise HTTPException(status_code=500, detail="Database not connected")
-
-    out: List[UserResponse] = []
-    async for user in users.find():
-        out.append(
-            UserResponse(
-                id=str(user["_id"]),
-                username=user["username"],
-                email=user["email"],
-                role=user.get("role", "user"),
-            )
-        )
-    return out
-
-
-@router.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_user(user_id: str, admin=Depends(get_current_admin)):
-    """Delete any user by id. Admins cannot delete their own account here
-    (they should use DELETE /api/auth/me instead)."""
-    users = get_users_collection()
-    if users is None:
-        raise HTTPException(status_code=500, detail="Database not connected")
-
-    try:
-        target_id = ObjectId(user_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid user id")
-
-    if target_id == admin["_id"]:
-        raise HTTPException(
-            status_code=400,
-            detail="Use DELETE /api/auth/me to delete your own account",
-        )
-
-    result = await users.delete_one({"_id": target_id})
-    if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="User not found")
-    return None
-from typing import List
-
-from bson import ObjectId
-from fastapi import APIRouter, Depends, HTTPException, status
-
 from auth_utils import get_current_admin, hash_password
 from database import get_cart_collection, get_products_collection, get_users_collection
 from models import (
@@ -269,7 +214,8 @@ async def delete_user(user_id: str, admin=Depends(get_current_admin)):
         raise HTTPException(status_code=400, detail="Invalid user id")
 
     if target_id == admin["_id"]:
-        raise HTTPException(status_code=400, detail="Admin cannot delete self here")
+        raise HTTPException(
+            status_code=400, detail="Admin cannot delete self here")
 
     result = await users.delete_one({"_id": target_id})
 

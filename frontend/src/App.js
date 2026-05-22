@@ -20,6 +20,8 @@ function App() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12;
 
   const authHeader = () => {
     const token = localStorage.getItem('token');
@@ -70,22 +72,23 @@ function App() {
     if (token) restoreSession();
   }, []);
 
+
   useEffect(() => {
     fetchProducts();
+    fetchCart();
+
+    // every seconds auto refresh products
+    const interval = setInterval(() => {
+      fetchProducts();
+    }, 1000);
+
+    return () => clearInterval(interval);
+
   }, [fetchProducts]);
 
   useEffect(() => {
-  fetchProducts();
-  fetchCart();
-
-  // every 2 seconds auto refresh products
-  const interval = setInterval(() => {
-    fetchProducts();
-  }, 1000);
-
-  return () => clearInterval(interval);
-
-}, [fetchProducts]);
+    fetchCart();
+  }, [fetchCart]);
 
   const restoreSession = async () => {
     try {
@@ -115,7 +118,6 @@ function App() {
     }
 
     if (currentUser.role === 'admin') {
-      setShowAdmin(true);
       return;
     }
 
@@ -196,6 +198,12 @@ function App() {
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchKeyword.toLowerCase())
   );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
 
   if (showAdmin && currentUser?.role === 'admin') {
     return (
@@ -226,7 +234,10 @@ function App() {
               <button
                 key={cat}
                 className={category === cat ? 'tab active' : 'tab'}
-                onClick={() => setCategory(cat)}
+                onClick={() => {
+                  setCategory(cat);
+                  setCurrentPage(1);
+                }}
               >
                 {cat === 'all' ? 'All' :
                   cat === 'single' ? 'Single' :
@@ -242,44 +253,104 @@ function App() {
               type="text"
               placeholder="Search flowers..."
               value={searchKeyword}
-              onChange={e => setSearchKeyword(e.target.value)}
+              onChange={e => {
+                setSearchKeyword(e.target.value);
+                setCurrentPage(1);
+              }}
             />
-            <span className="search-icon">🔍</span>
+            <img
+              src="/images/search_icon.png"
+              alt="search"
+              className="search-icon"
+            />
           </div>
         </div>
 
         <ProductList
-          products={filteredProducts}
+          products={currentProducts}
           onAddToCart={addToCart}
           onViewDetail={setSelectedProduct}
         />
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button
+              className="page-nav-btn"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              ← Previous
+            </button>
+
+            {[1, 2, 3].filter(page => page <= totalPages).map(page => (
+              <button
+                key={page}
+                className={`page-btn ${currentPage === page ? 'active' : ''}`}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            ))}
+
+            {totalPages > 5 && <span className="page-ellipsis">...</span>}
+
+            {totalPages > 3 && (
+              <>
+                {totalPages - 1 > 3 && (
+                  <button
+                    className={`page-btn ${currentPage === totalPages - 1 ? 'active' : ''}`}
+                    onClick={() => setCurrentPage(totalPages - 1)}
+                  >
+                    {totalPages - 1}
+                  </button>
+                )}
+
+                <button
+                  className={`page-btn ${currentPage === totalPages ? 'active' : ''}`}
+                  onClick={() => setCurrentPage(totalPages)}
+                >
+                  {totalPages}
+                </button>
+              </>
+            )}
+
+            <button
+              className="page-nav-btn"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next →
+            </button>
+          </div>
+        )}
+
+        {showCart && (
+          <Cart
+            items={cartItems}
+            total={cartTotal}
+            onUpdateQuantity={updateQuantity}
+            onRemove={removeFromCart}
+            onClear={clearCart}
+            onClose={() => setShowCart(false)}
+          />
+        )}
+
+        {selectedProduct && (
+          <Modal
+            product={selectedProduct}
+            onClose={() => setSelectedProduct(null)}
+            onAddToCart={addToCart}
+          />
+        )}
+
+        {showAuth && (
+          <AuthModal
+            onClose={() => setShowAuth(false)}
+            onLoginSuccess={handleLoginSuccess}
+          />
+        )}
       </div>
 
-      {showCart && (
-        <Cart
-          items={cartItems}
-          total={cartTotal}
-          onUpdateQuantity={updateQuantity}
-          onRemove={removeFromCart}
-          onClear={clearCart}
-          onClose={() => setShowCart(false)}
-        />
-      )}
-
-      {selectedProduct && (
-        <Modal
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-          onAddToCart={addToCart}
-        />
-      )}
-
-      {showAuth && (
-        <AuthModal
-          onClose={() => setShowAuth(false)}
-          onLoginSuccess={handleLoginSuccess}
-        />
-      )}
+      <footer className="footer"></footer>
     </div>
   );
 }

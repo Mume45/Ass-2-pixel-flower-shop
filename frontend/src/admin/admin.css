@@ -1,287 +1,236 @@
+/* ================================================================
+   Admin Page - Vivian's Flowers Pixel Style
+   ================================================================ */
+
+/* 整个 Admin 页面 */
 .admin-page {
   min-height: 100vh;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 8px 0;
+
   display: flex;
-  background: #eef8ef;
-  font-family: Arial, sans-serif;
+  flex-direction: column;
+
+  background-color: var(--cream-bg);
+  font-family: 'Pixelify Sans', sans-serif;
 }
 
+/* 强制 Admin 内部元素使用像素字体 */
+.admin-page,
+.admin-page button,
+.admin-page input,
+.admin-page select,
+.admin-page textarea,
+.admin-page h1,
+.admin-page h2,
+.admin-page p,
+.admin-page th,
+.admin-page td,
+.admin-page label {
+  font-family: 'Pixelify Sans', sans-serif;
+}
+
+
+/* ================================================================
+   1. Admin Header
+   ================================================================ */
+
+.admin-top-header {
+  margin-bottom: 0;
+}
+
+/* ================================================================
+   2. Layout: Sidebar + Main Content
+   ================================================================ */
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  width: 100%;
+
+  min-height: calc(100vh - 184px);
+
+  background-color: var(--cream-bg);
+  border-left: 3px solid var(--pink-border);
+  border-right: 3px solid var(--pink-border);
+}
+
+/* 左侧 Sidebar */
 .admin-sidebar {
-  width: 250px;
-  background: #101827;
-  color: white;
-  padding: 28px 20px;
+  min-height: 100%;
+  padding: 38px 28px;
+
+  background-color: var(--card-bg);
+  color: var(--text-blue);
+
+  border-right: 3px solid var(--pink-border);
 }
 
 .admin-sidebar h2 {
-  margin-bottom: 10px;
+  margin: 0 0 42px;
+
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-pink);
+  text-align: center;
 }
 
+/* 如果 JSX 里还有 Logged in as，就隐藏掉 */
 .admin-user {
-  color: #b6c2d1;
-  font-size: 13px;
-  margin-bottom: 28px;
+  display: none;
 }
 
+/* Sidebar 按钮 */
 .admin-sidebar button {
   width: 100%;
-  border: 0;
-  margin-bottom: 12px;
-  padding: 14px;
-  border-radius: 12px;
-  background: transparent;
-  color: white;
-  text-align: left;
+  height: 72px;
+
+  margin-bottom: 36px;
+
+  font-size: 32px;
+  font-weight: 700;
+
+  color: var(--text-blue);
+  background-color: transparent;
+
+  border: none;
+  border-radius: 4px;
+
+  text-align: center;
   cursor: pointer;
-  transition: 0.2s;
 }
 
-.admin-sidebar button:hover,
-.admin-sidebar button.active {
-  background: #374151;
+.admin-sidebar button.active,
+.admin-sidebar button:hover {
+  color: white;
+  background-color: var(--pink-main);
 }
 
-.logout-btn {
-  margin-top: 30px;
-  background: #7f1d1d !important;
-}
-
+/* 右侧主内容 */
 .admin-main {
-  flex: 1;
-  padding: 36px;
+  width: 100%;
+  padding: 14px 12px 0;
   overflow-x: auto;
+
+  background-color: var(--cream-bg);
 }
 
-.admin-main h1 {
-  margin-top: 0;
-  margin-bottom: 24px;
-  color: #5b4035;
-}
 
-.admin-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  margin-bottom: 24px;
-}
-
-.admin-stats div {
-  background: white;
-  border-radius: 18px;
-  padding: 24px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-}
-
-.admin-stats strong {
-  display: block;
-  font-size: 30px;
-  color: #5b4035;
-}
-
-.admin-stats span {
-  color: #6b7280;
-}
+/* ================================================================
+   3. Common Admin Card
+   ================================================================ */
 
 .admin-card {
-  background: white;
-  border-radius: 20px;
-  padding: 26px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-  margin-bottom: 24px;
+  background-color: var(--card-bg);
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+
+  padding: 14px 20px;
+  margin-bottom: 16px;
 }
 
 .admin-card h2 {
-  margin-top: 0;
-  color: #5b4035;
-}
-
-.admin-form {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-bottom: 24px;
-}
-
-.admin-form input,
-.admin-form select {
-  padding: 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
-  font-size: 15px;
-  outline: none;
-  transition: 0.2s;
-}
-
-.admin-form input:focus,
-.admin-form select:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
-}
-
-.admin-form button,
-td button {
-  border: 0;
-  padding: 10px 16px;
-  border-radius: 12px;
-  background: #0b132b;
-  color: white;
-  cursor: pointer;
-  transition: 0.2s;
-  font-weight: 600;
-}
-
-.admin-form button:hover,
-td button:hover {
-  transform: translateY(-1px);
-}
-
-.danger {
-  background: #dc2626 !important;
-}
-
-.danger:hover {
-  background: #b91c1c !important;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th {
-  background: #f3f4f6;
-  color: #5b4035;
-}
-
-th,
-td {
-  text-align: left;
-  padding: 18px 16px;
-  border-bottom: 1px solid #eee;
-}
-
-tr:hover {
-  background: #fafafa;
-}
-
-.tag {
-  background: #dbeafe;
-  color: #2563eb;
-  padding: 7px 14px;
-  border-radius: 999px;
-  font-weight: 600;
-  display: inline-block;
-}
-
-.empty {
-  text-align: center;
-  color: #888;
-  padding: 30px;
-}
-
-.selected-user-text {
-  margin: 0 0 18px;
-  color: #6b7280;
-}
-
-.cart-total {
-  margin-top: 18px;
-  text-align: right;
-  font-size: 24px;
+  margin: 0 0 10px;
+  font-size: 20px;
   font-weight: 700;
-  color: #dc2626;
-}
+  color: var(--text-blue);
 
-.section-top {
-  display: flex;
-  align-items: center;
-}
-
-.small-add-btn {
-  background: #0b132b;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 22px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-}
-
-.small-add-btn:hover {
-  background: #1c2541;
-  transform: translateY(-1px);
-}
-
-.admin-top-header {
-  margin-bottom: 28px;
-}
-
-.admin-page {
-  background: var(--bg-green);
-}
-
-.logout-btn {
-  display: none;
+  padding-bottom: 8px;
+  border-bottom: 3px dashed var(--pink-border);
 }
 
 .product-add-layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 32px;
+  grid-template-columns: 190px 1fr;
+  gap: 34px;
   align-items: start;
 }
 
 .image-box {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  align-items: center;
+  gap: 12px;
 }
 
+/* 图片框缩小 */
 .upload-placeholder,
 .edit-image-frame {
-  height: 180px;
-  border: 2px dashed #d6b18c;
-  border-radius: 16px;
-  background: #fffaf5;
+  width: 170px;
+  height: 145px;
+
+  background-color: #fff8ef;
+  border: 3px dashed var(--pink-border);
+  border-radius: 4px;
+
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  color: var(--text-pink);
+  font-weight: 700;
   text-align: center;
-  color: #5b4035;
   overflow: hidden;
 }
 
 .upload-placeholder span {
-  font-size: 34px;
+  font-size: 30px;
+  line-height: 1;
 }
 
-.product-preview-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+.upload-placeholder p {
+  font-size: 13px;
+  margin-top: 6px;
 }
 
+/* 如果你还想保留 Image file name 输入框，就缩小 */
 .image-box input {
-  padding: 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
+  width: 170px;
+  height: 38px;
+  padding: 0 12px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color: var(--text-pink);
+  background-color: #fff8ef;
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+  outline: none;
 }
 
+/* Add Product 按钮放图片下面 */
+.image-box .add-product-btn {
+  width: 145px;
+  height: 38px;
+  font-size: 14px;
+  align-self: center;
+
+  color: white;
+  background-color: var(--pink-main);
+  border: 4px solid var(--pink-border);
+  border-radius: 4px;
+}
+
+/* 右边表单压缩 */
 .product-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: 12px 24px;
 }
 
 .product-form-grid label,
 .edit-form label {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  color: #2563eb;
+  gap: 5px;
+
+  font-size: 13px;
   font-weight: 700;
+  color: var(--text-blue);
 }
 
 .product-form-grid input,
@@ -290,74 +239,310 @@ tr:hover {
 .edit-form input,
 .edit-form select,
 .edit-form textarea {
-  padding: 14px;
-  border: 1px solid #ff8aa4;
-  border-radius: 8px;
-  font-size: 15px;
+  width: 100%;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color: #6f625d;
+  background-color: #fff8ef;
+
+  border: 2px solid var(--pink-border);
+  border-radius: 4px;
   outline: none;
+}
+
+.product-form-grid input,
+.product-form-grid select,
+.edit-form input,
+.edit-form select {
+  height: 38px;
+  padding: 0 12px;
 }
 
 .product-form-grid textarea,
 .edit-form textarea {
-  min-height: 90px;
-  resize: vertical;
+  min-height: 70px;
+  padding: 9px 12px;
+  resize: none;
 }
 
 .full-width {
   grid-column: span 2;
 }
 
-.add-product-btn {
-  width: 180px;
+
+/* ================================================================
+   5. Admin Tables
+   ================================================================ */
+
+.admin-card table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background-color: #fff8ef;
+  border: 2px solid var(--pink-border);
 }
 
+.admin-card th {
+  background-color: #ffe4e8;
+  color: var(--pink-main);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  padding: 12px 10px;
+  text-align: center;
+
+  border: 1px solid var(--pink-border);
+}
+
+.admin-card td {
+  height: 58px;
+  max-height: 58px;
+  vertical-align: middle;
+
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-blue);
+
+  padding: 8px 10px;
+  text-align: center;
+
+  border: 1px solid var(--pink-border);
+}
+
+.table-text-limit {
+  line-height: 1.25;
+  max-height: 38px;
+  overflow: hidden;
+}
+
+.description-limit {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.admin-card tr:hover {
+  background-color: #fff0f4;
+}
+
+/* search bar 样式 */
 .product-search-form {
-  grid-template-columns: 1fr 240px;
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 14px;
+  margin: 12px 0 24px;
 }
 
+.product-search-form input,
+.product-search-form select {
+  height: 40px;
+  padding: 0 14px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+
+  color: var(--text-pink);
+  background-color: #fff8ef;
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+  outline: none;
+}
+
+.product-search-form input::placeholder {
+  color: #d99aaa;
+}
+
+/* 空数据提示 */
+.empty {
+  text-align: center;
+  color: var(--text-pink);
+  padding: 22px;
+}
+
+/* Active 状态标签 */
 .status-active {
-  background: #dcfce7;
-  color: #166534;
-  padding: 7px 12px;
-  border-radius: 8px;
+  display: inline-block;
+
+  padding: 4px 8px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  color: #1c7a3c;
+  background-color: #b9f2c9;
+
+  border-radius: 4px;
+}
+
+/* 表格里的 Edit / Delete 按钮 */
+.admin-card td:last-child {
+  white-space: nowrap;
+}
+
+.admin-card td button {
+  display: inline-block;
+  padding: 4px 8px;
+  margin-right: 5px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.admin-card td button:last-child {
+  margin-right: 0;
+}
+
+/* Edit 按钮 */
+.admin-card td button:not(.danger) {
+  color: #0d4f8f;
+  background-color: #bfeeff;
+}
+
+/* Delete 按钮 */
+.admin-card td button.danger,
+.danger {
+  color: #a10024 !important;
+  background-color: #ffc3c9 !important;
+}
+
+/* hover 轻微上移 */
+.admin-card td button:hover {
+  transform: translateY(-2px);
+}
+
+/* 分页符 */
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.admin-pagination button {
+  min-width: 34px;
+  height: 34px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+
+  color: var(--text-blue);
+  background-color: #fff8ef;
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+.admin-pagination button.active {
+  color: white;
+  background-color: var(--pink-main);
+}
+
+/* ================================================================
+   6. Users Page
+   ================================================================ */
+
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.tag {
+  display: inline-block;
+
+  padding: 7px 14px;
+
+  color: white;
+  background-color: var(--blue-main);
+
+  border-radius: 4px;
   font-weight: 700;
 }
+
+.selected-user-text {
+  margin: 0 0 18px;
+  color: var(--text-blue);
+  font-size: 18px;
+}
+
+.cart-total {
+  margin-top: 18px;
+
+  text-align: right;
+
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-pink);
+}
+
+
+/* ================================================================
+   7. Edit Product Modal
+   ================================================================ */
 
 .modal-backdrop {
   position: fixed;
   inset: 0;
+
   background: rgba(15, 23, 42, 0.45);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   z-index: 9999;
 }
 
 .edit-product-modal {
   width: 760px;
-  background: #fff8ef;
-  border: 4px solid #ffd1d1;
-  border-radius: 12px;
+
+  background-color: #fff8ef;
+
+  border: 5px solid var(--pink-border);
+  border-radius: 4px;
+
   padding: 28px;
+
   position: relative;
 }
 
 .edit-product-modal h2 {
-  margin-top: 0;
-  color: #ff6384;
+  margin: 0 0 22px;
+
+  color: var(--text-pink);
+  font-size: 34px;
 }
 
 .modal-close {
   position: absolute;
   top: 16px;
   right: 16px;
-  background: #ff7f9d;
-  color: white;
-  border: none;
-  font-size: 24px;
+
   width: 36px;
   height: 36px;
-  border-radius: 6px;
+
+  color: white;
+  background-color: var(--pink-main);
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+
+  font-size: 24px;
+  font-weight: 700;
+
   cursor: pointer;
 }
 
@@ -386,11 +571,32 @@ tr:hover {
 }
 
 .cancel-btn {
-  border: 2px solid #ff8aa4;
-  background: white;
-  color: #ff6384;
-  border-radius: 10px;
-  padding: 12px 22px;
+  height: 54px;
+  padding: 0 22px;
+
+  font-size: 20px;
   font-weight: 700;
+
+  color: var(--text-pink);
+  background-color: #fff8ef;
+
+  border: 4px solid var(--pink-border);
+  border-radius: 4px;
+
   cursor: pointer;
+}
+
+
+/* ================================================================
+   8. Footer
+   ================================================================ */
+
+.admin-footer {
+  width: 100%;
+  height: 64px;
+
+  background-color: var(--blue-main);
+
+  border-top: 5px solid var(--pink-border);
+  border-bottom: 5px solid var(--pink-border);
 }
