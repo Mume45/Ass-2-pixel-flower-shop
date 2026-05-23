@@ -1,40 +1,41 @@
 // AuthModal.jsx
-// Created by Yuhan Sun
-// 作用：登录 / 注册弹窗组件。
-// 功能包括：
-// 1. 默认显示登录界面
-// 2. 可以切换到注册界面
-// 3. 注册成功后显示 Registration Successful 成功界面
-// 4. 保留后端错误处理，例如邮箱重复、格式验证失败、密码错误等
+// Author: Shiying Gu, Yuhan Sun
+// Purpose: Login / Register modal component.
+// Features include:
+// 1. Display login screen by default
+// 2. Allow switching to register screen
+// 3. Show Registration Successful screen after registration
+// 4. Keep backend error handling, such as duplicate email,
+//    validation errors, incorrect password, etc.
 
 import { useState } from 'react';
 
 function AuthModal({ onClose, onLoginSuccess }) {
-    // mode 用来控制当前显示哪一个界面：
-    // 'login'    = 登录界面
-    // 'register' = 注册界面
-    // 'success'  = 注册成功界面
+    // mode controls which screen is displayed:
+    // 'login'    = login screen
+    // 'register' = register screen
+    // 'success'  = registration success screen
     const [mode, setMode] = useState('login');
 
-    // ---- 表单输入状态 ----
-    // username 只在注册时使用
+    // ---- Form input states ----
+    // username is only used for registration
     const [username, setUsername] = useState('');
 
-    // email 在登录和注册时都会使用
+    // email is used for both login and registration
     const [email, setEmail] = useState('');
 
-    // password 在登录和注册时都会使用
+    // password is used for both login and registration
     const [password, setPassword] = useState('');
 
-    // 控制密码是否可见，用于右侧 eye 按钮
+    // Control password visibility for the eye button
     const [showPassword, setShowPassword] = useState(false);
 
-    // ---- 错误提示状态 ----
-    // errors 是一个对象，可以分别保存 username、email、password 的错误信息
-    // 例如：{ email: 'Email already registered' }
+    // ---- Error message state ----
+    // errors is an object that stores validation messages
+    // Example: { email: 'Email already registered' }
     const [errors, setErrors] = useState({});
 
-    // ---- 切换模式：清空表单和错误信息 ----
+    // ---- Switch mode: clear form and errors ----
     const switchMode = (newMode) => {
         setMode(newMode);
         setUsername('');
@@ -44,9 +45,9 @@ function AuthModal({ onClose, onLoginSuccess }) {
         setErrors({});
     };
 
-    // ---- 处理注册 ----
+    // ---- Handle registration ----
     const handleRegister = async () => {
-        // 每次提交前先清空之前的错误
+        // Clear previous errors before submitting
         setErrors({});
 
         try {
@@ -54,7 +55,7 @@ function AuthModal({ onClose, onLoginSuccess }) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
 
-                // 发送给后端的数据
+                // Data sent to backend
                 body: JSON.stringify({
                     username,
                     email,
@@ -65,19 +66,20 @@ function AuthModal({ onClose, onLoginSuccess }) {
             const data = await response.json();
 
             if (!response.ok) {
-                // 400：通常表示邮箱已被注册，或者后端主动返回的业务错误
+                // 400: usually means duplicate email
+                // or backend business logic error
                 if (response.status === 400) {
                     setErrors({ email: data.detail || 'This email has already been registered.' });
                 }
 
-                // 422：FastAPI / Pydantic 的字段验证错误
-                // 例如邮箱格式错误、密码长度不够等
+                // 422: FastAPI / Pydantic validation error
+                // Example: invalid email format or short password
                 if (response.status === 422 && Array.isArray(data.detail)) {
                     const newErrors = {};
 
                     data.detail.forEach((err) => {
-                        // err.loc 可能类似：['body', 'email']
-                        // 所以字段名通常在 loc 的最后一项
+                        // err.loc may look like: ['body', 'email']
+                        // Field name is usually the last item
                         const field = err.loc[err.loc.length - 1];
                         newErrors[field] = err.msg;
                     });
@@ -88,21 +90,22 @@ function AuthModal({ onClose, onLoginSuccess }) {
                 return;
             }
 
-            // 注册成功后，不直接关闭弹窗，而是显示注册成功界面
+            // Show success screen after registration
+            // instead of closing modal immediately
             setMode('success');
         } catch (error) {
             console.error('注册出错：', error);
 
-            // 网络错误或后端没有启动时，显示通用错误
+            // Show general error if backend is unavailable
             setErrors({
                 general: 'Cannot connect to server. Please check whether the backend is running.',
             });
         }
     };
 
-    // ---- 处理登录 ----
+    // ---- Handle login ----
     const handleLogin = async () => {
-        // 每次提交前先清空之前的错误
+        // Clear previous errors before submitting
         setErrors({});
 
         try {
@@ -110,7 +113,8 @@ function AuthModal({ onClose, onLoginSuccess }) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
 
-                // 这里沿用你原来的设计：登录时发送 email 和 password
+                // Keep original logic:
+                // send email and password for login
                 body: JSON.stringify({
                     email,
                     password,
@@ -120,12 +124,12 @@ function AuthModal({ onClose, onLoginSuccess }) {
             const data = await response.json();
 
             if (!response.ok) {
-                // 401：邮箱或密码错误
+                // 401: incorrect email or password
                 if (response.status === 401) {
                     setErrors({ password: data.detail || 'Incorrect email or password.' });
                 }
 
-                // 422：字段格式错误
+                // 422: validation error
                 if (response.status === 422 && Array.isArray(data.detail)) {
                     const newErrors = {};
 
@@ -140,19 +144,20 @@ function AuthModal({ onClose, onLoginSuccess }) {
                 return;
             }
 
-            // 登录成功：保存 token
+            // Save token after login
             localStorage.setItem('token', data.access_token);
 
-            // 如果后端返回了 user 信息，也一起保存，方便 Header 显示用户名/角色
+            // Save user info if returned by backend
+            // Used for showing username and role in Header
             if (data.user) {
                 localStorage.setItem('currentUser', JSON.stringify(data.user));
             }
 
-            // 通知 App.js 登录成功
-            // 如果 data.user 存在，就传给父组件；如果没有，也不会影响原本逻辑
+            // Notify App.js that login succeeded
+            // Pass user data if available
             onLoginSuccess(data.user);
 
-            // 关闭弹窗
+            // Close modal
             onClose();
         } catch (error) {
             console.error('登录出错：', error);
@@ -163,27 +168,27 @@ function AuthModal({ onClose, onLoginSuccess }) {
         }
     };
 
-    // ---- 渲染 ----
+    // ---- Render component ----
     return (
         <div className="auth-overlay" onClick={onClose}>
             <div
                 className={`auth-modal ${mode === 'register' ? 'auth-modal-register' : ''}`}
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* 关闭按钮 */}
+                {/* Close button */}
                 <button className="auth-close-btn" onClick={onClose}>
                     ✕
                 </button>
 
                 {/* =========================
-            登录界面
-           ========================= */}
+                    Login screen
+                   ========================= */}
                 {mode === 'login' && (
                     <>
                         <h2 className="auth-title">✦ Log In ✦</h2>
 
                         <div className="auth-form">
-                            {/* 邮箱输入框 */}
+                            {/* Email input field */}
                             <div className="auth-field">
                                 <label className="auth-label">Email</label>
                                 <input
@@ -199,7 +204,7 @@ function AuthModal({ onClose, onLoginSuccess }) {
                                 )}
                             </div>
 
-                            {/* 密码输入框 */}
+                            {/* Password input field */}
                             <div className="auth-field">
                                 <label className="auth-label">Password</label>
 
@@ -230,18 +235,19 @@ function AuthModal({ onClose, onLoginSuccess }) {
                                 )}
                             </div>
 
-                            {/* 通用错误，例如后端没启动 */}
+                            {/* General error message
+                                Example: backend not running */}
                             {errors.general && (
                                 <p className="auth-error auth-general-error">{errors.general}</p>
                             )}
                         </div>
 
-                        {/* 登录按钮 */}
+                        {/* Login button */}
                         <button className="auth-submit-btn" onClick={handleLogin}>
                             ✦ Log In ✦
                         </button>
 
-                        {/* 切换到注册 */}
+                        {/* Switch to register screen */}
                         <p className="auth-switch">
                             Don&apos;t have an account ?{' '}
                             <span
@@ -255,14 +261,14 @@ function AuthModal({ onClose, onLoginSuccess }) {
                 )}
 
                 {/* =========================
-            注册界面
-           ========================= */}
+                    Register screen
+                   ========================= */}
                 {mode === 'register' && (
                     <>
                         <h2 className="auth-title">✦ Create Account ✦</h2>
 
                         <div className="auth-form">
-                            {/* 用户名输入框 */}
+                            {/* Username input field */}
                             <div className="auth-field">
                                 <label className="auth-label">Username</label>
                                 <input
@@ -278,7 +284,7 @@ function AuthModal({ onClose, onLoginSuccess }) {
                                 )}
                             </div>
 
-                            {/* 邮箱输入框 */}
+                            {/* Email input field */}
                             <div className="auth-field">
                                 <label className="auth-label">Email</label>
                                 <input
@@ -294,7 +300,7 @@ function AuthModal({ onClose, onLoginSuccess }) {
                                 )}
                             </div>
 
-                            {/* 密码输入框 */}
+                            {/* Password input field */}
                             <div className="auth-field">
                                 <label className="auth-label">Password</label>
 
@@ -325,18 +331,19 @@ function AuthModal({ onClose, onLoginSuccess }) {
                                 )}
                             </div>
 
-                            {/* 通用错误，例如后端没启动 */}
+                            {/* General error message
+                                Example: backend not running */}
                             {errors.general && (
                                 <p className="auth-error auth-general-error">{errors.general}</p>
                             )}
                         </div>
 
-                        {/* 注册按钮 */}
+                        {/* Register button */}
                         <button className="auth-submit-btn" onClick={handleRegister}>
                             ✦ Sign Up ✦
                         </button>
 
-                        {/* 切换到登录 */}
+                        {/* Switch to login screen */}
                         <p className="auth-switch">
                             Already have an account ?{' '}
                             <span
@@ -348,10 +355,9 @@ function AuthModal({ onClose, onLoginSuccess }) {
                         </p>
                     </>
                 )}
-
-                {/* =========================
-            注册成功界面
-           ========================= */}
+                                {/* =========================
+                    Registration success screen
+                   ========================= */}
                 {mode === 'success' && (
                     <div className="register-success-content">
                         <h2 className="success-title">

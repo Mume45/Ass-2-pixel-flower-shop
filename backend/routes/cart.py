@@ -1,4 +1,5 @@
 # routes/cart.py
+# Author: Yuhan Sun, Shiying Gu
 # Description: Handles Shopping Cart CRUD operations
 # Technology: FastAPI, MongoDB
 

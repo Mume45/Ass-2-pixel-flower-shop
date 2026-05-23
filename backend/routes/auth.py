@@ -1,5 +1,5 @@
 # routes/auth.py
-# Author: <your name>  (declare yourself as the author for marking attribution)
+# Author: Shiying Gu, Yuhan Sun, Zhonghe Wang
 # Purpose: Registration, login, and CRUD on the authenticated user's own account.
 #
 # Endpoints:

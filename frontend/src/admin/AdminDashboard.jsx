@@ -1,8 +1,12 @@
+//Author: Shiying Gu    
+// Import React hooks and admin styles
 import { useEffect, useState } from "react";
 import "./admin.css";
 
+// Backend admin API base URL
 const API = "http://localhost:8000/api/admin";
 
+// Default empty product form values
 const emptyProduct = {
   name: "",
   price: "",
@@ -11,61 +15,76 @@ const emptyProduct = {
   category: "single",
 };
 
+// Main admin dashboard component
 export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }) {
+  // Control which admin section is displayed
   const [activeTab, setActiveTab] = useState("products");
 
+  // Store data loaded from backend
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
   const [cartItems, setCartItems] = useState([]);
 
+  // User filtering and selected user states
   const [selectedUser, setSelectedUser] = useState(null);
   const [roleFilter, setRoleFilter] = useState("all");
   const [usernameSearch, setUsernameSearch] = useState("");
   const [emailSearch, setEmailSearch] = useState("");
   const [showAdminMenu, setShowAdminMenu] = useState(false);
 
+  // Product form, search, edit, and pagination states
   const [productForm, setProductForm] = useState(emptyProduct);
   const [productSearch, setProductSearch] = useState("");
   const [productCategoryFilter, setProductCategoryFilter] = useState("all");
   const [editingProduct, setEditingProduct] = useState(null);
   const [productPage, setProductPage] = useState(1);
   const productsPerPage = 6;
+  // User pagination state
   const [userPage, setUserPage] = useState(1);
   const usersPerPage = 6;
 
+  // Cart preview pagination state
   const [cartPage, setCartPage] = useState(1);
   const cartItemsPerPage = 5;
+  // Modal states for confirmation and alerts
   const [confirmModal, setConfirmModal] = useState(null);
   const [alertModal, setAlertModal] = useState(null);
 
+  // Create authorization header for protected admin requests
   const authHeader = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`,
     "Content-Type": "application/json",
   });
+  // Convert image value into a displayable image source
   const getImageSrc = (image) => {
     if (!image) return "";
     if (image.startsWith("data:image")) return image;
     return `/images/${image}.png`;
   };
 
+  // Handle image upload when adding a new product
   const handleAddProductImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    // Read uploaded image as base64 data
     const reader = new FileReader();
     reader.onloadend = () => {
       setProductForm({ ...productForm, image: reader.result });
     };
     reader.readAsDataURL(file);
   };
+  // Load admin data when the page first opens
   useEffect(() => {
     loadAll();
   }, []);
 
+  // Load products, users, and cart data together
   const loadAll = async () => {
     await Promise.all([loadProducts(), loadUsers(), loadCart()]);
   };
 
+  // Load all products from admin API
   const loadProducts = async () => {
     const res = await fetch(`${API}/products`, { headers: authHeader() });
     const data = await res.json();
@@ -76,18 +95,21 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
     setProducts(Array.isArray(data) ? data : []);
   };
 
+  // Load all users from admin API
   const loadUsers = async () => {
     const res = await fetch(`${API}/users`, { headers: authHeader() });
     const data = await res.json();
     setUsers(Array.isArray(data) ? data : []);
   };
 
+  // Load all cart items from admin API
   const loadCart = async () => {
     const res = await fetch(`${API}/cart`, { headers: authHeader() });
     const data = await res.json();
     setCartItems(Array.isArray(data) ? data : []);
   };
 
+  // Filter products by name and category
   const filteredProducts = products.filter((product) => {
     const nameMatch = product.name
       ?.toLowerCase()
@@ -99,6 +121,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
 
     return nameMatch && categoryMatch;
   });
+  // Calculate product pagination
   const totalProductPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const productStartIndex = (productPage - 1) * productsPerPage;
@@ -108,6 +131,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
     productStartIndex + productsPerPage
   );
 
+  // Filter users by username, email, and role
   const filteredUsers = users.filter((user) => {
     const usernameMatch = user.username
       ?.toLowerCase()
@@ -121,6 +145,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
 
     return usernameMatch && emailMatch && roleMatch;
   });
+  // Calculate user pagination
   const totalUserPages = Math.ceil(filteredUsers.length / usersPerPage);
   const userStartIndex = (userPage - 1) * usersPerPage;
 
@@ -129,6 +154,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
     userStartIndex + usersPerPage
   );
 
+  // Add a new product
   const addProduct = async () => {
     if (
       !productForm.name ||
@@ -143,6 +169,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
       return;
     }
 
+    // Send new product data to backend
     await fetch(`${API}/products`, {
       method: "POST",
       headers: authHeader(),
@@ -152,10 +179,12 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
       }),
     });
 
+    // Clear form and reload admin data
     setProductForm(emptyProduct);
     loadAll();
   };
 
+  // Open edit modal with selected product data
   const openEditProduct = (product) => {
     setEditingProduct({
       ...product,
@@ -163,12 +192,15 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
     });
   };
 
+  // Save edited product information
   const saveEditProduct = async () => {
+    // Basic validation before saving product changes
     if (!editingProduct.name || !editingProduct.price || !editingProduct.image) {
       alert("Please enter product name, price and image.");
       return;
     }
 
+    // Send updated product data to backend
     await fetch(`${API}/products/${editingProduct.id}`, {
       method: "PUT",
       headers: authHeader(),
@@ -181,38 +213,45 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
       }),
     });
 
+    // Close edit modal and reload latest data
     setEditingProduct(null);
     loadAll();
   };
 
+  // Open confirmation modal before deleting a product
   const deleteProduct = (product) => {
     setConfirmModal({
       title: "Delete Product",
       message: `Are you sure to delete ${product.name}?`,
       confirmText: "Delete",
       onConfirm: async () => {
+        // Delete selected product from backend
         await fetch(`${API}/products/${product.id}`, {
           method: "DELETE",
           headers: authHeader(),
         });
 
+        // Close modal and reload admin data
         setConfirmModal(null);
         loadAll();
       },
     });
   };
 
+  // Open confirmation modal before deleting a user
   const deleteUser = (user) => {
     setConfirmModal({
       title: "Delete User",
       message: `Delete ${user.username}'s account?`,
       confirmText: "Delete",
       onConfirm: async () => {
+        // Delete selected user from backend
         await fetch(`${API}/users/${user.id}`, {
           method: "DELETE",
           headers: authHeader(),
         });
 
+        // Clear selected user if the deleted user is being previewed
         if (selectedUser?.id === user.id) {
           setSelectedUser(null);
         }
@@ -223,15 +262,18 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
     });
   };
 
+  // Get cart items for the selected user only
   const selectedUserCartItems = selectedUser
     ? cartItems.filter((item) => item.user_id === selectedUser.id)
     : [];
 
+  // Calculate total price of selected user's cart
   const selectedUserCartTotal = selectedUserCartItems.reduce(
     (sum, item) => sum + Number(item.subtotal || item.price * item.quantity || 0),
     0
   );
 
+  // Calculate cart preview pagination
   const totalCartPages = Math.ceil(selectedUserCartItems.length / cartItemsPerPage);
   const cartStartIndex = (cartPage - 1) * cartItemsPerPage;
 
@@ -240,10 +282,12 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
     cartStartIndex + cartItemsPerPage
   );
 
+  // Count how many cart items a user has
   const getUserCartCount = (userId) => {
     return cartItems.filter((item) => item.user_id === userId).length;
   };
 
+  // Render add product form
   const renderProductForm = () => {
     return (
       <section className="admin-card">
@@ -251,6 +295,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
 
         <div className="product-add-layout">
           <div className="image-box">
+            {/* Show uploaded product image preview */}
             {productForm.image ? (
               <img
                 src={getImageSrc(productForm.image)}
@@ -264,6 +309,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
               </div>
             )}
 
+            {/* Upload product image from local computer */}
             <label className="upload-btn">
               Upload Image
               <input
@@ -273,11 +319,13 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                 hidden
               />
             </label>
+            {/* Add product button */}
             <button className="small-add-btn add-product-btn" onClick={addProduct}>
               Add Product
             </button>
           </div>
 
+          {/* Product input fields */}
           <div className="product-form-grid">
             <label>
               Product Name
@@ -339,10 +387,12 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
       </section>
     );
   };
+  // Handle image upload when editing a product
   const handleEditProductImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    // Read uploaded image as base64 data
     const reader = new FileReader();
     reader.onloadend = () => {
       setEditingProduct({ ...editingProduct, image: reader.result });
@@ -350,6 +400,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
     reader.readAsDataURL(file);
   };
 
+  // Render product table and product filters
   const renderProductTable = () => {
     return (
       <section className="admin-card">
@@ -357,6 +408,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
           <h2>All Products</h2>
         </div>
 
+        {/* Product search and category filter */}
         <div className="admin-form product-search-form">
           <input
             placeholder="Search product name..."
@@ -382,6 +434,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
           </select>
         </div>
 
+        {/* Product list table */}
         <table>
           <colgroup>
             <col style={{ width: "20%" }} />
@@ -443,6 +496,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
             )}
           </tbody>
         </table>
+        {/* Product table pagination */}
         {totalProductPages > 1 && (
           <div className="pagination admin-product-pagination">
             <button
@@ -476,8 +530,10 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
     );
   };
 
+  // Render admin dashboard page
   return (
     <div className="admin-page">
+      {/* Admin top header */}
       <header className="header admin-top-header">
         <div className="header-left">
           <img
@@ -493,6 +549,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
         </div>
 
         <div className="header-right">
+          {/* Admin avatar dropdown menu */}
           <div className="user-avatar-wrapper">
             <div
               className="user-avatar"
@@ -538,7 +595,9 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
         </div>
       </header>
 
+      {/* Main admin layout */}
       <div className="admin-layout">
+        {/* Sidebar navigation */}
         <aside className="admin-sidebar">
           <h2>Admin Dashboard</h2>
 
@@ -557,7 +616,9 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
           </button>
         </aside>
 
+        {/* Main content area */}
         <main className="admin-main">
+          {/* Products management page */}
           {activeTab === "products" && (
             <div className="admin-products-page">
               {renderProductForm()}
@@ -565,6 +626,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
             </div>
           )}
 
+          {/* Users management page */}
           {activeTab === "users" && (
             <>
               <section className="admin-card">
@@ -572,6 +634,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                   <h2>All Users</h2>
                 </div>
 
+                {/* User search and role filter */}
                 <div className="admin-form">
                   <input
                     placeholder="Search username..."
@@ -607,6 +670,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                   </select>
                 </div>
 
+                {/* User list table */}
                 <table>
                   <colgroup>
                     <col style={{ width: "20%" }} />
@@ -662,6 +726,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                     )}
                   </tbody>
                 </table>
+                {/* User table pagination */}
                 {totalUserPages > 1 && (
                   <div className="pagination admin-user-pagination">
                     <button
@@ -693,6 +758,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                 )}
               </section>
 
+              {/* Selected user's cart preview */}
               {selectedUser && (
                 <section className="admin-card">
                   <h2>Selected User Cart Preview</h2>
@@ -702,6 +768,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                     <strong>{selectedUser.email}</strong>
                   </p>
 
+                  {/* Cart item table */}
                   <table>
                     <thead>
                       <tr>
@@ -725,6 +792,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                           <tr key={item.id}>
                             <td>{item.name}</td>
                             <td>
+                              {/* Use cart category first, then find category from product list */}
                               {
                                 item.category ||
                                 products.find((p) => p.id === item.product_id || p.name === item.name)?.category ||
@@ -740,9 +808,11 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                     </tbody>
                   </table>
 
+                  {/* Selected user's cart total */}
                   <div className="cart-total">
                     Total: ${selectedUserCartTotal.toFixed(2)}
                   </div>
+                  {/* Cart preview pagination */}
                   {totalCartPages > 1 && (
                     <div className="pagination admin-cart-pagination">
                       <button
@@ -778,6 +848,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
           )}
         </main>
 
+        {/* Edit product modal */}
         {editingProduct && (
           <div className="modal-backdrop">
             <div className="edit-product-modal">
@@ -796,6 +867,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                     />
                   </div>
 
+                  {/* Change product image */}
                   <label className="change-image-btn">
                     ⬆ Change Image
                     <input
@@ -807,6 +879,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                   </label>
                 </div>
 
+                {/* Edit product form fields */}
                 <div className="edit-form">
                   <label>
                     Product Name
@@ -859,6 +932,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                 </div>
               </div>
 
+              {/* Edit modal action buttons */}
               <div className="edit-modal-actions">
                 <button className="save-change-btn" onClick={saveEditProduct}>
                   Save Change
@@ -871,6 +945,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
             </div>
           </div>
         )}
+        {/* Delete confirmation modal */}
         {confirmModal && (
           <div className="modal-backdrop">
             <div className="confirm-modal">
@@ -896,6 +971,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
           </div>
         )}
 
+        {/* Alert modal */}
         {alertModal && (
           <div className="modal-backdrop">
             <div className="alert-modal">
@@ -913,6 +989,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
         )}
       </div>
 
+      {/* Admin footer */}
       <footer className="admin-footer"></footer>
     </div>
   );

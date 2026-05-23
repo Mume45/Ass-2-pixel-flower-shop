@@ -1,4 +1,5 @@
 # database.py
+# Author: Shiying Gu, Yuhan Sun
 # Purpose: MongoDB Atlas connection setup and collection accessors
 # Tech: Motor (Async MongoDB Driver), Python-dotenv
 

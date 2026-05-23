@@ -1,4 +1,5 @@
 // ProductList.jsx
+// Author: Shiying Gu, Yuhan Sun
 // Purpose: Renders a responsive grid of ProductCard components.
 import React from 'react';
 import ProductCard from './ProductCard';

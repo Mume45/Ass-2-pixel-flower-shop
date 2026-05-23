@@ -1,4 +1,5 @@
 # routes/products.py
+# Author: Shiying Gu, Yuhan Sun
 # Purpose: Handles product catalog API requests
 # Tech: FastAPI, MongoDB
 

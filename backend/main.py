@@ -1,4 +1,5 @@
 # main.py
+# Author: Yuhan Sun, Shiying Gu
 # Purpose: Backend entry point that initializes FastAPI, manages DB lifecycle, and loads routers.
 # Technical Stack: FastAPI, MongoDB (Motor), CORS Middleware
 

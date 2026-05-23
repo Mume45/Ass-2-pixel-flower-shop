@@ -1,5 +1,6 @@
+// Author: Shiying Gu, Yuhan Sun
 // App.js - 根组件
-// 作用：管理全局状态、API 通信和主界面布局
+// Purpose: manage global state, API communication, and main page layout
 import { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
 import ProductList from './components/ProductList';
@@ -10,9 +11,12 @@ import AdminDashboard from './admin/AdminDashboard';
 import './App.css';
 
 function App() {
+  // Main product and cart states
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
+
+  // UI display states
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showCart, setShowCart] = useState(false);
   const [category, setCategory] = useState('all');
@@ -20,14 +24,18 @@ function App() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [showAdmin, setShowAdmin] = useState(false);
+
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
+  // Build authorization header from saved token
   const authHeader = () => {
     const token = localStorage.getItem('token');
     return token ? { Authorization: `Bearer ${token}` } : {};
   };
 
+  // Fetch products by selected category
   const fetchProducts = useCallback(async () => {
     try {
       const url = category === 'all'
@@ -41,8 +49,11 @@ function App() {
     }
   }, [category]);
 
+  // Fetch current user's cart
   const fetchCart = useCallback(async () => {
     const token = localStorage.getItem('token');
+
+    // Do not load cart when user is not logged in or is admin
     if (!token || currentUser?.role === 'admin') {
       setCartItems([]);
       setCartTotal(0);
@@ -54,6 +65,7 @@ function App() {
         headers: { ...authHeader(), 'Content-Type': 'application/json' }
       });
 
+      // Log out user if token is invalid
       if (response.status === 401) {
         handleLogout();
         return;
@@ -67,6 +79,7 @@ function App() {
     }
   }, [currentUser]);
 
+  // Restore login session when page loads
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) restoreSession();
@@ -77,7 +90,7 @@ function App() {
     fetchProducts();
     fetchCart();
 
-    // every seconds auto refresh products
+    // Auto refresh products every second
     const interval = setInterval(() => {
       fetchProducts();
     }, 1000);
@@ -86,10 +99,12 @@ function App() {
 
   }, [fetchProducts]);
 
+  // Refresh cart when cart fetch logic changes
   useEffect(() => {
     fetchCart();
   }, [fetchCart]);
 
+  // Restore user information from saved token
   const restoreSession = async () => {
     try {
       const response = await fetch('http://localhost:8000/api/auth/me', {
@@ -100,6 +115,7 @@ function App() {
         const data = await response.json();
         setCurrentUser(data);
 
+        // Open admin dashboard directly for admin users
         if (data.role === 'admin') {
           setShowAdmin(true);
         }
@@ -111,12 +127,15 @@ function App() {
     }
   };
 
+  // Add selected product to cart
   const addToCart = async (productId) => {
+    // Ask user to log in before adding to cart
     if (!currentUser) {
       setShowAuth(true);
       return;
     }
 
+    // Admin users cannot add products to cart
     if (currentUser.role === 'admin') {
       return;
     }
@@ -133,6 +152,7 @@ function App() {
     }
   };
 
+  // Update quantity of a cart item
   const updateQuantity = async (itemId, quantity) => {
     try {
       await fetch(`http://localhost:8000/api/cart/${itemId}`, {
@@ -146,6 +166,7 @@ function App() {
     }
   };
 
+  // Remove one item from cart
   const removeFromCart = async (itemId) => {
     try {
       await fetch(`http://localhost:8000/api/cart/${itemId}`, {
@@ -158,6 +179,7 @@ function App() {
     }
   };
 
+  // Clear all items from cart
   const clearCart = async () => {
     try {
       await fetch('http://localhost:8000/api/cart/', {
@@ -170,6 +192,7 @@ function App() {
     }
   };
 
+  // Handle successful login and load user information
   const handleLoginSuccess = async () => {
     try {
       const response = await fetch('http://localhost:8000/api/auth/me', {
@@ -179,6 +202,7 @@ function App() {
       const data = await response.json();
       setCurrentUser(data);
 
+      // Show admin dashboard after admin login
       if (data.role === 'admin') {
         setShowAdmin(true);
       }
@@ -187,6 +211,7 @@ function App() {
     }
   };
 
+  // Log out current user and reset states
   const handleLogout = () => {
     localStorage.removeItem('token');
     setCurrentUser(null);
@@ -195,9 +220,12 @@ function App() {
     setShowAdmin(false);
   };
 
+  // Filter products by search keyword
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchKeyword.toLowerCase())
   );
+
+  // Calculate pagination
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const startIndex = (currentPage - 1) * productsPerPage;
@@ -205,6 +233,7 @@ function App() {
 
   const currentProducts = filteredProducts.slice(startIndex, endIndex);
 
+  // Show admin dashboard for admin users
   if (showAdmin && currentUser?.role === 'admin') {
     return (
       <AdminDashboard
@@ -271,6 +300,8 @@ function App() {
           onAddToCart={addToCart}
           onViewDetail={setSelectedProduct}
         />
+
+        {/* Show pagination when there is more than one page */}
         {totalPages > 1 && (
           <div className="pagination">
             <button
@@ -323,6 +354,7 @@ function App() {
           </div>
         )}
 
+        {/* Show cart panel */}
         {showCart && (
           <Cart
             items={cartItems}
@@ -334,6 +366,7 @@ function App() {
           />
         )}
 
+        {/* Show product detail modal */}
         {selectedProduct && (
           <Modal
             product={selectedProduct}
@@ -342,6 +375,7 @@ function App() {
           />
         )}
 
+        {/* Show login/register modal */}
         {showAuth && (
           <AuthModal
             onClose={() => setShowAuth(false)}

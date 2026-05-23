@@ -1,4 +1,5 @@
 # models.py
+# Author: Shiying Gu, Yuhan Sun
 # Purpose: Defines data schemas and validation models using Pydantic
 # Tech: Python, Pydantic
 

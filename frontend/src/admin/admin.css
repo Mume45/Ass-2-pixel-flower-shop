@@ -1,8 +1,9 @@
 /* ================================================================
+# Author: Shiying Gu
    Admin Page - Vivian's Flowers Pixel Style
    ================================================================ */
 
-/* 整个 Admin 页面 */
+/* Entire admin page */
 .admin-page {
   min-height: 100vh;
   max-width: 1280px;
@@ -16,7 +17,7 @@
   font-family: 'Pixelify Sans', sans-serif;
 }
 
-/* 强制 Admin 内部元素使用像素字体 */
+/* Force all admin elements to use pixel font */
 .admin-page,
 .admin-page button,
 .admin-page input,
@@ -62,7 +63,7 @@
   border-right: 3px solid var(--pink-border);
 }
 
-/* 左侧 Sidebar */
+/* Left sidebar */
 .admin-sidebar {
   min-height: 100%;
   padding: 38px 28px;
@@ -82,12 +83,12 @@
   text-align: center;
 }
 
-/* 如果 JSX 里还有 Logged in as，就隐藏掉 */
+/* Hide "Logged in as" if it still exists in JSX */
 .admin-user {
   display: none;
 }
 
-/* Sidebar 按钮 */
+/* Sidebar buttons */
 .admin-sidebar button {
   width: 100%;
   height: 72px;
@@ -113,7 +114,7 @@
   background-color: var(--pink-main);
 }
 
-/* 右侧主内容 */
+/* Right main content area */
 .admin-main {
   width: 100%;
   padding: 14px 12px 0;
@@ -126,8 +127,7 @@
 /* ================================================================
    3. Common Admin Card
    ================================================================ */
-
-.admin-card {
+   .admin-card {
   background-color: var(--card-bg);
   border: 3px solid var(--pink-border);
   border-radius: 4px;
@@ -160,7 +160,7 @@
   gap: 12px;
 }
 
-/* 图片框缩小 */
+/* Smaller image frame */
 .upload-placeholder,
 .edit-image-frame {
   width: 170px;
@@ -204,8 +204,7 @@
 }
 
 
-
-/* Add Product 按钮放图片下面 */
+/* Place Add Product button below image */
 .image-box .add-product-btn {
   width: 145px;
   height: 38px;
@@ -247,7 +246,7 @@
   transform: translateY(-2px);
 }
 
-/* 右边表单压缩 */
+/* Compact form layout on the right side */
 .product-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -307,8 +306,7 @@
 /* ================================================================
    5. Admin Tables
    ================================================================ */
-
-.admin-card table {
+   .admin-card table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
@@ -360,7 +358,7 @@
   background-color: #fff0f4;
 }
 
-/* search bar 样式 */
+/* Search bar style */
 .product-search-form {
   display: grid;
   grid-template-columns: 1fr 220px;
@@ -389,14 +387,14 @@
   color: #d99aaa;
 }
 
-/* 空数据提示 */
+/* Empty data message */
 .empty {
   text-align: center;
   color: var(--text-pink);
   padding: 22px;
 }
 
-/* Active 状态标签 */
+/* Active status tag */
 .status-active {
   display: inline-block;
 
@@ -411,7 +409,7 @@
   border-radius: 4px;
 }
 
-/* 表格里的 Edit / Delete 按钮 */
+/* Edit / Delete buttons inside table */
 .admin-card td:last-child {
   white-space: nowrap;
 }
@@ -433,25 +431,25 @@
   margin-right: 0;
 }
 
-/* Edit 按钮 */
+/* Edit button */
 .admin-card td button:not(.danger) {
   color: #0d4f8f;
   background-color: #bfeeff;
 }
 
-/* Delete 按钮 */
+/* Delete button */
 .admin-card td button.danger,
 .danger {
   color: #a10024 !important;
   background-color: #ffc3c9 !important;
 }
 
-/* hover 轻微上移 */
+/* Slight upward movement on hover */
 .admin-card td button:hover {
   transform: translateY(-2px);
 }
 
-/* 分页符 */
+/* Pagination */
 .admin-pagination {
   display: flex;
   justify-content: center;
@@ -484,7 +482,7 @@
 /* ================================================================
    6. Users Page
    ================================================================ */
-/* users - search bar*/
+   /* users - search bar */
 .admin-form {
   display: grid;
   grid-template-columns: 1fr 1fr 180px;
@@ -619,10 +617,12 @@
   color: var(--text-pink);
   background-color: #fff8ef;
   border: 3px dashed var(--pink-border);
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
@@ -715,8 +715,7 @@
 /* ================================================================
    8. Footer
    ================================================================ */
-
-.admin-footer {
+   .admin-footer {
   width: 100%;
   height: 64px;
 
@@ -728,9 +727,9 @@
 
 
 /* ================================================================
-   9. 确认弹窗
+   9. Confirmation Modal
    ================================================================ */
-/* 删除确认弹窗*/
+/* Delete confirmation modal */
 .confirm-modal {
   width: 460px;
   background-color: #fff8ef;
@@ -781,7 +780,7 @@
   border: 4px solid #d8d8d8;
 }
 
-/* 添加产品时提示弹窗*/
+/* Alert modal shown when adding product */
 
 .alert-modal {
   width: 460px;

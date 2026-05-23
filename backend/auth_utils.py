@@ -1,4 +1,5 @@
 # auth_utils.py
+# Author: Shiying Gu, Yuhan Sun
 # Purpose: Password hashing (bcrypt) + JWT creation/verification utilities.
 # Tech: passlib[bcrypt], python-jose
 

@@ -1,16 +1,17 @@
 // Header.jsx
-// 作用：顶部导航栏，负责显示店铺标题、登录按钮、购物车按钮和用户头像菜单
+// Author: Shiying Gu, Yuhan Sun
+// Purpose: top navigation bar, shows shop title, login button, cart button, and user avatar menu
 
 import React, { useState } from 'react';
 
 function Header({ cartCount, onCartClick, onAuthClick, currentUser, onLogout, onAdminClick }) {
-  // 控制头像下拉菜单是否显示
+  // Control whether the avatar dropdown menu is shown
   const [showDropdown, setShowDropdown] = useState(false);
 
   return (
     <header className="header">
 
-      {/* 左侧：店铺 Logo + 标题 */}
+      {/* Left side: shop logo and title */}
       <div className="header-left">
         <img
           src="/images/shop_logo.png"
@@ -24,11 +25,11 @@ function Header({ cartCount, onCartClick, onAuthClick, currentUser, onLogout, on
         </div>
       </div>
 
-      {/* 右侧：未登录显示登录按钮；登录后显示购物车 + 头像 */}
+      {/* Right side: show login button before login; show cart and avatar after login */}
       <div className="header-right">
         {currentUser ? (
           <>
-            {/* 只有普通用户显示购物车按钮，admin 隐藏 */}
+            {/* Only normal users can see the cart button; admin users do not show it */}
             {currentUser.role !== 'admin' && (
               <button className="cart-button" onClick={onCartClick}>
                 <span className="cart-icon">🛒</span>
@@ -37,7 +38,7 @@ function Header({ cartCount, onCartClick, onAuthClick, currentUser, onLogout, on
               </button>
             )}
 
-            {/* 登录后显示用户头像 */}
+            {/* Show user avatar after login */}
             <div className="user-avatar-wrapper">
               <div
                 className="user-avatar"
