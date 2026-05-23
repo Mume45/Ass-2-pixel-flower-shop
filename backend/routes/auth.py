@@ -27,18 +27,22 @@ router = APIRouter()
 # ---- CREATE: register a new user ----
 @router.post("/register", response_model=Token, status_code=status.HTTP_201_CREATED)
 async def register(payload: UserRegister):
-    """Create a new user with a bcrypt-hashed password and return a JWT."""
+    """Create a user (bcrypt-hashed password) and return a JWT.
+
+    Email is the unique login identifier; username is stored as a display
+    name only and is never used to authenticate.
+    """
     users = get_users_collection()
     if users is None:
         raise HTTPException(status_code=500, detail="Database not connected")
 
-    # Reject duplicate emails (DB also has a unique index as a second line of defense)
+    # Email must be unique (a DB unique index enforces this as a second guard).
     if await users.find_one({"email": payload.email}):
         raise HTTPException(status_code=400, detail="Email already registered")
 
     new_user = {
-        "username": payload.username,
-        "email": payload.email,
+        "username": payload.username,  # display name only
+        "email": payload.email,        # the login identifier
         "password_hash": hash_password(payload.password),
         "role": "user",  # default role; promote to "admin" manually in the DB
     }
@@ -48,16 +52,22 @@ async def register(payload: UserRegister):
     return Token(access_token=token)
 
 
-# ---- LOGIN ----
+# ---- LOGIN (email only) ----
 @router.post("/login", response_model=Token)
 async def login(payload: UserLogin):
-    """Verify email + password, return a JWT on success."""
+    """Authenticate by email + password and return a JWT.
+
+    Login is email-only: the account is matched strictly on the email
+    field. Usernames are never accepted as a login credential.
+    """
     users = get_users_collection()
     if users is None:
         raise HTTPException(status_code=500, detail="Database not connected")
 
+    # Find the account by email, then check the password against its bcrypt hash.
     user = await users.find_one({"email": payload.email})
     if not user or not verify_password(payload.password, user["password_hash"]):
+        # One generic message so attackers can't tell which part was wrong.
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     token = create_access_token(str(user["_id"]))

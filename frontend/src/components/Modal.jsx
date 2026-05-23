@@ -1,50 +1,85 @@
-// Modal.jsx
-// Purpose: Displays detailed product information in a popup when a product is selected.
-import React from 'react';
+import React, { useState } from 'react';
 
 function Modal({ product, onClose, onAddToCart }) {
-    // Props: product (object), onClose (function), onAddToCart (function)
+    const [quantity, setQuantity] = useState(1);
+
+    const categoryLabel =
+        product.category === 'single' ? 'Single' :
+            product.category === 'bouquet' ? 'Bouquet' :
+                product.category === 'basket' ? 'Basket' : 'Gift Box';
 
     return (
-        /* Closes modal when clicking on the darkened overlay */
         <div className="modal-overlay" onClick={onClose}>
+            <div className="detail-modal" onClick={e => e.stopPropagation()}>
+                <button className="detail-close-btn" onClick={onClose}>×</button>
 
-            {/* Prevents modal from closing when clicking inside the content area */}
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
+                <div className="detail-left">
+                    <div className="detail-frame">
+                        <img
+                            src={
+                                product.image?.startsWith("data:image")
+                                ? product.image
+                                : `/images/${product.image}.png`
+                            }
+                            alt={product.name}
+                            className="detail-product-img"
+                        />
+                    </div>
 
-                <button className="close-btn" onClick={onClose}>X</button>
-
-                <div className="modal-image-container">
                     <img
-                        src={`/images/${product.image}.png`}
-                        alt={product.name}
-                        className="modal-product-image"
+                        src="/images/detail_decoration.png"
+                        alt="decoration"
+                        className="detail-decoration-img"
                     />
                 </div>
 
-                <h2 className="modal-title">{product.name}</h2>
+                <div className="detail-right">
+                    <h2 className="detail-title">{product.name}</h2>
 
-                <p className="modal-category">
-                    Category: {
-                        product.category === 'single' ? 'Single Stem' :
-                            product.category === 'bouquet' ? 'Bouquet' :
-                                product.category === 'basket' ? 'Flower Basket' : 'Gift Box'
-                    }
-                </p>
+                    <div className="detail-category">{categoryLabel}</div>
 
-                <p className="modal-description">{product.description}</p>
-                <p className="modal-price">${product.price.toFixed(2)}</p>
+                    <div className="detail-divider"></div>
 
-                {/* Adds product to cart and closes modal simultaneously */}
-                <button
-                    className="modal-add-btn"
-                    onClick={() => {
-                        onAddToCart(product.id);
-                        onClose();
-                    }}
-                >
-                    + Add to Cart
-                </button>
+                    <p className="detail-price">${Number(product.price).toFixed(2)}</p>
+
+                    <div className="detail-divider"></div>
+
+                    <p className="detail-description">{product.description}</p>
+
+                    <div className="detail-divider"></div>
+
+                    <label className="detail-quantity-label">Quantity</label>
+
+                    <div className="detail-quantity-row">
+                        <button
+                            className="detail-qty-btn"
+                            onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        >
+                            −
+                        </button>
+
+                        <div className="detail-qty-number">{quantity}</div>
+
+                        <button
+                            className="detail-qty-btn"
+                            onClick={() => setQuantity(quantity + 1)}
+                        >
+                            +
+                        </button>
+                    </div>
+
+                    <button
+                        className="detail-add-btn"
+                        onClick={() => {
+                            for (let i = 0; i < quantity; i++) {
+                                onAddToCart(product.id);
+                            }
+                            onClose();
+                        }}
+                    >
+                        Add to Cart
+                    </button>
+                </div>
             </div>
         </div>
     );

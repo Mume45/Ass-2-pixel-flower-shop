@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+backend/venv/
+venv/
+
+# Environment variables (contains secrets — never commit)
+.env
+.env.local
+
+# Dependencies
+node_modules/
+
+# Build output
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
