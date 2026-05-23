@@ -31,13 +31,18 @@
   font-family: 'Pixelify Sans', sans-serif;
 }
 
+.number-font {
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-weight: 700;
+}
+
 
 /* ================================================================
    1. Admin Header
    ================================================================ */
 
 .admin-top-header {
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 /* ================================================================
@@ -45,6 +50,7 @@
    ================================================================ */
 
 .admin-layout {
+  margin-top: 0;
   display: grid;
   grid-template-columns: 300px 1fr;
   width: 100%;
@@ -175,6 +181,18 @@
   overflow: hidden;
 }
 
+.product-preview-img {
+  width: 170px;
+  height: 145px;
+
+  object-fit: contain;
+  display: block;
+
+  background-color: #fff8ef;
+  border: 3px dashed var(--pink-border);
+  border-radius: 4px;
+}
+
 .upload-placeholder span {
   font-size: 30px;
   line-height: 1;
@@ -185,22 +203,7 @@
   margin-top: 6px;
 }
 
-/* 如果你还想保留 Image file name 输入框，就缩小 */
-.image-box input {
-  width: 170px;
-  height: 38px;
-  padding: 0 12px;
 
-  font-size: 13px;
-  font-weight: 700;
-
-  color: var(--text-pink);
-  background-color: #fff8ef;
-
-  border: 3px solid var(--pink-border);
-  border-radius: 4px;
-  outline: none;
-}
 
 /* Add Product 按钮放图片下面 */
 .image-box .add-product-btn {
@@ -230,6 +233,18 @@
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+}
+
+.upload-btn,
+.image-box .add-product-btn {
+  font-weight: 700;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+}
+
+.upload-btn:hover,
+.image-box .add-product-btn:hover {
+  transform: translateY(-2px);
 }
 
 /* 右边表单压缩 */
@@ -469,12 +484,33 @@
 /* ================================================================
    6. Users Page
    ================================================================ */
-
+/* users - search bar*/
 .admin-form {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr 180px;
   gap: 14px;
-  margin-bottom: 24px;
+  margin: 12px 0 24px;
+}
+
+.admin-form input,
+.admin-form select {
+  height: 40px;
+  padding: 0 14px;
+
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+
+  color: var(--text-pink);
+  background-color: #fff8ef;
+
+  border: 3px solid var(--pink-border);
+  border-radius: 4px;
+  outline: none;
+}
+
+.admin-form input::placeholder {
+  color: #d99aaa;
 }
 
 .tag {
@@ -510,69 +546,86 @@
    7. Edit Product Modal
    ================================================================ */
 
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
+.edit-product-modal {
+  position: relative;
+  width: 820px;
+  background-color: #fff8ef;
+  border: 6px solid #ffc6cf;
+  padding: 26px 34px 28px;
+}
 
-  background: rgba(15, 23, 42, 0.45);
+.edit-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+
+  width: 34px;
+  height: 34px;
+
+  color: white;
+  background-color: #ff6b9a;
+  border: 3px solid #ff9fbc;
+  border-radius: 3px;
+
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.edit-modal-title {
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+
+  font-size: 36px;
+  color: var(--text-pink);
+  border-bottom: 4px dashed var(--pink-border);
+}
+
+.edit-modal-content {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+.edit-left {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.edit-product-image-frame {
+  width: 320px;
+  height: 220px;
+
+  background-color: transparent;
+  border: none;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  z-index: 9999;
 }
 
-.edit-product-modal {
-  width: 760px;
-
-  background-color: #fff8ef;
-
-  border: 5px solid var(--pink-border);
-  border-radius: 4px;
-
-  padding: 28px;
-
-  position: relative;
+.edit-product-image-frame img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-.edit-product-modal h2 {
-  margin: 0 0 22px;
+.change-image-btn {
+  width: 320px;
+  height: 105px;
 
   color: var(--text-pink);
-  font-size: 34px;
-}
-
-.modal-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-
-  width: 36px;
-  height: 36px;
-
-  color: white;
-  background-color: var(--pink-main);
-
-  border: 3px solid var(--pink-border);
-  border-radius: 4px;
-
-  font-size: 24px;
-  font-weight: 700;
-
-  cursor: pointer;
-}
-
-.edit-product-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 28px;
-}
-
-.edit-image-area {
+  background-color: #fff8ef;
+  border: 3px dashed var(--pink-border);
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .edit-form {
@@ -581,28 +634,83 @@
   gap: 14px;
 }
 
-.modal-actions {
-  display: flex;
-  gap: 14px;
-  margin-top: 10px;
+.edit-form label {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-blue);
 }
 
-.cancel-btn {
-  height: 54px;
-  padding: 0 22px;
+.edit-form input,
+.edit-form select,
+.edit-form textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
 
-  font-size: 20px;
-  font-weight: 700;
-
-  color: var(--text-pink);
+  font-size: 15px;
   background-color: #fff8ef;
 
-  border: 4px solid var(--pink-border);
+  border: 2px solid var(--pink-border);
   border-radius: 4px;
+  outline: none;
+}
 
+.edit-form input,
+.edit-form select {
+  height: 42px;
+}
+
+.edit-form textarea {
+  height: 82px;
+  resize: none;
+}
+
+.edit-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 28px;
+}
+
+.save-change-btn,
+.cancel-edit-btn {
+  width: 230px;
+  height: 64px;
+
+  font-size: 26px;
+  font-weight: 700;
+  border-radius: 4px;
   cursor: pointer;
 }
 
+.save-change-btn {
+  color: white;
+  background-color: #ff7fa5;
+  border: 4px solid #ff9fbc;
+}
+
+.cancel-edit-btn {
+  color: var(--text-pink);
+  background-color: #fff0f4;
+  border: 4px solid #ffb6c8;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(62, 39, 35, 0.45);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
 
 /* ================================================================
    8. Footer
@@ -616,4 +724,98 @@
 
   border-top: 5px solid var(--pink-border);
   border-bottom: 5px solid var(--pink-border);
+}
+
+
+/* ================================================================
+   9. 确认弹窗
+   ================================================================ */
+/* 删除确认弹窗*/
+.confirm-modal {
+  width: 460px;
+  background-color: #fff8ef;
+  border: 5px solid var(--pink-border);
+  border-radius: 4px;
+  padding: 30px;
+  text-align: center;
+}
+
+.confirm-modal h2 {
+  margin: 0 0 16px;
+  font-size: 32px;
+  color: var(--text-pink);
+}
+
+.confirm-modal p {
+  margin: 0 0 28px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-blue);
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.confirm-delete-btn,
+.confirm-cancel-btn {
+  height: 46px;
+  padding: 0 24px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.confirm-delete-btn {
+  color: white;
+  background-color: #f28aa5;
+  border: 4px solid #e56b8c;
+}
+
+.confirm-cancel-btn {
+  color: #666;
+  background-color: #f1f1f1;
+  border: 4px solid #d8d8d8;
+}
+
+/* 添加产品时提示弹窗*/
+
+.alert-modal {
+  width: 460px;
+  background-color: #fff8ef;
+  border: 5px solid var(--pink-border);
+  border-radius: 4px;
+  padding: 30px;
+  text-align: center;
+}
+
+.alert-modal h2 {
+  margin: 0 0 16px;
+  font-size: 32px;
+  color: var(--text-pink);
+}
+
+.alert-modal p {
+  margin: 0 0 28px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-blue);
+}
+
+.alert-ok-btn {
+  height: 46px;
+  padding: 0 32px;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: white;
+  background-color: #f28aa5;
+  border: 4px solid #e56b8c;
+  border-radius: 4px;
+
+  cursor: pointer;
 }

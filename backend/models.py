@@ -52,8 +52,8 @@ class UserRegister(BaseModel):
 
 
 class UserLogin(BaseModel):
-    """Payload sent by the frontend when a user logs in."""
-    email: str
+    """Payload sent by the frontend when a user logs in (email only)."""
+    email: EmailStr
     password: str
 
 
