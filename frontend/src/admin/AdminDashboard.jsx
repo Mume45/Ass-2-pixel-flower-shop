@@ -30,27 +30,34 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
   const [editingProduct, setEditingProduct] = useState(null);
   const [productPage, setProductPage] = useState(1);
   const productsPerPage = 6;
+  const [userPage, setUserPage] = useState(1);
+  const usersPerPage = 6;
+
+  const [cartPage, setCartPage] = useState(1);
+  const cartItemsPerPage = 5;
+  const [confirmModal, setConfirmModal] = useState(null);
+  const [alertModal, setAlertModal] = useState(null);
 
   const authHeader = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`,
     "Content-Type": "application/json",
   });
   const getImageSrc = (image) => {
-  if (!image) return "";
-  if (image.startsWith("data:image")) return image;
-  return `/images/${image}.png`;
-};
+    if (!image) return "";
+    if (image.startsWith("data:image")) return image;
+    return `/images/${image}.png`;
+  };
 
   const handleAddProductImage = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    setProductForm({ ...productForm, image: reader.result });
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProductForm({ ...productForm, image: reader.result });
+    };
+    reader.readAsDataURL(file);
   };
-  reader.readAsDataURL(file);
-};
   useEffect(() => {
     loadAll();
   }, []);
@@ -114,10 +121,25 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
 
     return usernameMatch && emailMatch && roleMatch;
   });
+  const totalUserPages = Math.ceil(filteredUsers.length / usersPerPage);
+  const userStartIndex = (userPage - 1) * usersPerPage;
+
+  const currentUsers = filteredUsers.slice(
+    userStartIndex,
+    userStartIndex + usersPerPage
+  );
 
   const addProduct = async () => {
-    if (!productForm.name || !productForm.price || !productForm.image) {
-      alert("Please enter product name, price and image.");
+    if (
+      !productForm.name ||
+      !productForm.price ||
+      !productForm.description ||
+      !productForm.image
+    ) {
+      setAlertModal({
+        title: "Missing Information",
+        message: "Please complete the product details before adding.",
+      });
       return;
     }
 
@@ -163,30 +185,42 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
     loadAll();
   };
 
-  const deleteProduct = async (id) => {
-    if (!window.confirm("Delete this product?")) return;
+  const deleteProduct = (product) => {
+    setConfirmModal({
+      title: "Delete Product",
+      message: `Are you sure to delete ${product.name}?`,
+      confirmText: "Delete",
+      onConfirm: async () => {
+        await fetch(`${API}/products/${product.id}`, {
+          method: "DELETE",
+          headers: authHeader(),
+        });
 
-    await fetch(`${API}/products/${id}`, {
-      method: "DELETE",
-      headers: authHeader(),
+        setConfirmModal(null);
+        loadAll();
+      },
     });
-
-    loadAll();
   };
 
-  const deleteUser = async (id) => {
-    if (!window.confirm("Delete this user and their cart?")) return;
+  const deleteUser = (user) => {
+    setConfirmModal({
+      title: "Delete User",
+      message: `Delete ${user.username}'s account?`,
+      confirmText: "Delete",
+      onConfirm: async () => {
+        await fetch(`${API}/users/${user.id}`, {
+          method: "DELETE",
+          headers: authHeader(),
+        });
 
-    await fetch(`${API}/users/${id}`, {
-      method: "DELETE",
-      headers: authHeader(),
+        if (selectedUser?.id === user.id) {
+          setSelectedUser(null);
+        }
+
+        setConfirmModal(null);
+        loadAll();
+      },
     });
-
-    if (selectedUser?.id === id) {
-      setSelectedUser(null);
-    }
-
-    loadAll();
   };
 
   const selectedUserCartItems = selectedUser
@@ -196,6 +230,14 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
   const selectedUserCartTotal = selectedUserCartItems.reduce(
     (sum, item) => sum + Number(item.subtotal || item.price * item.quantity || 0),
     0
+  );
+
+  const totalCartPages = Math.ceil(selectedUserCartItems.length / cartItemsPerPage);
+  const cartStartIndex = (cartPage - 1) * cartItemsPerPage;
+
+  const currentSelectedUserCartItems = selectedUserCartItems.slice(
+    cartStartIndex,
+    cartStartIndex + cartItemsPerPage
   );
 
   const getUserCartCount = (userId) => {
@@ -229,7 +271,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                 accept="image/*"
                 onChange={handleAddProductImage}
                 hidden
-            />
+              />
             </label>
             <button className="small-add-btn add-product-btn" onClick={addProduct}>
               Add Product
@@ -297,16 +339,16 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
       </section>
     );
   };
-    const handleEditProductImage = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const handleEditProductImage = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    setEditingProduct({ ...editingProduct, image: reader.result });
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setEditingProduct({ ...editingProduct, image: reader.result });
+    };
+    reader.readAsDataURL(file);
   };
-  reader.readAsDataURL(file);
-};
 
   const renderProductTable = () => {
     return (
@@ -369,7 +411,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                   </div>
                 </td>
                 <td>{product.category}</td>
-                <td>${product.price}</td>
+                <td className="number-font">${product.price}</td>
                 <td>
                   <div className="table-text-limit description-limit">
                     {product.description}
@@ -384,7 +426,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                   </button>
                   <button
                     className="danger"
-                    onClick={() => deleteProduct(product.id)}
+                    onClick={() => deleteProduct(product)}
                   >
                     Delete
                   </button>
@@ -537,6 +579,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                     onChange={(e) => {
                       setUsernameSearch(e.target.value);
                       setSelectedUser(null);
+                      setUserPage(1);
                     }}
                   />
 
@@ -546,6 +589,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                     onChange={(e) => {
                       setEmailSearch(e.target.value);
                       setSelectedUser(null);
+                      setUserPage(1);
                     }}
                   />
 
@@ -554,6 +598,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                     onChange={(e) => {
                       setRoleFilter(e.target.value);
                       setSelectedUser(null);
+                      setUserPage(1);
                     }}
                   >
                     <option value="all">all</option>
@@ -563,33 +608,44 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                 </div>
 
                 <table>
+                  <colgroup>
+                    <col style={{ width: "20%" }} />
+                    <col style={{ width: "30%" }} />
+                    <col style={{ width: "12%" }} />
+                    <col style={{ width: "18%" }} />
+                    <col style={{ width: "20%" }} />
+
+                  </colgroup>
                   <thead>
                     <tr>
                       <th>Username</th>
                       <th>Email</th>
                       <th>Role</th>
-                      <th>Cart Items</th>
+                      <th>Cart Products</th>
                       <th>Action</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    {filteredUsers.map((user) => (
+                    {currentUsers.map((user) => (
                       <tr key={user.id}>
                         <td>{user.username}</td>
                         <td>{user.email}</td>
                         <td>
                           <span className="tag">{user.role}</span>
                         </td>
-                        <td>{getUserCartCount(user.id)}</td>
+                        <td className="number-font">{getUserCartCount(user.id)}</td>
                         <td>
-                          <button onClick={() => setSelectedUser(user)}>
+                          <button onClick={() => {
+                            setSelectedUser(user);
+                            setCartPage(1);
+                          }}>
                             View Cart
                           </button>
 
                           <button
                             className="danger"
-                            onClick={() => deleteUser(user.id)}
+                            onClick={() => deleteUser(user)}
                           >
                             Delete
                           </button>
@@ -606,6 +662,35 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                     )}
                   </tbody>
                 </table>
+                {totalUserPages > 1 && (
+                  <div className="pagination admin-user-pagination">
+                    <button
+                      className="page-nav-btn"
+                      disabled={userPage === 1}
+                      onClick={() => setUserPage(userPage - 1)}
+                    >
+                      ← Previous
+                    </button>
+
+                    {Array.from({ length: totalUserPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        className={`page-btn ${userPage === page ? "active" : ""}`}
+                        onClick={() => setUserPage(page)}
+                      >
+                        {page}
+                      </button>
+                    ))}
+
+                    <button
+                      className="page-nav-btn"
+                      disabled={userPage === totalUserPages}
+                      onClick={() => setUserPage(userPage + 1)}
+                    >
+                      Next →
+                    </button>
+                  </div>
+                )}
               </section>
 
               {selectedUser && (
@@ -636,7 +721,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                           </td>
                         </tr>
                       ) : (
-                        selectedUserCartItems.map((item) => (
+                        currentSelectedUserCartItems.map((item) => (
                           <tr key={item.id}>
                             <td>{item.name}</td>
                             <td>
@@ -644,11 +729,11 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                                 item.category ||
                                 products.find((p) => p.id === item.product_id || p.name === item.name)?.category ||
                                 "-"
-                                }
-</td>
-                            <td>${item.price}</td>
-                            <td>{item.quantity}</td>
-                            <td>${item.subtotal}</td>
+                              }
+                            </td>
+                            <td className="number-font">${item.price}</td>
+                            <td className="number-font">{item.quantity}</td>
+                            <td className="number-font">${item.subtotal}</td>
                           </tr>
                         ))
                       )}
@@ -658,6 +743,35 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                   <div className="cart-total">
                     Total: ${selectedUserCartTotal.toFixed(2)}
                   </div>
+                  {totalCartPages > 1 && (
+                    <div className="pagination admin-cart-pagination">
+                      <button
+                        className="page-nav-btn"
+                        disabled={cartPage === 1}
+                        onClick={() => setCartPage(cartPage - 1)}
+                      >
+                        ← Previous
+                      </button>
+
+                      {Array.from({ length: totalCartPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                          key={page}
+                          className={`page-btn ${cartPage === page ? "active" : ""}`}
+                          onClick={() => setCartPage(page)}
+                        >
+                          {page}
+                        </button>
+                      ))}
+
+                      <button
+                        className="page-nav-btn"
+                        disabled={cartPage === totalCartPages}
+                        onClick={() => setCartPage(cartPage + 1)}
+                      >
+                        Next →
+                      </button>
+                    </div>
+                  )}
                 </section>
               )}
             </>
@@ -667,24 +781,23 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
         {editingProduct && (
           <div className="modal-backdrop">
             <div className="edit-product-modal">
-              <button className="modal-close" onClick={() => setEditingProduct(null)}>
+              <button className="edit-close-btn" onClick={() => setEditingProduct(null)}>
                 ×
               </button>
 
-              <h2>Edit Product</h2>
+              <h2 className="edit-modal-title">Edit Product</h2>
 
-              <div className="edit-product-layout">
-                <div className="edit-image-area">
-                  <div className="edit-image-frame">
+              <div className="edit-modal-content">
+                <div className="edit-left">
+                  <div className="edit-product-image-frame">
                     <img
                       src={getImageSrc(editingProduct.image)}
                       alt={editingProduct.name}
-                      className="product-preview-img"
                     />
                   </div>
 
-                  <label className="upload-btn">
-                    Upload Image
+                  <label className="change-image-btn">
+                    ⬆ Change Image
                     <input
                       type="file"
                       accept="image/*"
@@ -700,10 +813,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                     <input
                       value={editingProduct.name}
                       onChange={(e) =>
-                        setEditingProduct({
-                          ...editingProduct,
-                          name: e.target.value,
-                        })
+                        setEditingProduct({ ...editingProduct, name: e.target.value })
                       }
                     />
                   </label>
@@ -713,28 +823,23 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                     <select
                       value={editingProduct.category}
                       onChange={(e) =>
-                        setEditingProduct({
-                          ...editingProduct,
-                          category: e.target.value,
-                        })
+                        setEditingProduct({ ...editingProduct, category: e.target.value })
                       }
                     >
                       <option value="single">single</option>
                       <option value="bouquet">bouquet</option>
                       <option value="basket">basket</option>
-                      <option value="gift_box">gift_box</option>
+                      <option value="gift">gift</option>
                     </select>
                   </label>
 
                   <label>
                     Price ($)
                     <input
+                      type="number"
                       value={editingProduct.price}
                       onChange={(e) =>
-                        setEditingProduct({
-                          ...editingProduct,
-                          price: e.target.value,
-                        })
+                        setEditingProduct({ ...editingProduct, price: e.target.value })
                       }
                     />
                   </label>
@@ -751,17 +856,58 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
                       }
                     />
                   </label>
-
-                  <div className="modal-actions">
-                    <button className="small-add-btn" onClick={saveEditProduct}>
-                      Save Change
-                    </button>
-                    <button className="cancel-btn" onClick={() => setEditingProduct(null)}>
-                      Cancel
-                    </button>
-                  </div>
                 </div>
               </div>
+
+              <div className="edit-modal-actions">
+                <button className="save-change-btn" onClick={saveEditProduct}>
+                  Save Change
+                </button>
+
+                <button className="cancel-edit-btn" onClick={() => setEditingProduct(null)}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {confirmModal && (
+          <div className="modal-backdrop">
+            <div className="confirm-modal">
+              <h2>{confirmModal.title}</h2>
+              <p>{confirmModal.message}</p>
+
+              <div className="confirm-actions">
+                <button
+                  className="confirm-delete-btn"
+                  onClick={confirmModal.onConfirm}
+                >
+                  {confirmModal.confirmText}
+                </button>
+
+                <button
+                  className="confirm-cancel-btn"
+                  onClick={() => setConfirmModal(null)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {alertModal && (
+          <div className="modal-backdrop">
+            <div className="alert-modal">
+              <h2>{alertModal.title}</h2>
+              <p>{alertModal.message}</p>
+
+              <button
+                className="alert-ok-btn"
+                onClick={() => setAlertModal(null)}
+              >
+                OK
+              </button>
             </div>
           </div>
         )}
