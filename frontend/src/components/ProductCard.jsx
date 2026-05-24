@@ -1,12 +1,18 @@
 // ProductCard.jsx
-// Purpose: Displays individual product overview with image, price, and actions.
+// Author: Yuhan Sun / Project Team
+// Purpose: Displays product overview with image, price, and actions.
+//
+// Main features:
+//   - Shows product image, name, and price
+//   - Opens product detail modal when the image is clicked
+//   - Adds the product to the shopping cart
 
 import React from 'react';
 
 function ProductCard({ product, onAddToCart, onViewDetail }) {
     return (
         <div className="product-card">
-            {/* 点击图片区域可以查看商品详情 */}
+            {/* Product image area; clicking it opens the detail modal */}
             <div
                 className="product-image"
                 onClick={() => onViewDetail(product)}
@@ -15,18 +21,20 @@ function ProductCard({ product, onAddToCart, onViewDetail }) {
                     className="product-img"
                     src={
                         product.image?.startsWith("data:image")
-                        ? product.image
-                        : `/images/${product.image}.png`
+                            ? product.image
+                            : `/images/${product.image}.png`
                     }
                     alt={product.name}
                 />
             </div>
 
+            {/* Basic product information */}
             <div className="product-info">
                 <h3 className="product-name">{product.name}</h3>
                 <p className="product-price">${product.price.toFixed(2)}</p>
             </div>
 
+            {/* Add this product to the shopping cart */}
             <button
                 className="add-to-cart-btn"
                 onClick={() => onAddToCart(product.id)}

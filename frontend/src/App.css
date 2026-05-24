@@ -1,44 +1,56 @@
-/* App.css — Vivian's Flowers: 像素风花店样式 */
+/* ================================================================
+   App.css — Vivian's Flowers
+   Author: Yuhan Sun
+   Purpose: Defines the global visual style for the customer-facing shop page,
+            including header, product grid, cart sidebar, detail modal,
+            authentication modal, and registration success view.
+
+   Main style direction:
+   - Pixel-art inspired flower shop interface
+   - Blue and pink colour palette
+   - Reusable CSS variables for consistent colours and borders
+   - Responsive-looking layout using flexbox and grid
+   ================================================================ */
 
 
 /* ================================================================
-   1. 字体导入
+   1. Font Import
    ================================================================ */
-/* Pixelify Sans 用于标题和正文，IBM Plex Mono 用于价格等数字显示 */
+/* Pixelify Sans is used for headings and body text; IBM Plex Mono is used for prices and numbers. */
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=IBM+Plex+Mono:wght@500;700&display=swap');
 
 
 /* ================================================================
-   2. 全局颜色变量
+   2. Global Colour Variables
    ================================================================ */
 :root {
-  /* 蓝色系 — 导航栏、按钮主色 */
+  /* Blue colours — used for navigation bars and main buttons */
   --blue-dark: #174A94;
   --blue-main: #1F63B7;
   --blue-light: #2F83E8;
 
-  /* 粉色系 — 强调色、边框、阴影 */
+  /* Pink colours — used for highlights, borders, and shadows */
   --pink-main: #FF6F9C;
   --pink-border: #FF9BB8;
   --pink-light: #FFD6DF;
   --pink-shadow: #D95F82;
 
-  /* 背景色系 */
+  /* Background colours */
   --cream-bg: #FFF7E8;
   --card-bg: #FFFAF0;
   --frame-gold: #F4C18A;
 
-  /* 文字颜色 */
+  /* Text colours */
   --text-blue: #1F5FA8;
   --text-pink: #FF5F91;
 
-  /* 通用边框粗细 */
+  /* Common border size */
   --border-size: 4px;
 }
 
 
 /* ================================================================
-   3. 全局基础样式
+   3. Global Base Styles
    ================================================================ */
 * {
   margin: 0;
@@ -53,7 +65,7 @@ body {
   line-height: 1.4;
 }
 
-/* 价格、数量等数字类元素统一使用等宽字体，提升可读性 */
+/* Use a monospace font for prices, quantities, and numeric values to improve readability. */
 .product-price,
 .modal-price,
 .qty-number,
@@ -65,7 +77,7 @@ body {
   letter-spacing: -0.5px;
 }
 
-/* 整体页面最大宽度限制 */
+/* Limit the maximum width of the whole page. */
 .app {
   max-width: 1280px;
   margin: 0 auto;
@@ -74,7 +86,7 @@ body {
 
 
 /* ================================================================
-   4. 顶部导航栏 Header
+   4. Header Navigation Bar
    ================================================================ */
 
 .header {
@@ -97,28 +109,28 @@ body {
   z-index: 100;
 }
 
-/* 左侧 Logo + 标题整体 */
+/* Left section containing logo and shop title. */
 .header-left {
   display: flex;
   align-items: center;
   gap: 25px;
 }
 
-/* 店铺 Logo 图片 */
+/* Shop logo image. */
 .shop-logo {
   width: 150px;
   height: auto;
   image-rendering: pixelated;
 }
 
-/* 标题和副标题容器 */
+/* Container for shop title and subtitle. */
 .shop-title-group {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-/* 店铺标题 */
+/* Main shop title. */
 .shop-title {
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 52px;
@@ -129,7 +141,7 @@ body {
   text-shadow: 4px 4px 0 #123d7f;
 }
 
-/* 副标题 */
+/* Shop subtitle. */
 .shop-subtitle {
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 15px;
@@ -139,7 +151,7 @@ body {
   letter-spacing: 1px;
 }
 
-/* 右侧按钮区域 */
+/* Right section containing action buttons. */
 .header-right {
   display: flex;
   align-items: center;
@@ -147,7 +159,7 @@ body {
   position: relative;
 }
 
-/* 未登录状态：Login / Register 按钮 */
+/* Login / Register button shown when the user is not logged in. */
 .auth-header-btn {
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 18px;
@@ -169,7 +181,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* 登录后：购物车按钮 */
+/* Cart button shown after user login. */
 .cart-button {
   position: relative;
 
@@ -202,7 +214,7 @@ body {
   line-height: 1;
 }
 
-/* 购物车数量角标 */
+/* Cart quantity badge. */
 .cart-badge {
   position: absolute;
   top: -10px;
@@ -225,15 +237,15 @@ body {
 
 
 /* ================================================================
-   5. 用户头像与下拉菜单
+   5. User Avatar and Dropdown Menu
    ================================================================ */
 
-/* 头像外层，用于定位下拉菜单 */
+/* Avatar wrapper used for positioning the dropdown menu. */
 .user-avatar-wrapper {
   position: relative;
 }
 
-/* 头像按钮 */
+/* Avatar button. */
 .user-avatar {
   width: 68px;
   height: 68px;
@@ -253,7 +265,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* 头像图片 */
+/* Avatar image. */
 .avatar-img {
   width: 100%;
   height: 100%;
@@ -261,7 +273,7 @@ body {
   image-rendering: pixelated;
 }
 
-/* 下拉菜单 */
+/* Dropdown menu. */
 .dropdown-menu {
   position: absolute;
   top: 76px;
@@ -280,7 +292,7 @@ body {
   align-items: stretch;
 }
 
-/* 用户名 */
+/* Username text. */
 .dropdown-username {
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 14px;
@@ -293,13 +305,13 @@ body {
   margin: 0;
 }
 
-/* 分割线 */
+/* Dropdown divider. */
 .dropdown-divider {
   width: 100%;
   border-top: 2px dashed var(--pink-border);
 }
 
-/* 下拉按钮 */
+/* Dropdown menu button. */
 .dropdown-item {
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 14px;
@@ -320,7 +332,7 @@ body {
 }
 
 /* ================================================================
-   6. 分类筛选栏与搜索框
+   6. Category Filter Bar and Search Box
    ================================================================ */
 
 .main-content {
@@ -328,7 +340,7 @@ body {
   margin: 0 auto;
 }
 
-/* 分类栏整体：左边分类按钮，右边搜索框 */
+/* Category bar layout: category buttons on the left and search box on the right. */
 .category-bar {
   display: flex;
   align-items: center;
@@ -338,7 +350,7 @@ body {
   gap: 24px;
 }
 
-/* 分类按钮组 */
+/* Category button group. */
 .category-tabs {
   display: flex;
   align-items: center;
@@ -346,7 +358,7 @@ body {
   flex-wrap: wrap;
 }
 
-/* 单个分类按钮 */
+/* Single category button. */
 .tab {
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 18px;
@@ -368,7 +380,7 @@ body {
   cursor: pointer;
 }
 
-/* 当前选中的分类 */
+/* Currently selected category. */
 .tab.active {
   background-color: var(--pink-main);
   color: white;
@@ -379,7 +391,7 @@ body {
   filter: brightness(1.05);
 }
 
-/* 搜索框外层 */
+/* Search box wrapper. */
 .search-bar {
   width: 310px;
   height: 48px;
@@ -394,7 +406,7 @@ body {
   padding: 0 12px;
 }
 
-/* 搜索输入框 */
+/* Search input field. */
 .search-input {
   flex: 1;
 
@@ -413,7 +425,7 @@ body {
   color: #f3a2b6;
 }
 
-/* 搜索图标 */
+/* Search icon. */
 .search-icon {
   width: 20px;
   height: 20px;
@@ -421,10 +433,10 @@ body {
 }
 
 /* ================================================================
-   7. 商品网格与商品卡片
+   7. Product Grid and Product Cards
    ================================================================ */
 
-/* 商品网格：一行四个商品 */
+/* Product grid: displays four products per row. */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -434,11 +446,11 @@ body {
   margin: 0 auto 38px;
 }
 
-/* 单张商品卡片 */
+/* Individual product card. */
 .product-card {
   width: 260px;
   height: 300px;
-  /* 固定卡片高度 */
+  /* Fixed card height. */
   min-height: unset;
 
   background-color: transparent;
@@ -455,13 +467,13 @@ body {
   cursor: pointer;
 }
 
-/* 鼠标悬停效果 */
+/* Hover effect for product cards. */
 .product-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 0 rgba(255, 111, 156, 0.22);
 }
 
-/* 商品图片区域 */
+/* Product image area. */
 .product-image {
   width: 160px;
   height: 132px;
@@ -475,7 +487,7 @@ body {
   background-color: transparent;
 }
 
-/* 商品图片 */
+/* Product image. */
 .product-img {
   width: 100%;
   height: 100%;
@@ -484,13 +496,13 @@ body {
   image-rendering: pixelated;
 }
 
-/* 商品信息区域 */
+/* Product information area. */
 .product-info {
   width: 100%;
   text-align: center;
 }
 
-/* 商品名称 */
+/* Product name. */
 .product-name {
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 18px;
@@ -500,20 +512,20 @@ body {
   line-height: 1.1;
 
   height: 42px;
-  /* 固定标题区域高度 */
+  /* Fixed height for the product title area. */
   margin: 0 auto 6px;
   padding-bottom: 4px;
 
   display: flex;
   align-items: center;
-  /* 一行标题垂直居中 */
+  /* Vertically center single-line product titles. */
   justify-content: center;
   text-align: center;
 
   border-bottom: 2px dashed var(--pink-border);
 }
 
-/* 商品价格 */
+/* Product price. */
 .product-price {
   font-size: 15px;
   font-weight: 700;
@@ -523,7 +535,7 @@ body {
   margin-bottom: 12px;
 }
 
-/* 加入购物车按钮 */
+/* Add-to-cart button. */
 .add-to-cart-btn {
   width: 178px;
   height: 34px;
@@ -546,7 +558,7 @@ body {
   cursor: pointer;
 }
 
-/* 购物车小图标 */
+/* Small cart icon inside the button. */
 .cart-btn-icon {
   font-size: 22px;
   line-height: 1;
@@ -560,7 +572,7 @@ body {
   transform: translateY(2px);
 }
 
-/* 没有商品时的提示 */
+/* Empty message shown when no products are available. */
 .empty-message {
   text-align: center;
   font-size: 20px;
@@ -569,7 +581,7 @@ body {
 }
 
 /* ================================================================
-   Pagination 分页栏
+   Pagination Bar
    ================================================================ */
 
 .pagination {
@@ -661,10 +673,10 @@ body {
 
 
 /* ================================================================
-   8. 购物车侧边栏
+   8. Cart Sidebar
    ================================================================ */
 
-/* 半透明遮罩，点击关闭购物车 */
+/* Semi-transparent overlay; clicking it closes the cart panel. */
 .cart-overlay {
   position: fixed;
   top: 0;
@@ -677,7 +689,7 @@ body {
   z-index: 5000;
 }
 
-/* 购物车面板主体，从右侧滑出 */
+/* Main cart panel displayed from the right side. */
 .cart-panel {
   width: 400px;
   height: 100vh;
@@ -689,7 +701,7 @@ body {
   position: relative;
 }
 
-/* 购物车顶部：标题 + 关闭按钮 */
+/* Cart header containing title and close button. */
 .cart-header {
   display: flex;
   justify-content: space-between;
@@ -699,7 +711,7 @@ body {
   border-bottom: 4px solid #ffc9c9;
 }
 
-/* 购物车关闭按钮 */
+/* Cart close button. */
 .cart-panel .close-btn {
   width: 35px;
   height: 35px;
@@ -713,14 +725,14 @@ body {
   justify-content: center;
 }
 
-/* 购物车商品列表滚动容器 */
+/* Scrollable container for cart items. */
 .cart-items-container {
   flex: 1;
   overflow-y: auto;
   padding-right: 5px;
 }
 
-/* 自定义滚动条样式 */
+/* Custom scrollbar style. */
 .cart-items-container::-webkit-scrollbar {
   width: 8px;
 }
@@ -730,7 +742,7 @@ body {
   border: none;
 }
 
-/* 单条购物车商品行 */
+/* Single cart item row. */
 .cart-item {
   display: flex;
   flex-direction: column;
@@ -741,7 +753,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* 商品名称 */
+/* Product name. */
 .cart-item-name {
   font-size: 18px;
   font-weight: 700;
@@ -749,28 +761,28 @@ body {
   text-align: left;
 }
 
-/* 商品行底部：数量控制 + 小计 + 删除按钮 */
+/* Bottom row of a cart item: quantity controls, subtotal, and remove button. */
 .cart-item-row-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* 数量控制组 + 小计价格的左侧容器 */
+/* Left group containing quantity controls and subtotal price. */
 .cart-item-left-group {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-/* 数量加减控制器 */
+/* Quantity control group. */
 .quantity-controls {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-/* 加减按钮 */
+/* Increase and decrease quantity buttons. */
 .qty-btn {
   width: 26px;
   height: 26px;
@@ -785,7 +797,7 @@ body {
   line-height: 1;
 }
 
-/* 单项小计金额 */
+/* Subtotal amount for one cart item. */
 .cart-item-subtotal {
   font-family: 'IBM Plex Mono', monospace !important;
   color: #2E7D32;
@@ -793,7 +805,7 @@ body {
   font-size: 16px;
 }
 
-/* 删除单项按钮 */
+/* Remove single item button. */
 .remove-btn {
   font-family: 'Pixelify Sans', sans-serif;
   font-size: 11px;
@@ -804,14 +816,14 @@ body {
   cursor: pointer;
 }
 
-/* 购物车底部：总价 + 清空按钮 */
+/* Cart footer containing total price and clear button. */
 .cart-footer {
   margin-top: 20px;
   padding-top: 15px;
   border-top: 4px solid #ffc9c9;
 }
 
-/* 总价显示 */
+/* Total price display. */
 .cart-total {
   display: flex;
   justify-content: space-between;
@@ -820,7 +832,7 @@ body {
 
 }
 
-/* 清空购物车按钮 */
+/* Clear cart button. */
 .clear-btn {
   width: 100%;
   padding: 12px;
@@ -839,7 +851,7 @@ body {
 
 
 /* ================================================================
-   9. 商品详情弹窗 Detail Modal
+   9. Product Detail Modal
    ================================================================ */
 
 .modal-overlay {
@@ -1068,15 +1080,15 @@ body {
 
 
 /* ================================================================
-   10. 登录 / 注册 / 注册成功弹窗 Auth Modal
+   10. Login / Register / Registration Success Auth Modal
    ================================================================ */
 
-/* 
-   半透明遮罩层
-   作用：
-   1. 覆盖整个页面，让背景变暗
-   2. 把弹窗固定显示在页面中央
-   3. z-index 设置较高，确保弹窗显示在商品卡片、Header、Footer 上方
+/*
+   Semi-transparent overlay for the authentication modal.
+   Purpose:
+   1. Covers the whole page and darkens the background.
+   2. Keeps the modal fixed in the centre of the page.
+   3. Uses a high z-index so the modal appears above product cards, header, and footer.
 */
 .auth-overlay {
   position: fixed;
@@ -1091,12 +1103,12 @@ body {
   z-index: 9999;
 }
 
-/* 
-   登录 / 注册弹窗主体
-   作用：
-   1. 控制弹窗宽度、高度、背景色和边框
-   2. 这里使用浅奶油色背景，和主页面保持统一
-   3. 粉色粗边框对应 Figma 里的像素风弹窗边框
+/*
+   Main login / register modal container.
+   Purpose:
+   1. Controls the modal width, height, background colour, and border.
+   2. Uses a light cream background to match the main page style.
+   3. Uses a thick pink border to create the pixel-style modal frame from the UI design.
 */
 .auth-modal {
   position: relative;
@@ -1112,19 +1124,19 @@ body {
   font-family: 'Pixelify Sans', sans-serif;
 }
 
-/* 
-   注册弹窗比登录弹窗多一个 Username 输入框
-   所以单独给注册模式增加高度，避免内容太挤
+/*
+   Register mode has one extra Username input field,
+   so it uses a taller modal height to avoid crowded content.
 */
 .auth-modal-register {
   min-height: 800px;
 }
 
-/* 
-   关闭按钮
-   作用：
-   1. 固定在弹窗右上角
-   2. 点击后关闭整个 AuthModal
+/*
+   Close button.
+   Purpose:
+   1. Positions the button at the top-right corner of the modal.
+   2. Closes the whole AuthModal when clicked.
 */
 .auth-close-btn {
   position: absolute;
@@ -1152,14 +1164,14 @@ body {
   line-height: 1;
 }
 
-/* 关闭按钮 hover 效果 */
+/* Hover effect for the close button. */
 .auth-close-btn:hover {
   background-color: #ff7890;
 }
 
-/* 
-   弹窗标题
-   例如：
+/*
+   Modal title.
+   Examples:
    ✦ Log In ✦
    ✦ Create Account ✦
 */
@@ -1175,28 +1187,26 @@ body {
   color: #d94d6d;
 }
 
-/* 
-   表单整体区域
-   作用：
-   让所有输入字段从上到下排列
+/*
+   Main form area.
+   Arranges all input fields vertically from top to bottom.
 */
 .auth-form {
   display: flex;
   flex-direction: column;
 }
 
-/* 
-   单个输入区域
-   包含：
-   label + input + error message
+/*
+   Single input field group.
+   Contains: label, input, and error message.
 */
 .auth-field {
   margin-bottom: 24px;
 }
 
-/* 
-   输入框上方的标签文字
-   例如 Email / Password / Username
+/*
+   Label text above each input field.
+   Examples: Email / Password / Username.
 */
 .auth-label {
   display: block;
@@ -1209,10 +1219,9 @@ body {
   color: #17438c;
 }
 
-/* 
-   普通输入框
-   作用：
-   控制输入框大小、字体、边框、背景色
+/*
+   Standard input field.
+   Controls input size, font, border, and background colour.
 */
 .auth-input {
   width: 100%;
@@ -1233,48 +1242,45 @@ body {
   outline: none;
 }
 
-/* 输入框 placeholder 文字颜色 */
+/* Placeholder text colour for input fields. */
 .auth-input::placeholder {
   color: #9b8b83;
 }
 
-/* 输入框被点击或正在输入时的效果 */
+/* Focus style when an input field is selected or being edited. */
 .auth-input:focus {
   border-color: #f36f8c;
   box-shadow: 0 0 0 4px rgba(255, 139, 161, 0.18);
 }
 
-/* 
-   输入框出错时的样式
-   例如：
-   邮箱格式不正确、密码错误、邮箱已注册
+/*
+   Error style for invalid input fields.
+   Examples: invalid email format, wrong password, or email already registered.
 */
 .auth-input-error {
   border-color: #e7435c;
   background-color: #fff0f2;
 }
 
-/* 
-   密码输入框外层
-   作用：
-   让右侧的 eye 按钮可以定位在输入框里面
+/*
+   Password field wrapper.
+   Allows the eye button to be positioned inside the input field.
 */
 .password-field {
   position: relative;
 }
 
-/* 
-   密码输入框
-   右侧留出空间，避免文字和 eye 按钮重叠
+/*
+   Password input field.
+   Adds right padding to prevent text from overlapping with the eye button.
 */
 .password-input {
   padding-right: 78px;
 }
 
-/* 
-   显示 / 隐藏密码按钮
-   作用：
-   点击后切换 password 和 text
+/*
+   Show / hide password button.
+   Clicking it switches the input type between password and text.
 */
 .password-eye-btn {
   position: absolute;
@@ -1302,7 +1308,7 @@ body {
   object-fit: contain;
 }
 
-/* 隐藏浏览器默认的密码显示按钮 */
+/* Hide the browser's default password reveal button. */
 .password-input::-ms-reveal {
   display: none;
 }
@@ -1312,9 +1318,9 @@ body {
   display: none;
 }
 
-/* 
-   错误提示文字
-   例如：
+/*
+   Error message text.
+   Examples:
    Incorrect email or password.
    Email already registered.
 */
@@ -1328,17 +1334,17 @@ body {
   color: #e7435c;
 }
 
-/* 
-   通用错误提示
-   例如后端没有启动、无法连接服务器
+/*
+   General error message.
+   Example: backend server is not running or cannot be reached.
 */
 .auth-general-error {
   text-align: center;
 }
 
-/* 
-   登录 / 注册主按钮
-   例如：
+/*
+   Main login / register submit button.
+   Examples:
    ✦ Log In ✦
    ✦ Sign Up ✦
 */
@@ -1363,21 +1369,21 @@ body {
   cursor: pointer;
 }
 
-/* 主按钮 hover 效果 */
+/* Hover effect for the main submit button. */
 .auth-submit-btn:hover {
   background-color: #ff7890;
 }
 
-/* 主按钮点击时的按压效果 */
+/* Pressed effect for the main submit button. */
 .auth-submit-btn:active {
   transform: translateY(2px);
 }
 
-/* 
-   登录 / 注册切换提示文字
-   例如：
-   Don't have an account ? Sign up
-   Already have an account ? Log in
+/*
+   Login / register switch prompt text.
+   Examples:
+   Don't have an account? Sign up
+   Already have an account? Log in
 */
 .auth-switch {
   margin: 0;
@@ -1391,9 +1397,9 @@ body {
   color: #173e87;
 }
 
-/* 
-   可点击的切换链接
-   例如 Sign up / Log in
+/*
+   Clickable switch link.
+   Examples: Sign up / Log in.
 */
 .auth-switch-link {
   color: #ec6680;
@@ -1401,20 +1407,19 @@ body {
   cursor: pointer;
 }
 
-/* 切换链接 hover 效果 */
+/* Hover effect for the switch link. */
 .auth-switch-link:hover {
   color: #d94d6d;
 }
 
 
 /* ================================================================
-   11. 注册成功界面 Registration Successful
+   11. Registration Success View
    ================================================================ */
 
-/* 
-   注册成功内容区域
-   作用：
-   让成功标题、图标、欢迎文字垂直居中排列
+/*
+   Registration success content area.
+   Vertically centres the success title, icon, and welcome text.
 */
 .register-success-content {
   min-height: 610px;
@@ -1425,11 +1430,11 @@ body {
   justify-content: center;
 }
 
-/* 
-   注册成功标题
-   对应 UI 中的：
+/*
+   Registration success title.
+   Matches the UI text:
    Registration
-   Successful !
+   Successful!
 */
 .success-title {
   margin: 0 0 38px;
@@ -1443,10 +1448,9 @@ body {
   color: #173e87;
 }
 
-/* 
-   成功图标区域
-   包含：
-   勾选圆圈 + 花朵装饰
+/*
+   Success icon area.
+   Contains the success illustration / flower decoration.
 */
 .success-icon-box {
   margin-bottom: 46px;
@@ -1467,10 +1471,9 @@ body {
   object-fit: contain;
 }
 
-/* 
-   欢迎用户名文字
-   例如：
-   Hi! username!
+/*
+   Welcome text with username.
+   Example: Hi! username!
 */
 .success-welcome {
   margin: 0 0 12px;
@@ -1482,10 +1485,9 @@ body {
   color: #173e87;
 }
 
-/* 
-   欢迎语
-   例如：
-   Welcome to Vivian's Flowers!
+/*
+   Welcome message.
+   Example: Welcome to Vivian's Flowers!
 */
 .success-text {
   margin: 0 0 28px;
@@ -1497,9 +1499,9 @@ body {
   color: #173e87;
 }
 
-/* 
-   注册成功后返回登录按钮
-   如果你不想显示这个按钮，也可以在 JSX 里删掉
+/*
+   Button shown after successful registration to return to login.
+   This button can be removed from JSX if it is not needed.
 */
 .success-login-btn {
   padding: 14px 32px;
@@ -1517,12 +1519,12 @@ body {
   cursor: pointer;
 }
 
-/* 注册成功按钮 hover 效果 */
+/* Hover effect for the registration success button. */
 .success-login-btn:hover {
   background-color: #ff7890;
 }
 
-/* 注册成功按钮点击效果 */
+/* Pressed effect for the registration success button. */
 .success-login-btn:active {
   transform: translateY(2px);
 }

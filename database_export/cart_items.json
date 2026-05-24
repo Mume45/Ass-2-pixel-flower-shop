@@ -1,0 +1,86 @@
+[
+    {
+        "_id": {
+            "$oid": "6a115e1e532f78a49519effe"
+        },
+        "user_id": "6a06ec65c4bc52c5f61fab98",
+        "username": "Lily",
+        "user_email": "Lily@gmail.com",
+        "product_id": "6a102562dd4bb7383ae96d3a",
+        "name": "Lily",
+        "price": 6,
+        "image": "lily",
+        "category": "single",
+        "quantity": 1
+    },
+    {
+        "_id": {
+            "$oid": "6a115e1e532f78a49519efff"
+        },
+        "user_id": "6a06ec65c4bc52c5f61fab98",
+        "username": "Lily",
+        "user_email": "Lily@gmail.com",
+        "product_id": "6a102562dd4bb7383ae96d39",
+        "name": "Golden Sunflower",
+        "price": 7,
+        "image": "golden_sunflower",
+        "category": "single",
+        "quantity": 3
+    },
+    {
+        "_id": {
+            "$oid": "6a115e1f532f78a49519f000"
+        },
+        "user_id": "6a06ec65c4bc52c5f61fab98",
+        "username": "Lily",
+        "user_email": "Lily@gmail.com",
+        "product_id": "6a102562dd4bb7383ae96d3c",
+        "name": "Lavender Stem",
+        "price": 5,
+        "image": "lavender_stem",
+        "category": "single",
+        "quantity": 4
+    },
+    {
+        "_id": {
+            "$oid": "6a115e20532f78a49519f001"
+        },
+        "user_id": "6a06ec65c4bc52c5f61fab98",
+        "username": "Lily",
+        "user_email": "Lily@gmail.com",
+        "product_id": "6a102562dd4bb7383ae96d3b",
+        "name": "Carnation",
+        "price": 5,
+        "image": "carnation",
+        "category": "single",
+        "quantity": 3
+    },
+    {
+        "_id": {
+            "$oid": "6a115e21532f78a49519f002"
+        },
+        "user_id": "6a06ec65c4bc52c5f61fab98",
+        "username": "Lily",
+        "user_email": "Lily@gmail.com",
+        "product_id": "6a102562dd4bb7383ae96d40",
+        "name": "Pink Hydrangea",
+        "price": 7,
+        "image": "pink_hydrangea",
+        "category": "single",
+        "quantity": 3
+    },
+    {
+        "_id": {
+            "$oid": "6a115e22532f78a49519f003"
+        },
+        "user_id": "6a06ec65c4bc52c5f61fab98",
+        "username": "Lily",
+        "user_email": "Lily@gmail.com",
+        "product_id": "6a102562dd4bb7383ae96d41",
+        "name": "Bluebell",
+        "price": 5,
+        "image": "bluebell",
+        "category": "single",
+        "quantity": 2
+    }
+]

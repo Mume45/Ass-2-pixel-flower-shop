@@ -1,4 +1,5 @@
 # seed.py
+# Author: Yuhan Sun
 # Purpose: Database seeder to populate initial product data
 # Tech: MongoDB (Motor), Asyncio, Python-dotenv
 

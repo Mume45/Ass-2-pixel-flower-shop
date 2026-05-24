@@ -1,5 +1,5 @@
 # routes/auth.py
-# Author: Shiying Gu, Yuhan Sun, Zhonghe Wang
+# Author: Zhonghe Wang，Shiying Gu, Yuhan Sun,
 # Purpose: Registration, login, and CRUD on the authenticated user's own account.
 #
 # Endpoints:
@@ -68,7 +68,8 @@ async def login(payload: UserLogin):
     user = await users.find_one({"email": payload.email})
     if not user or not verify_password(payload.password, user["password_hash"]):
         # One generic message so attackers can't tell which part was wrong.
-        raise HTTPException(status_code=401, detail="Invalid email or password")
+        raise HTTPException(
+            status_code=401, detail="Invalid email or password")
 
     token = create_access_token(str(user["_id"]))
     return Token(access_token=token)

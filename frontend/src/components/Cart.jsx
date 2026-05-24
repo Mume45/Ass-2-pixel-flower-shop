@@ -1,4 +1,5 @@
 // Cart.jsx — Shopping Cart Overlay
+// Author: Yuhan Sun Ass1
 // Purpose: Displays the cart panel with item list, totals, and controls.
 import React from 'react';
 import CartItem from './CartItem';

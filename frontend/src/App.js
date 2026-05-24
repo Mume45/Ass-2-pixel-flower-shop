@@ -1,6 +1,22 @@
+// App.js
 // Author: Shiying Gu, Yuhan Sun
-// App.js - 根组件
-// Purpose: manage global state, API communication, and main page layout
+// Purpose: Main root component of the flower shop application.
+//
+// Main responsibilities:
+//   - Manage global application states
+//   - Handle communication with backend APIs
+//   - Manage authentication and user sessions
+//   - Control product filtering, searching, and pagination
+//   - Handle shopping cart operations
+//   - Display modals and admin dashboard
+//
+// Main features:
+//   - Product browsing and category filtering
+//   - Product detail modal
+//   - Shopping cart management
+//   - User login and authentication
+//   - Admin dashboard access control
+
 import { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
 import ProductList from './components/ProductList';
@@ -45,7 +61,7 @@ function App() {
       const data = await response.json();
       setProducts(data);
     } catch (error) {
-      console.error("获取商品失败：", error);
+      console.error("Failed to retrieve product：", error);
     }
   }, [category]);
 
@@ -75,7 +91,7 @@ function App() {
       setCartItems(data.items || []);
       setCartTotal(data.total || 0);
     } catch (error) {
-      console.error("获取购物车失败：", error);
+      console.error("Failed to retrieve shopping cart：", error);
     }
   }, [currentUser]);
 
@@ -148,7 +164,7 @@ function App() {
       });
       fetchCart();
     } catch (error) {
-      console.error("加入购物车失败：", error);
+      console.error("Error restoring login status：", error);
     }
   };
 
@@ -162,7 +178,7 @@ function App() {
       });
       fetchCart();
     } catch (error) {
-      console.error("更新数量失败：", error);
+      console.error("Update quantity failed：", error);
     }
   };
 
@@ -175,7 +191,7 @@ function App() {
       });
       fetchCart();
     } catch (error) {
-      console.error("移除商品失败：", error);
+      console.error("Product removal failed：", error);
     }
   };
 
@@ -188,7 +204,7 @@ function App() {
       });
       fetchCart();
     } catch (error) {
-      console.error("清空购物车失败：", error);
+      console.error("Shopping cart failed to be emptied：", error);
     }
   };
 
@@ -207,7 +223,7 @@ function App() {
         setShowAdmin(true);
       }
     } catch (error) {
-      console.error('获取用户信息出错：', error);
+      console.error('Error retrieving user information：', error);
     }
   };
 

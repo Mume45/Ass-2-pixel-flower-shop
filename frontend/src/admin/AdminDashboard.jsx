@@ -1,4 +1,15 @@
-//Author: Shiying Gu    
+// AdminDashboard.jsx
+// Author: Shiying Gu, Yuhan Sun
+// Purpose: Provides the admin dashboard interface for managing products,
+//          viewing users, checking user cart items, and handling admin actions.
+//
+// Main features:
+//   - Add, edit, delete, search, filter, and paginate products
+//   - View, search, filter, and paginate users
+//   - Preview selected user's cart items
+//   - Display confirmation and alert modals
+//   - Send protected admin API requests with JWT authentication
+
 // Import React hooks and admin styles
 import { useEffect, useState } from "react";
 import "./admin.css";

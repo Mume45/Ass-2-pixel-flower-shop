@@ -1,209 +1,187 @@
-# 🌸 Vivian's Flowers — Pixel-Art Flower Shop with Backend Auth
+# Vivian's Flowers — Pixel-Art Flower Shop
+## 1. Project Overview
 
-## Project Summary
-A Single-Page Application (SPA) built with the **FARM Stack**, simulating a cozy **in-game flower shop**. The frontend lets users browse pixelated floral assets, view item stats, and manage a shopping cart. The backend additionally exposes registration / login endpoints with bcrypt password hashing and JWT-based authentication.
+Vivian's Flowers is a modern full-stack e-commerce flower shop website built with a pixel-art game-inspired visual style.
+The project simulates an online flower shopping platform where users can browse products, search flowers in real time, manage shopping carts, and place orders through a seamless single-page application experience.
 
-> **Frontend UI is unchanged** from the original project. Auth is backend-only — test it via Swagger UI or curl.
+The website combines a React frontend, FastAPI backend, and MongoDB database to provide a responsive and interactive shopping experience.
+It also includes JWT-based authentication and role-based access control for normal users and administrators.
 
----
+## 2. Work Allocation
+Team member: ShiyingGu 25934593 ; Yuhan Sun 25168360; Zhonghe Wang 25744879
 
-## Tech Stack
+This project was extended from Yuhan’s Assignment 1 project, which already included part of foundational structure and core functionality of the flower shop website, such as:
+- product display
+- shopping cart interaction
+- basic homepage frontend architecture
+Assignment 2 further expanded the project into a full-stack single-page application with authentication, database integration, admin features, and advanced frontend interactions.
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React (Functional Components & Hooks) |
-| Styling | CSS3 — Custom Pixel-Art theme |
-| Backend | FastAPI (Python 3.x) |
-| Database | MongoDB Atlas + Motor (Async driver) |
-| Auth | bcrypt (password hashing) + JWT (python-jose) |
-| Communication | RESTful API with CORS middleware |
+### Shiying Gu 25934593
+- Developed the admin dashboard and admin-related features
+- Implemented product management functionality for administrators
+- Implemented user management and shopping cart viewing functionality for admins
 
----
+### Yuhan Sun 25168360
+- Designed and implemented the overall UI/UX of the website
+- Developed the pixel-art visual style and responsive frontend layout
+- Implemented the live product search functionality
+- Refined and integrated frontend interactions and visual components
 
-## Features
+### Zhonghe Wang 25744879
+- Implemented user authentication and authorization features
+- Developed registration and login functionality
+- Implemented password hashing and JWT verification
 
-- **Backend Auth Endpoints** — Register, login, and "who am I" endpoints with bcrypt + JWT
-- **Full CRUD Cart** — Add, update quantity, remove, clear all
-- **Dynamic Filtering** — Single, Bouquet, Basket, Gift Box categories
-- **SPA Architecture** — Seamless transitions, no full reloads
-- **Interactive Modals** — Product detail popups
+Specific file-level contributions are indicated in the author comments at the top of source files.
+Git commit history in the shared repository additionally reflects individual contributions.
 
----
+## 3. Main Features
+### 3.1 User Features
+User registration and login
+Password hashing with bcrypt
+JWT authentication
+Persistent login using localStorage
+Real-time product search
+Product category filtering
+Product detail modal
+Shopping cart sidebar
+Add / remove / update cart items
+Responsive single-page application interface
+### 3.2 Admin Features
+Admin login system
+Product management dashboard
+Add new products
+Edit existing products
+Delete products
+View all users’ shopping carts
 
-## Folder Structure
+## 4. Technical Stack
+### 4.1 Frontend
+React
+React Hooks (useState, useEffect)
+CSS3
+Fetch API
+### 4.2 Backend
+FastAPI
+Python
+JWT Authentication
+bcrypt password hashing
+### 4.3 Database
+MongoDB
+Motor (Async MongoDB Driver)
 
-```
-pixel-flower-shop-with-auth/
-├── backend/                       # FastAPI server
-│   ├── routes/
-│   │   ├── auth.py                # NEW: user CRUD (register/login/me/update/delete)
-│   │   ├── admin.py               # NEW: admin-only user management
+## 5. Project Structure
+
+PIXEL-FLOWER-SHOP
+│
+├── backend
+│   ├── routes
+│   │   ├── admin.py
+│   │   ├── auth.py
 │   │   ├── cart.py
 │   │   └── products.py
-│   ├── .env                       # MongoDB URL + JWT secret (gitignored)
-│   ├── .env.example               # Template for .env
-│   ├── auth_utils.py              # NEW: bcrypt, JWT, get_current_user, get_current_admin
-│   ├── database.py                # MODIFIED: + users collection (with unique email index)
-│   ├── main.py                    # MODIFIED: + auth + admin routers
-│   ├── models.py                  # MODIFIED: + User/Token schemas (with role)
-│   ├── requirements.txt           # MODIFIED: + auth packages (passlib, jose, bcrypt<4.1)
-│   └── seed.py                    # Initial product data
+│   │
+│   ├── .env
+│   ├── auth_utils.py
+│   ├── database.py
+│   ├── fix_admin.py
+│   ├── main.py
+│   ├── models.py
+│   ├── seed.py
+│   ├── seed_users.py
+│   └── requirements.txt
 │
-├── frontend/                      # React app (UNCHANGED from original)
+├── database_export
+│   ├── cart_items.json
+│   ├── products.json
+│   └── users.json
 │
-└── database_export/
-    └── products.json              # Reference dump of seed data
-```
+├── frontend
+│   ├── public
+│   │   └── images
+│   │
+│   ├── src
+│   │   ├── admin
+│   │   │   ├── AdminDashboard.jsx
+│   │   │   └── admin.css
+│   │   │
+│   │   ├── components
+│   │   │   ├── AuthModal.jsx
+│   │   │   ├── Cart.jsx
+│   │   │   ├── CartItem.jsx
+│   │   │   ├── Header.jsx
+│   │   │   ├── Modal.jsx
+│   │   │   ├── ProductCard.jsx
+│   │   │   └── ProductList.jsx
+│   │   │
+│   │   ├── App.js
+│   │   └── App.css
+│   │
+│   └── package.json
+│
+└── README.md
 
-### Files written by the auth/user member
+## 6. Database Entities
 
-The following files implement the **Registration/login + user CRUD + RBAC** part of
-the assignment and were written by the same group member:
+The project includes CRUD operations for at least three major entities:
 
-- `backend/auth_utils.py`
-- `backend/routes/auth.py`
-- `backend/routes/admin.py`
-- `backend/seed_users.py`
-- `backend/models.py` — only the `User*` and `Token` classes
-- `backend/database.py` — only the `users_collection` additions
-- `backend/main.py` — only the `auth_router` and `admin_router` lines
+1) User
+2) Product
+3) Shopping Cart
 
----
+## 7. Authentication and Security
 
-## How to Run
+The project implements secure authentication and authorization features:
 
-> **Prerequisites:** Python 3.8+ and Node.js (LTS)
+Password hashing using bcrypt
+JWT token authentication
+Role-based access control
+Protected admin features
+Persistent login sessions using localStorage
 
-### Step 1 — Configure `.env`
+## 8. Test Accounts
+### Admin Account
+Email: admin@test.com
+Password: admin
+### User Account
+Email: Lily@gmail.com
+Password: 123456lily
 
+## 9. Installation and Setup
+### 9.1 GitHub Repository
+https://github.com/Mume45/Ass-2-pixel-flower-shop
+For security reasons, the `.env` file is not included in the repository.
+
+### 9.2 Backend Setup
+#### Navigate to backend folder
 ```bash
 cd backend
-cp .env.example .env
-```
 
-Edit `.env`:
+#### Create virtual environment
+python -m venv .venv
 
-```
-MONGODB_URL=mongodb+srv://<user>:<password>@cluster.xxxxx.mongodb.net/?retryWrites=true&w=majority
-JWT_SECRET=<paste output of: openssl rand -hex 32>
-JWT_ALGORITHM=HS256
-JWT_EXPIRE_MINUTES=60
-```
+#### Activate virtual environment
+##### Windows
+.venv\Scripts\activate
 
-> **MongoDB Atlas:** add your IP (or `0.0.0.0/0`) under Network Access, and make sure the database user has `readWrite` role.
+##### Mac/Linux
+source .venv/bin/activate
 
-### Step 2 — Seed product data
+#### Install dependencies
+pip install -r requirements.txt
 
-```bash
-cd backend
-pip3 install -r requirements.txt
-python3 seed.py
-```
+#### Run FastAPI server
+uvicorn main:app --reload
+Backend server runs on:
+http://127.0.0.1:8000
 
-You should see `Successfully inserted 31 flowers!`
 
-#### Optional: seed three default test users
-
-```bash
-python3 seed_users.py
-```
-
-Creates two regular users and one admin so the auth/admin endpoints can be tested
-without manual signup. Re-running is safe — existing users are skipped.
-
-| Role  | Email             | Password      |
-|-------|-------------------|---------------|
-| user  | alice@test.com    | password123   |
-| user  | bob@test.com      | password123   |
-| admin | admin@test.com    | admin123      |
-
-> These are **test-only credentials** — change them before production.
-
-### Step 3 — Start the backend
-
-```bash
-cd backend
-python -m uvicorn main:app --reload
-```
-
-API runs at `http://localhost:8000` — open `http://localhost:8000/docs` for Swagger UI to test auth endpoints.
-
-### Step 4 — Start the frontend (optional, original UI)
-
-```bash
+### 9.3 Frontend Setup
+#### Navigate to frontend folder
 cd frontend
+#### Install dependencies
 npm install
+#### Start React app
 npm start
-```
-
-App opens at `http://localhost:3000`. The frontend does not call the auth endpoints — it works exactly like the original.
-
----
-
-## API Endpoints
-
-### Auth — user CRUD (NEW, written by <your name>)
-| Method | URL | Auth | Body / Result |
-|---|---|---|---|
-| POST | `/api/auth/register` | — | `{username, email, password}` → `{access_token}` |
-| POST | `/api/auth/login` | — | `{email, password}` → `{access_token}` |
-| GET | `/api/auth/me` | Bearer | → `{id, username, email, role}` |
-| PUT | `/api/auth/me` | Bearer | `{username?, password?}` → updated user |
-| DELETE | `/api/auth/me` | Bearer | delete own account → `204` |
-
-### Admin — user management (NEW, admin role required)
-| Method | URL | Auth | Description |
-|---|---|---|---|
-| GET | `/api/admin/users` | Bearer (admin) | List every user (no password hashes) |
-| DELETE | `/api/admin/users/{id}` | Bearer (admin) | Remove a user by id |
-
-> **How to make a user an admin:** in MongoDB Atlas (or Compass), edit the user document and set `role: "admin"`. Equivalent shell command:
-> ```js
-> db.users.updateOne({email: "alice@test.com"}, {$set: {role: "admin"}})
-> ```
-
-### Existing
-| Method | URL | Description |
-|---|---|---|
-| GET | `/api/products` | List all products |
-| GET | `/api/products/category/{cat}` | Filter by category |
-| POST | `/api/cart` | Add to cart |
-| GET | `/api/cart` | Get cart with totals |
-| PUT | `/api/cart/{id}` | Update quantity |
-| DELETE | `/api/cart/{id}` | Remove single item |
-| DELETE | `/api/cart` | Clear cart |
-
----
-
-## Testing the Auth Endpoints (Swagger)
-
-1. Start backend: `python3 -m uvicorn main:app --reload`
-2. Open `http://localhost:8000/docs`
-3. **Register** — `POST /api/auth/register` → Try it out → fill JSON → Execute → copy `access_token`
-4. **Login** — `POST /api/auth/login` → use same email + password → get a fresh token
-5. Click 🔓 `Authorize` (top-right) → paste the token → Close. Now bearer endpoints will use it.
-6. **Read** — `GET /api/auth/me` → Execute → returns `{id, username, email, role}`
-7. **Update** — `PUT /api/auth/me` → body `{"username":"alice2"}` → Execute → returns updated user
-8. **Delete** — `DELETE /api/auth/me` → Execute → `204` (account is gone)
-9. **RBAC** — call `GET /api/admin/users` with a normal user's token → expect `403`. Promote the user to admin in Atlas (set `role:"admin"`), grab a fresh token, and try again → expect `200` with the user list.
-5. **/me** — Click 🔓 `Authorize` (top-right) → paste token → Close → `GET /api/auth/me` → Execute
-
----
-
-## Security Notes
-
-- Passwords are **never** stored in plain text — only as bcrypt hashes (`$2b$12$...`).
-- `JWT_SECRET` must be long and random (use `openssl rand -hex 32`).
-- `.env` is gitignored — never commit credentials.
-- In production, serve the API over HTTPS so JWTs are encrypted in transit.
-
----
-
-## Common Issues
-
-| Issue | Fix |
-|---|---|
-| `SSL: CERTIFICATE_VERIFY_FAILED` on macOS | Run `sudo /Applications/Python\ 3.12/Install\ Certificates.command` |
-| `module 'bcrypt' has no attribute '__about__'` | Already pinned in requirements.txt (`bcrypt<4.1`) |
-| `IP not whitelisted` | Add `0.0.0.0/0` in MongoDB Atlas → Network Access |
-| `Authentication failed` | Check Database User exists in Atlas → Database Access |
+Frontend server runs on:
+http://localhost:3000

@@ -1,0 +1,56 @@
+[
+    {
+        "_id": {
+            "$oid": "6a0427939172df0c81fd29f6"
+        },
+        "username": "vivian",
+        "email": "vivian@example.com",
+        "role": "user",
+        "status": "active"
+    },
+    {
+        "_id": {
+            "$oid": "6a0427939172df0c81fd29f7"
+        },
+        "username": "guest",
+        "email": "guest@example.com",
+        "role": "user",
+        "status": "inactive"
+    },
+    {
+        "_id": {
+            "$oid": "6a057c5b80621d9bb2030a42"
+        },
+        "username": "ShiyingGu",
+        "email": "SG@gmail.com",
+        "password_hash": "$2b$12$OYeFwuRJ4SWbNPu7Kmr8TeQpLMpc8JtLbDPYriWIJcmCEMJyRUYFO",
+        "role": "user"
+    },
+    {
+        "_id": {
+            "$oid": "6a058e5078b53b349f17fb2d"
+        },
+        "username": "admin",
+        "email": "admin@test.com",
+        "password_hash": "$2b$12$254mca0gDebQIdRj6OHj4uA/oB.2/FLbRjZMqf20EuGrd2TrrPtEq",
+        "role": "admin"
+    },
+    {
+        "_id": {
+            "$oid": "6a06ec65c4bc52c5f61fab98"
+        },
+        "username": "Lily",
+        "email": "Lily@gmail.com",
+        "password_hash": "$2b$12$aY7E34sN6UlSXjsRKoAAdewHpiREAExtQ1Iz7SwkvtpDot4TAs9xq",
+        "role": "user"
+    },
+    {
+        "_id": {
+            "$oid": "6a0957b6279e1de1d8dd6e7f"
+        },
+        "username": "zhonghe.wang",
+        "email": "zhonghe.wang@gmail.com",
+        "password_hash": "$2b$12$bbd9mZMB8.36bjJVVYezauSq6Dpkv6ZaeEi69SVjh.nAxn3bBWqMi",
+        "role": "user"
+    }
+]

@@ -1,4 +1,5 @@
 // CartItem.jsx
+// Author: Yuhan Sun Ass1
 // Purpose: Individual cart row component with quantity controls
 import React from 'react';
 

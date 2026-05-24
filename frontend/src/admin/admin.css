@@ -1,5 +1,5 @@
 /* ================================================================
-# Author: Shiying Gu
+# Author: Yuhan Sun, Shiying Gu
    Admin Page - Vivian's Flowers Pixel Style
    ================================================================ */
 
@@ -127,7 +127,7 @@
 /* ================================================================
    3. Common Admin Card
    ================================================================ */
-   .admin-card {
+.admin-card {
   background-color: var(--card-bg);
   border: 3px solid var(--pink-border);
   border-radius: 4px;
@@ -306,7 +306,7 @@
 /* ================================================================
    5. Admin Tables
    ================================================================ */
-   .admin-card table {
+.admin-card table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
@@ -482,7 +482,7 @@
 /* ================================================================
    6. Users Page
    ================================================================ */
-   /* users - search bar */
+/* users - search bar */
 .admin-form {
   display: grid;
   grid-template-columns: 1fr 1fr 180px;
@@ -715,7 +715,7 @@
 /* ================================================================
    8. Footer
    ================================================================ */
-   .admin-footer {
+.admin-footer {
   width: 100%;
   height: 64px;
 

@@ -1,5 +1,5 @@
 # auth_utils.py
-# Author: Shiying Gu, Yuhan Sun
+# Author: Shiying Gu, Zhonghe Wang
 # Purpose: Password hashing (bcrypt) + JWT creation/verification utilities.
 # Tech: passlib[bcrypt], python-jose
 
@@ -40,7 +40,8 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 # ---- JWT Helpers ----
 def create_access_token(user_id: str) -> str:
     """Create a signed JWT containing the user's id as the subject."""
-    expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now(timezone.utc) + \
+        timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     payload = {"sub": user_id, "exp": expire}
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 

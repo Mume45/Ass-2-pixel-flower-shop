@@ -1,5 +1,5 @@
 # seed_users.py
-# Author: <your name>  (declare yourself as the author for marking attribution)
+# Author: zhongheWang
 # Purpose: Seed three default test users into the database so the
 #          auth/admin endpoints can be exercised without manual setup.
 #
@@ -33,12 +33,12 @@ DEFAULT_USERS = [
         "password": "password123",
         "role": "user",
     },
-{
-    "username": "admin",
-    "email": "admin@test.com",
-    "password": "admin",
-    "role": "admin",
-},
+    {
+        "username": "admin",
+        "email": "admin@test.com",
+        "password": "admin",
+        "role": "admin",
+    },
 ]
 
 

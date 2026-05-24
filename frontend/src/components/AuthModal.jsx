@@ -94,7 +94,7 @@ function AuthModal({ onClose, onLoginSuccess }) {
             // instead of closing modal immediately
             setMode('success');
         } catch (error) {
-            console.error('注册出错：', error);
+            console.error('Registration error：', error);
 
             // Show general error if backend is unavailable
             setErrors({
@@ -160,7 +160,7 @@ function AuthModal({ onClose, onLoginSuccess }) {
             // Close modal
             onClose();
         } catch (error) {
-            console.error('登录出错：', error);
+            console.error('Login error：', error);
 
             setErrors({
                 general: 'Cannot connect to server. Please check whether the backend is running.',
@@ -355,7 +355,7 @@ function AuthModal({ onClose, onLoginSuccess }) {
                         </p>
                     </>
                 )}
-                                {/* =========================
+                {/* =========================
                     Registration success screen
                    ========================= */}
                 {mode === 'success' && (
