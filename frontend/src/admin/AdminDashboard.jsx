@@ -244,6 +244,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
 
         // Close modal and reload admin data
         setConfirmModal(null);
+        setProductPage(1);
         loadAll();
       },
     });
@@ -268,6 +269,7 @@ export default function AdminDashboard({ currentUser, onLogout, onSwitchToShop }
         }
 
         setConfirmModal(null);
+        setUserPage(1);
         loadAll();
       },
     });

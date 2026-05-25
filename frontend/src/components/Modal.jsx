@@ -89,9 +89,7 @@ function Modal({ product, onClose, onAddToCart }) {
                     <button
                         className="detail-add-btn"
                         onClick={() => {
-                            for (let i = 0; i < quantity; i++) {
-                                onAddToCart(product.id);
-                            }
+                            onAddToCart(product.id, quantity);
                             onClose();
                         }}
                     >

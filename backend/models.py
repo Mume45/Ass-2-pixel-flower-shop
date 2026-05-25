@@ -1,5 +1,5 @@
 # models.py
-# Author: Shiying Gu, Yuhan Sun
+# Author: Shiying Gu, Zhonghe Wang, Yuhan Sun
 # Purpose: Defines data schemas and validation models using Pydantic
 # Tech: Python, Pydantic
 
@@ -76,6 +76,7 @@ class Token(BaseModel):
     """JWT response returned after successful register/login."""
     access_token: str
     token_type: str = "bearer"
+
 
 class ProductCreate(BaseModel):
     name: str

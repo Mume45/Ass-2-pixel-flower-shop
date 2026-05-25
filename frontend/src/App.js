@@ -139,12 +139,12 @@ function App() {
         localStorage.removeItem('token');
       }
     } catch (error) {
-      console.error('恢复登录状态出错：', error);
+      console.error('Error restoring login status：', error);
     }
   };
 
   // Add selected product to cart
-  const addToCart = async (productId) => {
+  const addToCart = async (productId, quantity = 1) => {
     // Ask user to log in before adding to cart
     if (!currentUser) {
       setShowAuth(true);
@@ -160,7 +160,10 @@ function App() {
       await fetch('http://localhost:8000/api/cart/', {
         method: 'POST',
         headers: { ...authHeader(), 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: productId, quantity: 1 })
+        body: JSON.stringify({
+          product_id: productId,
+          quantity: quantity
+        })
       });
       fetchCart();
     } catch (error) {

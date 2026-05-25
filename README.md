@@ -171,7 +171,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 #### Run FastAPI server
-uvicorn main:app --reload
+python -m uvicorn main:app --reload
 Backend server runs on:
 http://127.0.0.1:8000
 

@@ -1,5 +1,5 @@
 # routes/auth.py
-# Author: Zhonghe Wang，Shiying Gu, Yuhan Sun,
+# Author: Zhonghe Wang，Shiying Gu
 # Purpose: Registration, login, and CRUD on the authenticated user's own account.
 #
 # Endpoints:
